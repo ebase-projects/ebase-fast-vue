@@ -1,11 +1,16 @@
 import defaultSettings from '@/settings'
 
-const { showSettings, fixedHeader, sidebarLogo } = defaultSettings
+const { showSettings, fixedHeader, sidebarLogo, caseNumber, footerTxt, showFooter, tagsView, uniqueOpened } = defaultSettings
 
 const state = {
   showSettings: showSettings,
+  tagsView: tagsView,
   fixedHeader: fixedHeader,
-  sidebarLogo: sidebarLogo
+  sidebarLogo: sidebarLogo,
+  uniqueOpened: uniqueOpened,
+  showFooter: showFooter,
+  footerTxt: footerTxt,
+  caseNumber: caseNumber
 }
 
 const mutations = {

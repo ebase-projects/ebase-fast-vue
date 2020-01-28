@@ -1,4 +1,5 @@
 import { login, logout, getInfo } from '@/api/user'
+import { loginByUsername } from '@/api/login'
 import { getToken, setToken, removeToken } from '@/utils/auth'
 import { resetRouter } from '@/router'
 
@@ -40,6 +41,22 @@ const actions = {
         const { data } = response
         commit('SET_TOKEN', data.token)
         setToken(data.token)
+        resolve()
+      }).catch(error => {
+        reject(error)
+      })
+    })
+  },
+  // 用户名登录
+  LoginByUsername({ commit }, userInfo) {
+    console.log(11111)
+    const username = userInfo.username.trim()
+    return new Promise((resolve, reject) => {
+      loginByUsername(username, userInfo.password, userInfo.code, userInfo.token, userInfo.key).then(response => {
+        console.log(response)
+        const data = response.data
+        commit('SET_TOKEN', data.data)
+        setToken(data.data)
         resolve()
       }).catch(error => {
         reject(error)

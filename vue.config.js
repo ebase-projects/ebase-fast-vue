@@ -33,10 +33,18 @@ module.exports = {
     port: port,
     open: true,
     overlay: {
-      warnings: false,
+      warnings: true,
       errors: true
     },
-    before: require('./mock/mock-server.js')
+    proxy: {
+      '/api': {
+        target: 'http://localhost:8080/',
+        changeOrigin: true, // 是否跨域
+        pathRewrite: {
+          '^/api': '' // 重写
+        }
+      }
+    }
   },
   configureWebpack: {
     // provide the app's title in webpack's name field, so that
@@ -46,7 +54,8 @@ module.exports = {
       alias: {
         '@': resolve('src')
       }
-    }
+    },
+    devtool: 'source-map'
   },
   chainWebpack(config) {
     config.plugins.delete('preload') // TODO: need test

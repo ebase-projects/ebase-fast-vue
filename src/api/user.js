@@ -10,9 +10,12 @@ export function login(data) {
 
 export function getInfo(token) {
   return request({
-    url: '/vue-admin-template/user/info',
+    url: 'system/user/info',
     method: 'get',
-    params: { token }
+    headers: {
+      'Authorization': 'Bearer '
+    }
+    // params: { token }
   })
 }
 

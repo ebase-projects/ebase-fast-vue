@@ -308,7 +308,6 @@ export default {
     handleLogin() {
       this.$refs.loginForm.validate(valid => {
         this.loading = true
-        console.log(12121)
         this.$store.dispatch('user/LoginByUsername', this.loginForm).then(() => {
           this.loading = false
           this.$router.push({ path: this.redirect || '/' })

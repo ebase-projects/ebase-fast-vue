@@ -2,6 +2,7 @@ import { login, logout, getInfo } from '@/api/user'
 import { loginByUsername } from '@/api/login'
 import { getToken, setToken, removeToken } from '@/utils/auth'
 import { resetRouter } from '@/router'
+// import da from 'element-ui/src/locale/lang/da'
 
 const getDefaultState = () => {
   return {
@@ -54,9 +55,10 @@ const actions = {
     return new Promise((resolve, reject) => {
       loginByUsername(username, userInfo.password, userInfo.code, userInfo.token, userInfo.key).then(response => {
         console.log(response)
-        const data = response.data
-        commit('SET_TOKEN', data.data)
-        setToken(data.data)
+        const data = response
+        console.log(data.access_token)
+        commit('SET_TOKEN', data.access_token)
+        setToken(data.access_token)
         resolve()
       }).catch(error => {
         reject(error)
@@ -74,15 +76,15 @@ const actions = {
           reject('Verification failed, please Login again.')
         }
 
-        const { roles, name, avatar } = data
+        const { authorities, username, avatar } = data
 
         // roles must be a non-empty array
-        if (!roles || roles.length <= 0) {
-          reject('getInfo: roles must be a non-null array!')
-        }
+        // if (!roles || roles.length <= 0) {
+        //   reject('getInfo: roles must be a non-null array!')
+        // }
 
-        commit('SET_ROLES', roles)
-        commit('SET_NAME', name)
+        commit('SET_ROLES', authorities)
+        commit('SET_NAME', username)
         commit('SET_AVATAR', avatar)
         resolve(data)
       }).catch(error => {

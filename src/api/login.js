@@ -44,7 +44,7 @@ export function loginByUsername(username, password, code, token, key) {
 // 登出
 export function logout() {
   return request({
-    url: '/logout',
+    url: '/oauth/logout',
     method: 'post'
   })
 }

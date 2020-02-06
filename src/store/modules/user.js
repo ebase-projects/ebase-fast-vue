@@ -35,19 +35,19 @@ const mutations = {
 
 const actions = {
   // user login
-  login({ commit }, userInfo) {
-    const { username, password } = userInfo
-    return new Promise((resolve, reject) => {
-      login({ username: username.trim(), password: password }).then(response => {
-        const { data } = response
-        commit('SET_TOKEN', data.token)
-        setToken(data.token)
-        resolve()
-      }).catch(error => {
-        reject(error)
-      })
-    })
-  },
+  // login({ commit }, userInfo) {
+  //   const { username, password } = userInfo
+  //   return new Promise((resolve, reject) => {
+  //     login({ username: username.trim(), password: password }).then(response => {
+  //       const { data } = response
+  //       commit('SET_TOKEN', data.token)
+  //       setToken(data.token)
+  //       resolve()
+  //     }).catch(error => {
+  //       reject(error)
+  //     })
+  //   })
+  // },
   // 用户名登录
   LoginByUsername({ commit }, userInfo) {
     console.log(11111)
@@ -56,7 +56,6 @@ const actions = {
       loginByUsername(username, userInfo.password, userInfo.code, userInfo.token, userInfo.key).then(response => {
         console.log(response)
         const data = response
-        console.log(data.access_token)
         commit('SET_TOKEN', data.access_token)
         setToken(data.access_token)
         resolve()

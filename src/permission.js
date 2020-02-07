@@ -86,7 +86,7 @@ export const loadMenus = (next, to) => {
     //         meta: { title: 'aaa', icon: 'aaa' }
     //       }] })
 
-    // asyncRouter.push({ path: '*', redirect: '/404', hidden: true })
+    asyncRouter.push({ path: '*', redirect: '/404', hidden: true })
     store.dispatch('permission/generateRoutes', asyncRouter).then(() => { // 存储路由
       router.addRoutes(asyncRouter) // 动态添加可访问路由表
       next({ ...to, replace: true })
@@ -106,10 +106,11 @@ export const filterAsyncRoutes = (routes) => {
       if (route.component === 'Layout') { // Layout组件特殊处理
         route.component = Layout
       } else {
+        // 去除 开头的 '/'
         const component = route.component.replace(/^\/*/g, '')
         route.component = loadView(component)
       }
-      console.log(route.component)
+      // console.log(route.component)
     }
     if (route.children && route.children.length) {
       route.children = filterAsyncRoutes(route.children)

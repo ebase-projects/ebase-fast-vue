@@ -226,7 +226,7 @@
 import { getUrlKey } from '@/utils/webUtils'
 import { isvalidPhone } from '@/utils/validate'
 import { getImgCode } from '@/api/login'
-import { sendSms } from '@/api/user'
+import { sendSms } from '@/api/system/user'
 
 export default {
   name: 'Login',

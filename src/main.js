@@ -15,6 +15,16 @@ import router from './router'
 import '@/icons' // icon
 import '@/permission' // permission control
 
+import { parseTime, resetForm, addDateRange, selectDictLabel, download, handleTree } from '@/utils/commonUtils'
+
+// 全局方法挂载
+Vue.prototype.parseTime = parseTime
+Vue.prototype.resetForm = resetForm
+Vue.prototype.addDateRange = addDateRange
+Vue.prototype.selectDictLabel = selectDictLabel
+Vue.prototype.download = download
+Vue.prototype.handleTree = handleTree
+
 /**
  * If you don't want to use mock-server
  * you want to use MockJs for mock api

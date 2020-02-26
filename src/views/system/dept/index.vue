@@ -11,12 +11,12 @@
         />
       </el-form-item>
       <el-form-item label="状态">
-        <el-select v-model="queryParams.status" placeholder="部门状态" clearable size="small">
+        <el-select v-model="queryParams.type" placeholder="请选择部门状态" clearable size="small">
           <el-option
-            v-for="dict in statusOptions"
-            :key="dict.dictValue"
-            :label="dict.dictLabel"
-            :value="dict.dictValue"
+            v-for="dict in typeOptions"
+            :key="dict.value"
+            :label="dict.desc"
+            :value="dict.value"
           />
         </el-select>
       </el-form-item>
@@ -50,6 +50,7 @@
       :tree-props="{children: 'children', hasChildren: 'hasChildren'}"
     >
       <el-table-column prop="name" label="部门名称" width="200" />
+      <el-table-column prop="type" label="类型" :formatter="typeFormat" width="200" />
       <el-table-column prop="sort" label="排序" width="200" />
       <el-table-column prop="status" label="状态" width="100" />
       <el-table-column label="创建时间" align="center" prop="createDate" width="200" />
@@ -90,7 +91,7 @@
     <el-dialog :title="title" :visible.sync="open" width="600px">
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
         <el-row>
-          <el-col v-if="form.pid !== 0" :span="24">
+          <el-col v-if="form.pid != 0" :span="24">
             <el-form-item label="上级部门" prop="pid">
               <treeselect v-model="form.pid" :options="deptOptions" :normalizer="normalizer" placeholder="选择上级部门" />
             </el-form-item>
@@ -100,9 +101,23 @@
               <el-input v-model="form.name" placeholder="请输入部门名称" />
             </el-form-item>
           </el-col>
-          <el-col :span="12">
+          <!--          <el-col :span="12">-->
+          <!--            <el-form-item label="部门类型" prop="type">-->
+          <!--              <el-input v-model="form.type" placeholder="请输入部门类型" />-->
+          <!--            </el-form-item>-->
+          <!--          </el-col>-->
+
+          <el-col :span="24">
             <el-form-item label="部门类型" prop="type">
-              <el-input v-model="form.type" placeholder="请输入部门类型" />
+              <el-radio-group v-model="form.type">
+                <el-radio-button
+                  v-for="dict in typeOptions"
+                  :key="dict.value"
+                  :label="dict.value"
+                >
+                  {{ dict.desc }}
+                </el-radio-button>
+              </el-radio-group>
             </el-form-item>
           </el-col>
           <el-col :span="12">
@@ -134,7 +149,7 @@
 </template>
 
 <script>
-import { listDept, getDept, delDept, addDept, updateDept } from '@/api/system/dept'
+import { listDept, getDept, delDept, addDept, updateDept, getDicts } from '@/api/system/dept'
 import Treeselect from '@riophae/vue-treeselect'
 import '@riophae/vue-treeselect/dist/vue-treeselect.css'
 
@@ -155,10 +170,12 @@ export default {
       open: false,
       // 状态数据字典
       statusOptions: [],
+      // 部门类型字典
+      typeOptions: [],
       // 查询参数
       queryParams: {
         name: undefined,
-        status: undefined
+        type: undefined
       },
       // 表单参数
       form: {},
@@ -170,6 +187,9 @@ export default {
         name: [
           { required: true, message: '部门名称不能为空', trigger: 'blur' }
         ],
+        type: [
+          { required: true, message: '部门类型不能为空', trigger: 'blur' }
+        ],
         sort: [
           { required: true, message: '菜单顺序不能为空', trigger: 'blur' }
         ]
@@ -178,9 +198,9 @@ export default {
   },
   created() {
     this.getList()
-    // this.getDicts('sys_normal_disable').then(response => {
-    //   this.statusOptions = response.data
-    // })
+    getDicts('DeptType').then(response => {
+      this.typeOptions = response.data
+    })
   },
   methods: {
     /** 查询部门列表 */
@@ -212,6 +232,11 @@ export default {
     statusFormat(row, column) {
       return this.selectDictLabel(this.statusOptions, row.status)
     },
+    // 部门类型字典翻译
+    typeFormat(row, column) {
+      console.log(row)
+      return this.selectDictLabel(this.typeOptions, row.type)
+    },
     // 取消按钮
     cancel() {
       this.open = false
@@ -228,7 +253,7 @@ export default {
         leader: undefined,
         phone: undefined,
         email: undefined,
-        status: '0'
+        status: undefined
       }
       this.resetForm('form')
     },

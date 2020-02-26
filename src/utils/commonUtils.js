@@ -66,8 +66,8 @@ export function addDateRange(params, dateRange) {
 export function selectDictLabel(datas, value) {
   var actions = []
   Object.keys(datas).map((key) => {
-    if (datas[key].dictValue === ('' + value)) {
-      actions.push(datas[key].dictLabel)
+    if (datas[key].value === ('' + value)) {
+      actions.push(datas[key].desc)
       return false
     }
   })
@@ -126,5 +126,6 @@ export function handleTree(data, id, parentId, children, rootId) {
     // 返回第一层
     return father[parentId] === rootId
   })
+  console.log(treeData)
   return treeData !== '' ? treeData : data
 }

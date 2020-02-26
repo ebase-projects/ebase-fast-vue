@@ -38,3 +38,13 @@ export function getDept(id) {
   })
 }
 
+export function getDicts(code) {
+  return request({
+    url: '/system/dept/getdicByList',
+    method: 'get',
+    params: {
+      enumName: code
+    }
+  })
+}
+

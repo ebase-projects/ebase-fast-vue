@@ -11,3 +11,11 @@ export function getInfo(token) {
   })
 }
 
+export function listUser(query) {
+  return request({
+    url: 'system/user/page',
+    method: 'get',
+    params: query
+  })
+}
+

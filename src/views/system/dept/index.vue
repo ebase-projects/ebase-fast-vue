@@ -234,7 +234,6 @@ export default {
     },
     // 部门类型字典翻译
     typeFormat(row, column) {
-      console.log(row)
       return this.selectDictLabel(this.typeOptions, row.type)
     },
     // 取消按钮

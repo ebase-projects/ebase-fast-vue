@@ -30,7 +30,7 @@
       <el-col :span="20" :xs="24">
         <div v-if="searchToggle">
           <!--用户数据-->
-          <el-form ref="queryForm" :model="queryParams" :inline="true" label-width="68px">
+          <el-form ref="queryForm" :model="queryParams" :inline="true">
             <el-form-item label="用户名" prop="username">
               <el-input
                 v-model="queryParams.username"
@@ -144,7 +144,12 @@
           </el-col>
         </el-row>
 
-        <el-table v-loading="loading" :data="userList" @selection-change="handleSelectionChange">
+        <el-table
+          v-loading="loading"
+          highlight-current-row
+          :data="userList"
+          @selection-change="handleSelectionChange"
+        >
           <el-table-column type="selection" align="center" />
           <!-- <el-table-column label="用户编号" align="center" prop="id" />-->
           <el-table-column label="用户名" align="center" prop="username" :show-overflow-tooltip="true" />
@@ -324,6 +329,7 @@ export default {
     return {
       // 遮罩层
       loading: true,
+      // 搜索是否显示
       searchToggle: true,
       // 选中数组
       ids: [],
@@ -486,13 +492,13 @@ export default {
       this.reset()
       this.getTreeselect()
       this.open = true
-      this.title('添加用户')
+      this.title = '添加用户'
     },
     // 修改
     handleUpdate(row) {
       this.reset()
       this.getTreeselect()
-      const userId = row.userId || this.ids
+      const userId = row.id || this.ids
       getUser(userId).then(response => {
         this.form = response.data
         this.open = true

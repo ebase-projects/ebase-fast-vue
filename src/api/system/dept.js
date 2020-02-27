@@ -8,11 +8,11 @@ export function listDept(query) {
   })
 }
 
-export function addDept(data) {
+export function addDept(form) {
   return request({
     url: '/system/dept',
     method: 'post',
-    data: data
+    data: form
   })
 }
 
@@ -23,11 +23,11 @@ export function delDept(id) {
   })
 }
 
-export function updateDept(data) {
+export function updateDept(form) {
   return request({
     url: '/system/dept/',
     method: 'put',
-    data: data
+    data: form
   })
 }
 

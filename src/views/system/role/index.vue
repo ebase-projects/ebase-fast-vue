@@ -234,15 +234,7 @@
 </template>
 
 <script>
-import {
-  listRole,
-  addRole,
-  delRole,
-  updateRole,
-  getRole,
-  getMenuListByRoleId,
-  grantRoleMenu
-} from '@/api/system/role'
+import { listRole, addRole, delRole, updateRole, getRole, getMenuListByRoleId, grantRoleMenu } from '@/api/system/role'
 import { getMenuTree } from '@/api/system/menu'
 import Pagination from '@/components/Pagination'
 
@@ -272,35 +264,29 @@ export default {
       // 部门数据格式字段转换
       defaultProps: {
         children: 'children',
-        label:
-            'name'
+        label: 'name'
       },
       // 弹出层标题
       title: '',
       // 是否显示弹出层
-      open:
-          false,
+      open: false,
       // 日期范围
-      dateRange:
-          [],
-      queryParams:
-          {
-            name: undefined
-          },
+      dateRange: [],
+      queryParams: {
+        name: undefined
+      },
       form: {},
       // 表单校验
       rules: {
         name: [
           { required: true, message: '角色名不能为空', trigger: 'blur' }
         ],
-        alias:
-            [
-              { required: true, message: '角色别名不能为空', trigger: 'blur' }
-            ],
-        deptId:
-            [
-              { required: true, message: '归属部门不能为空', trigger: 'blur' }
-            ]
+        alias: [
+          { required: true, message: '角色别名不能为空', trigger: 'blur' }
+        ],
+        deptId: [
+          { required: true, message: '归属部门不能为空', trigger: 'blur' }
+        ]
       }
     }
   },

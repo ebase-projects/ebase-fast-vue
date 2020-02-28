@@ -12,19 +12,6 @@ export function buildMenus() {
 }
 
 /**
- * 保存菜单
- * @param data
- * @returns {AxiosPromise}
- */
-export const saveMenu = (data) => {
-  return request({
-    url: '/system/menu',
-    method: 'post',
-    data: data
-  })
-}
-
-/**
  * 获取菜单树
  * @returns {AxiosPromise}
  */
@@ -32,5 +19,36 @@ export const getMenuTree = () => {
   return request({
     url: 'system/menu/tree',
     method: 'get'
+  })
+}
+
+export function addMenu(form) {
+  return request({
+    url: '/system/menu',
+    method: 'post',
+    data: form
+  })
+}
+
+export function updateMenu(form) {
+  return request({
+    url: '/system/menu',
+    method: 'put',
+    data: form
+  })
+}
+
+export function getMenu(id) {
+  return request({
+    url: '/system/menu/' + id,
+    method: 'get'
+  })
+}
+
+export function delMenu(ids) {
+  return request({
+    url: '/system/menu',
+    method: 'delete',
+    data: ids
   })
 }

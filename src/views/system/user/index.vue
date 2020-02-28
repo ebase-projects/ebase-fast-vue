@@ -507,12 +507,15 @@ export default {
     },
     // 删除
     handleDelete(row) {
-      const userIds = row.id || this.ids
+      let userIds = row.id || this.ids
       this.$confirm('是否确认删除用户编号为"' + userIds + '"的数据项?', '警告', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       }).then(function() {
+        if (!Array.isArray(userIds)) {
+          userIds = [userIds]
+        }
         return delUser(userIds)
       }).then(() => {
         this.getList()

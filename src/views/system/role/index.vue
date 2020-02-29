@@ -209,12 +209,12 @@
           <el-col :span="24">
             <el-form-item label="状态">
               <el-radio-group v-model="form.status">
-                <el-radio
+                <el-radio-button
                   v-for="dict in statusOptions"
-                  :key="dict.dictValue"
-                  :label="dict.dictValue"
-                >{{ dict.dictLabel }}
-                </el-radio>
+                  :key="dict.value"
+                  :label="dict.value"
+                >{{ dict.desc }}
+                </el-radio-button>
               </el-radio-group>
             </el-form-item>
           </el-col>
@@ -234,7 +234,7 @@
 </template>
 
 <script>
-import { listRole, addRole, delRole, updateRole, getRole, getMenuListByRoleId, grantRoleMenu } from '@/api/system/role'
+import { listRole, addRole, delRole, updateRole, getRole, getMenuListByRoleId, grantRoleMenu, getRoleDictsByEnum } from '@/api/system/role'
 import { getMenuTree } from '@/api/system/menu'
 import Pagination from '@/components/Pagination'
 
@@ -261,6 +261,8 @@ export default {
       // 菜单列表
       menuList: [],
       menuIds: [],
+      // 状态数据字典
+      statusOptions: [],
       // 部门数据格式字段转换
       defaultProps: {
         children: 'children',
@@ -293,6 +295,9 @@ export default {
   created() {
     this.getList()
     this.getMenuTree()
+    getRoleDictsByEnum('roleStatus').then(response => {
+      this.statusOptions = response.data
+    })
   },
   methods: {
     // 获取列表

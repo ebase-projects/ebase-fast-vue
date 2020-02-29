@@ -292,10 +292,10 @@
               <el-select v-model="form.roleIdList" multiple placeholder="请选择">
                 <el-option
                   v-for="item in roleOptions"
-                  :key="item.roleId"
-                  :label="item.roleName"
-                  :value="item.roleId"
-                  :disabled="item.status == 1"
+                  :key="item.id"
+                  :label="item.name"
+                  :value="item.id"
+                  :disabled="item.status == 0"
                 />
               </el-select>
             </el-form-item>
@@ -317,6 +317,7 @@
 
 <script>
 import { listUser, addUser, delUser, updateUser, getUser } from '@/api/system/user'
+import { listAllRole } from '@/api/system/role'
 import { listDept } from '@/api/system/dept'
 import Treeselect from '@riophae/vue-treeselect'
 import '@riophae/vue-treeselect/dist/vue-treeselect.css'
@@ -356,6 +357,8 @@ export default {
         children: 'children',
         label: 'name'
       },
+      // 角色列表
+      roleOptions: [],
       // 查询参数
       queryParams: {
         page: 1,
@@ -414,6 +417,12 @@ export default {
     getTreeselect() {
       listDept().then(response => {
         this.deptOptions = response.data
+      })
+    },
+    // 获取角色列表
+    getRoleList() {
+      listAllRole().then(response => {
+        this.roleOptions = response.data
       })
     },
     /** 转换部门数据结构 */
@@ -491,6 +500,7 @@ export default {
     handleAdd() {
       this.reset()
       this.getTreeselect()
+      this.getRoleList()
       this.open = true
       this.title = '添加用户'
     },
@@ -498,6 +508,7 @@ export default {
     handleUpdate(row) {
       this.reset()
       this.getTreeselect()
+      this.getRoleList()
       const userId = row.id || this.ids
       getUser(userId).then(response => {
         this.form = response.data

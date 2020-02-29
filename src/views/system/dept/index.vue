@@ -149,7 +149,7 @@
 </template>
 
 <script>
-import { listDept, getDept, delDept, addDept, updateDept, getDicts } from '@/api/system/dept'
+import { listDept, getDept, delDept, addDept, updateDept, getDeptDictsByEnum } from '@/api/system/dept'
 import Treeselect from '@riophae/vue-treeselect'
 import '@riophae/vue-treeselect/dist/vue-treeselect.css'
 
@@ -198,7 +198,7 @@ export default {
   },
   created() {
     this.getList()
-    getDicts('DeptType').then(response => {
+    getDeptDictsByEnum('deptType').then(response => {
       this.typeOptions = response.data
     })
   },

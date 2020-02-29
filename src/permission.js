@@ -72,7 +72,7 @@ export const loadMenus = (next, to) => {
     const asyncRouter = filterAsyncRoutes(res.data)
     // asyncRouter.push(
     //   {
-    //     path: '/example1',
+    //     // path: '/example1',
     //     component: Layout,
     //     redirect: '/example/table1',
     //     name: '222222',
@@ -101,7 +101,7 @@ export const loadMenus = (next, to) => {
  */
 export const filterAsyncRoutes = (routes) => {
   return routes.filter(route => {
-    console.log('str：' + route.component)
+    // console.log('str：' + route.component)
     if (route.component) {
       if (route.component === 'Layout') { // Layout组件特殊处理
         route.component = Layout

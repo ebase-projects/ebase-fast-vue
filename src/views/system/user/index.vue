@@ -251,12 +251,12 @@
           </el-col>
           <el-col :span="24">
             <el-form-item label="用户性别">
-              <el-select v-model="form.sex" placeholder="请选择">
+              <el-select v-model="form.gender" placeholder="请选择">
                 <el-option
-                  v-for="dict in sexOptions"
-                  :key="dict.dictValue"
-                  :label="dict.dictLabel"
-                  :value="dict.dictValue"
+                  v-for="dict in genderOptions"
+                  :key="dict.value"
+                  :label="dict.desc"
+                  :value="dict.value"
                 />
               </el-select>
             </el-form-item>
@@ -264,12 +264,12 @@
           <el-col :span="24">
             <el-form-item label="状态">
               <el-radio-group v-model="form.status">
-                <el-radio
+                <el-radio-button
                   v-for="dict in statusOptions"
-                  :key="dict.dictValue"
-                  :label="dict.dictValue"
-                >{{ dict.dictLabel }}
-                </el-radio>
+                  :key="dict.value"
+                  :label="dict.value"
+                >{{ dict.desc }}
+                </el-radio-button>
               </el-radio-group>
             </el-form-item>
           </el-col>
@@ -316,7 +316,7 @@
 </template>
 
 <script>
-import { listUser, addUser, delUser, updateUser, getUser } from '@/api/system/user'
+import { listUser, addUser, delUser, updateUser, getUser, getUserDictsByEnum } from '@/api/system/user'
 import { listAllRole } from '@/api/system/role'
 import { listDept } from '@/api/system/dept'
 import Treeselect from '@riophae/vue-treeselect'
@@ -352,6 +352,10 @@ export default {
       deptName: undefined,
       // 部门树选项
       deptOptions: [],
+      // 状态枚举类型
+      statusOptions: [],
+      // 状态枚举类型
+      genderOptions: [{ value: 0, desc: '男' }, { value: 1, desc: '女' }, { value: 2, desc: '保密' }],
       // 部门数据格式字段转换
       defaultProps: {
         children: 'children',
@@ -411,6 +415,9 @@ export default {
   created() {
     this.getList()
     this.getTreeselect()
+    getUserDictsByEnum('userStatus').then(response => {
+      this.statusOptions = response.data
+    })
   },
   methods: {
     // 获取部门树列表

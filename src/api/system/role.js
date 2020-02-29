@@ -7,6 +7,13 @@ export function listRole(query) {
     params: query
   })
 }
+export function listAllRole(query) {
+  return request({
+    url: '/system/role',
+    method: 'get',
+    params: query
+  })
+}
 
 export function addRole(form) {
   return request({
@@ -53,5 +60,16 @@ export function delRole(ids) {
     url: '/system/role/',
     method: 'delete',
     data: ids
+  })
+}
+
+// 通过枚举获取字典值
+export function getRoleDictsByEnum(code) {
+  return request({
+    url: '/system/role/getDicByList',
+    method: 'get',
+    params: {
+      enumName: code
+    }
   })
 }

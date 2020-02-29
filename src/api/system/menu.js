@@ -52,3 +52,14 @@ export function delMenu(ids) {
     data: ids
   })
 }
+
+// 通过枚举获取字典值
+export function getMenuDictsByEnum(code) {
+  return request({
+    url: '/system/menu/getDicByList',
+    method: 'get',
+    params: {
+      enumName: code
+    }
+  })
+}

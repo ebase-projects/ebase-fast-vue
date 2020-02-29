@@ -49,3 +49,14 @@ export function delUser(ids) {
     data: ids
   })
 }
+
+// 通过枚举获取字典值
+export function getUserDictsByEnum(code) {
+  return request({
+    url: '/system/user/getDicByList',
+    method: 'get',
+    params: {
+      enumName: code
+    }
+  })
+}

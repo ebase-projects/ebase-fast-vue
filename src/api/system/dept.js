@@ -38,9 +38,10 @@ export function getDept(id) {
   })
 }
 
-export function getDicts(code) {
+// 通过枚举获取字典值
+export function getDeptDictsByEnum(code) {
   return request({
-    url: '/system/dept/getdicByList',
+    url: '/system/dept/getDicByList',
     method: 'get',
     params: {
       enumName: code

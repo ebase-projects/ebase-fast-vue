@@ -67,7 +67,7 @@ export const constantRoutes = [
       component: () => import('@/views/dashboard/index'),
       meta: { title: 'Dashboard', icon: 'dashboard' }
     }]
-  }
+  },
   // {
   //   path: '/example',
   //   component: Layout,
@@ -89,20 +89,20 @@ export const constantRoutes = [
   //     }
   //   ]
   // }
-  // {
-  //   path: '/user',
-  //   component: Layout,
-  //   hidden: true,
-  //   redirect: 'noredirect',
-  //   children: [
-  //     {
-  //       path: 'center',
-  //       component: () => import('@/views/system/user/center'),
-  //       name: '个人中心',
-  //       meta: { title: '个人中心' }
-  //     }
-  //   ]
-  // }
+  {
+    path: '/user',
+    component: Layout,
+    hidden: true,
+    redirect: 'noredirect',
+    children: [
+      {
+        path: 'center',
+        component: () => import('@/views/system/user/center/index'),
+        name: '个人中心',
+        meta: { title: '个人中心' }
+      }
+    ]
+  }
 
 ]
 

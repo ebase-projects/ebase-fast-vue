@@ -7,7 +7,6 @@
     <div class="right-menu">
 
       <template v-if="device!=='mobile'">
-
         <screenfull id="screenfull" class="right-menu-item hover-effect" />
 
       </template>
@@ -23,7 +22,7 @@
               主页
             </el-dropdown-item>
           </router-link>
-          <router-link to="/">
+          <router-link to="/user/center">
             <el-dropdown-item>
               个人中心
             </el-dropdown-item>
@@ -63,7 +62,8 @@ export default {
   computed: {
     ...mapGetters([
       'sidebar',
-      'avatar'
+      'avatar',
+      'device'
     ])
   },
   methods: {
@@ -71,8 +71,16 @@ export default {
       this.$store.dispatch('app/toggleSideBar')
     },
     async logout() {
-      await this.$store.dispatch('user/logout')
-      this.$router.push(`/login?redirect=${this.$route.fullPath}`)
+      this.$confirm('确定注销并退出系统？', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.$store.dispatch('user/logout').then(() => {
+          location.reload()
+        })
+        // this.$router.push(`/login?redirect=${this.$route.fullPath}`)
+      })
     }
   }
 }

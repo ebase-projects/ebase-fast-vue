@@ -11,6 +11,13 @@ export function getInfo(token) {
   })
 }
 
+export function getUserInfo() {
+  return request({
+    url: '/system/user/info',
+    method: 'get'
+  })
+}
+
 export function listUser(query) {
   return request({
     url: '/system/user/page',
@@ -44,9 +51,17 @@ export function getUser(id) {
 
 export function delUser(ids) {
   return request({
-    url: '/system/user/',
+    url: '/system/user',
     method: 'delete',
     data: ids
+  })
+}
+
+export function updateUserPwd(form) {
+  return request({
+    url: '/system/user/password',
+    method: 'put',
+    data: form
   })
 }
 

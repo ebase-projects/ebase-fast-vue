@@ -75,3 +75,15 @@ export function getUserDictsByEnum(code) {
     }
   })
 }
+
+export function changeUserStatus(id, status) {
+  const data = {
+    id: id,
+    status: status
+  }
+  return request({
+    url: '/system/user/changeStatus',
+    method: 'put',
+    data: data
+  })
+}

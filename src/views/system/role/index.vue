@@ -112,10 +112,20 @@
             <el-table-column type="selection" width="55" />
             <el-table-column prop="name" label="角色名" />
             <el-table-column prop="alias" label="角色别名" />
-            <!--            <el-table-column prop="dataScope" label="数据权限"/>-->
-            <!--            <el-table-column prop="permission" label="角色权限"/>-->
-            <!--            <el-table-column prop="level" label="角色级别"/>-->
-            <el-table-column :show-overflow-tooltip="true" prop="remark" label="描述" />
+            <el-table-column prop="remark" label="描述" />
+            <el-table-column label="状态" align="center">
+              <template slot-scope="scope">
+                <el-switch
+                  v-model="scope.row.status"
+                  active-color="#13ce66"
+                  inactive-color="#ff4949"
+                  :active-value="1"
+                  :inactive-value="0"
+                  @change="handleStatusChange(scope.row)"
+                />
+              </template>
+            </el-table-column>
+
             <el-table-column
               :show-overflow-tooltip="true"
               width="160"
@@ -141,7 +151,6 @@
                 >修改
                 </el-button>
                 <el-button
-                  v-if="scope.row.userId !== 1"
                   size="mini"
                   type="text"
                   icon="el-icon-delete"
@@ -234,7 +243,8 @@
 </template>
 
 <script>
-import { listRole, addRole, delRole, updateRole, getRole, getMenuListByRoleId, grantRoleMenu, getRoleDictsByEnum } from '@/api/system/role'
+import { listRole, addRole, delRole, updateRole, getRole, getMenuListByRoleId,
+  grantRoleMenu, getRoleDictsByEnum, changeRoleStatus } from '@/api/system/role'
 import { getMenuTree } from '@/api/system/menu'
 import Pagination from '@/components/Pagination'
 
@@ -257,7 +267,7 @@ export default {
       // 总条数
       total: 0,
       // 角色表格数据
-      roleList: null,
+      roleList: [],
       // 菜单列表
       menuList: [],
       menuIds: [],
@@ -306,6 +316,7 @@ export default {
       listRole(this.addDateRange(this.queryParams, this.dateRange)).then(response => {
         if (response.code === 0) {
           this.roleList = response.data.list
+          console.log(this.roleList)
           this.total = Number(response.data.total)
           this.loading = false
         } else {
@@ -391,9 +402,21 @@ export default {
       }).catch(function() {
       })
     },
-    // 重置密码
-    handleResetPwd() {
-
+    // 用户状态修改
+    handleStatusChange(row) {
+      console.log(row.status)
+      const text = row.status === 1 ? '启用' : '停用'
+      this.$confirm('确认要"' + text + '""' + row.name + '"角色吗?', '警告', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(function() {
+        return changeRoleStatus(row.id, row.status)
+      }).then(() => {
+        this.$message({ type: 'success', message: text + '成功' })
+      }).catch(function() {
+        row.status = row.status === 0 ? 1 : 0
+      })
     },
     // 导入
     handleImport() {

@@ -89,3 +89,26 @@ Modern browsers and Internet Explorer 10+.
 [MIT](https://github.com/PanJiaChen/vue-admin-template/blob/master/LICENSE) license.
 
 Copyright (c) 2017-present PanJiaChen
+
+### 常见问题
+
+#### 1
+```
+<el-table-column label="状态" align="center">
+              <template slot-scope="scope">
+                <el-switch
+                  v-model="scope.row.status"
+                  active-color="#13ce66"
+                  inactive-color="#ff4949"
+                  :active-value="1"
+                  :inactive-value="0"
+                  @change="handleStatusChange(scope.row)"
+                />
+              </template>
+            </el-table-column>  
+```
+ 
+> 返回 status shi 数值类型，所以  :active-value="1"  前的冒号不能缺失
+  
+#### 2
+路由菜单 为 空白，path 前的 / 不能少          

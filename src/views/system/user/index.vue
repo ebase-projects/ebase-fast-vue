@@ -160,8 +160,10 @@
             <template slot-scope="scope">
               <el-switch
                 v-model="scope.row.status"
-                active-value="0"
-                inactive-value="1"
+                active-color="#13ce66"
+                inactive-color="#ff4949"
+                :active-value="1"
+                :inactive-value="0"
                 @change="handleStatusChange(scope.row)"
               />
             </template>
@@ -316,7 +318,8 @@
 </template>
 
 <script>
-import { listUser, addUser, delUser, updateUser, getUser, getUserDictsByEnum } from '@/api/system/user'
+import { listUser, addUser, delUser, updateUser, getUser,
+  getUserDictsByEnum, changeUserStatus } from '@/api/system/user'
 import { listAllRole } from '@/api/system/role'
 import { listDept } from '@/api/system/dept'
 import Treeselect from '@riophae/vue-treeselect'
@@ -539,6 +542,21 @@ export default {
         this.getList()
         this.$message({ type: 'success', message: '操作成功' })
       }).catch(function() {})
+    },
+    // 用户状态修改
+    handleStatusChange(row) {
+      const text = row.status === 1 ? '启用' : '停用'
+      this.$confirm('确认要"' + text + '""' + row.username + '"用户吗?', '警告', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(function() {
+        return changeUserStatus(row.id, row.status)
+      }).then(() => {
+        this.$message({ type: 'success', message: text + '成功' })
+      }).catch(function() {
+        row.status = row.status === 0 ? 1 : 0
+      })
     },
     // 重置密码
     handleResetPwd() {

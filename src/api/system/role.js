@@ -73,3 +73,15 @@ export function getRoleDictsByEnum(code) {
     }
   })
 }
+
+export function changeRoleStatus(id, status) {
+  const data = {
+    id: id,
+    status: status
+  }
+  return request({
+    url: '/system/role/changeStatus',
+    method: 'put',
+    data: data
+  })
+}

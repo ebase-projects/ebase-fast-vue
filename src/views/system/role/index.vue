@@ -389,7 +389,11 @@ export default {
     },
     // 删除
     handleDelete(row) {
-      const roleIds = row.id || this.ids
+      let roleIds = row.id || this.ids
+      if (!Array.isArray(roleIds)) {
+        roleIds = [roleIds]
+      }
+
       this.$confirm('是否确认删除角色编号为"' + roleIds + '"的数据项?', '警告', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',

@@ -266,29 +266,15 @@
           <el-col :span="24">
             <el-form-item label="状态">
               <el-radio-group v-model="form.status">
-                <el-radio-button
+                <el-radio
                   v-for="dict in statusOptions"
-                  :key="dict.value"
-                  :label="dict.value"
+                  :key="Number(dict.value)"
+                  :label="Number(dict.value)"
                 >{{ dict.desc }}
-                </el-radio-button>
+                </el-radio>
               </el-radio-group>
             </el-form-item>
           </el-col>
-
-          <!--          <el-col :span="12">-->
-          <!--            <el-form-item label="岗位">-->
-          <!--              <el-select v-model="form.postIds" multiple placeholder="请选择">-->
-          <!--                <el-option-->
-          <!--                  v-for="item in postOptions"-->
-          <!--                  :key="item.postId"-->
-          <!--                  :label="item.postName"-->
-          <!--                  :value="item.postId"-->
-          <!--                  :disabled="item.status == 1"-->
-          <!--                />-->
-          <!--              </el-select>-->
-          <!--            </el-form-item>-->
-          <!--          </el-col>-->
           <el-col :span="24">
             <el-form-item label="角色">
               <el-select v-model="form.roleIdList" multiple placeholder="请选择">
@@ -302,11 +288,6 @@
               </el-select>
             </el-form-item>
           </el-col>
-          <!--          <el-col :span="24">-->
-          <!--            <el-form-item label="备注">-->
-          <!--              <el-input v-model="form.remark" type="textarea" placeholder="请输入内容" />-->
-          <!--            </el-form-item>-->
-          <!--          </el-col>-->
         </el-row>
       </el-form>
       <div slot="footer" class="dialog-footer">

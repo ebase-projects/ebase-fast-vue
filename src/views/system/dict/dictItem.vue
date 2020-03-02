@@ -1,90 +1,92 @@
 <template>
-  <div v-if="JSON.stringify(dictModel) === '{}'">
-    <div class="my-code">点击字典查看详情</div>
-  </div>
-  <div v-else>
+  <div>
     <el-card class="box-card" shadow="never">
       <div slot="header" class="clearfix">
-        <span class="role-span">字典属性- {{ dictModel.name }}</span>
+        <span class="role-span">字典属性</span>
       </div>
-      <!--字典列表-->
-      <el-form ref="queryForm" :model="queryParams" :inline="true">
-        <el-form-item label="字典名称" prop="name">
-          <el-input
-            v-model="queryParams.name"
-            placeholder="请输入字典名称"
-            clearable
-            size="small"
-            @keyup.enter.native="handleQuery"
-          />
-        </el-form-item>
-        <el-form-item>
-          <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
-          <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
-          <el-button type="primary" icon="el-icon-plus" size="mini" @click="handleAdd">新增</el-button>
-          <el-button type="warning" icon="el-icon-download" size="mini" @click="handleExport">导出</el-button>
-        </el-form-item>
-      </el-form>
-      <el-table
-        v-loading="loading"
-        highlight-current-row
-        :data="dictItemList"
-      >
-        <el-table-column label="字典类型" align="center" prop="dictType" :show-overflow-tooltip="true" />
-        <el-table-column label="字典标签" align="center" prop="label" :show-overflow-tooltip="true" />
-        <el-table-column label="字典值" align="center" prop="value" :show-overflow-tooltip="true" />
-        <el-table-column label="状态" align="center">
-          <template slot-scope="scope">
-            <el-switch
-              v-model="scope.row.status"
-              active-color="#13ce66"
-              inactive-color="#ff4949"
-              :active-value="1"
-              :inactive-value="0"
-              @change="handleStatusChange(scope.row)"
+      <div v-if="JSON.stringify(dictModel) === '{}'">
+        <div class="my-code">点击左侧字典查看属性</div>
+      </div>
+      <div v-else>
+        <!--字典列表-->
+        <el-form ref="queryForm" :model="queryParams" :inline="true">
+          <el-form-item label="字典名称" prop="name">
+            <el-input
+              v-model="queryParams.name"
+              placeholder="请输入字典名称"
+              clearable
+              size="small"
+              @keyup.enter.native="handleQuery"
             />
-          </template>
-        </el-table-column>
-        <el-table-column label="备注" align="center" prop="remark" width="120" />
-        <el-table-column label="创建时间" align="center" prop="createDate" width="160">
-          <template slot-scope="scope">
-            <span>{{ parseTime(scope.row.createDate) }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column
-          label="操作"
-          align="center"
-          width="180"
-          class-name="small-padding fixed-width"
+          </el-form-item>
+          <el-form-item>
+            <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
+            <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
+            <el-button type="primary" icon="el-icon-plus" size="mini" @click="handleAdd">新增</el-button>
+            <el-button type="warning" icon="el-icon-download" size="mini" @click="handleExport">导出</el-button>
+          </el-form-item>
+        </el-form>
+        <el-table
+          v-loading="loading"
+          highlight-current-row
+          :data="dictItemList"
         >
-          <template slot-scope="scope">
-            <el-button
-              size="mini"
-              type="text"
-              icon="el-icon-edit"
-              @click="handleUpdate(scope.row)"
-            >修改
-            </el-button>
-            <el-button
-              v-if="scope.row.userId !== 1"
-              size="mini"
-              type="text"
-              icon="el-icon-delete"
-              @click="handleDelete(scope.row)"
-            >删除
-            </el-button>
-          </template>
-        </el-table-column>
-      </el-table>
+          <el-table-column label="字典类型" align="center" prop="dictType" :show-overflow-tooltip="true" />
+          <el-table-column label="字典标签" align="center" prop="label" :show-overflow-tooltip="true" />
+          <el-table-column label="字典值" align="center" prop="value" :show-overflow-tooltip="true" />
+          <el-table-column label="状态" align="center">
+            <template slot-scope="scope">
+              <el-switch
+                v-model="scope.row.status"
+                active-color="#13ce66"
+                inactive-color="#ff4949"
+                :active-value="1"
+                :inactive-value="0"
+                @change="handleStatusChange(scope.row)"
+              />
+            </template>
+          </el-table-column>
+          <el-table-column label="备注" align="center" prop="remark" width="120" />
+          <el-table-column label="创建时间" align="center" prop="createDate" width="160">
+            <template slot-scope="scope">
+              <span>{{ parseTime(scope.row.createDate) }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column
+            label="操作"
+            align="center"
+            width="180"
+            class-name="small-padding fixed-width"
+          >
+            <template slot-scope="scope">
+              <el-button
+                size="mini"
+                type="text"
+                icon="el-icon-edit"
+                @click="handleUpdate(scope.row)"
+              >修改
+              </el-button>
+              <el-button
+                v-if="scope.row.userId !== 1"
+                size="mini"
+                type="text"
+                icon="el-icon-delete"
+                @click="handleDelete(scope.row)"
+              >删除
+              </el-button>
+            </template>
+          </el-table-column>
+        </el-table>
 
-      <!--分页-->
-      <pagination
-        v-show="total>0"
-        :total="total"
-        :page.sync="queryParams.page"
-        :limit.sync="queryParams.limit"
-        @pagination="getList"
-      />
+        <!--分页-->
+        <pagination
+          v-show="total>0"
+          :total="total"
+          :page.sync="queryParams.page"
+          :limit.sync="queryParams.limit"
+          @pagination="getList"
+        />
+      </div>
     </el-card>
 
     <!-- 添加或修改参数配置对话框 -->
@@ -196,7 +198,7 @@ export default {
     // 获取列表
     getList() {
       this.loading = true
-      this.queryParams.dictType = this.dictModel.alias
+      this.queryParams.dictType = this.dictModel.type
       listDictItem(this.queryParams).then(response => {
         if (response.code === 0) {
           this.dictItemList = response.data.list
@@ -240,7 +242,7 @@ export default {
     // 新增
     handleAdd() {
       this.reset()
-      this.form.dictType = this.dictModel.alias
+      this.form.dictType = this.dictModel.type
       this.open = true
       this.title = '添加字典属性'
     },

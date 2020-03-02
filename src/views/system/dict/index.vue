@@ -32,7 +32,7 @@
             @current-change="handleCurrentChange"
           >
             <el-table-column label="字典名称" align="center" prop="name" :show-overflow-tooltip="true" />
-            <el-table-column label="字典别名" align="center" prop="alias" :show-overflow-tooltip="true" />
+            <el-table-column label="字典别名" align="center" prop="type" :show-overflow-tooltip="true" />
             <el-table-column label="是否系统" align="system" prop="sort" />
             <!--            <el-table-column label="状态" align="center">-->
             <!--              <template slot-scope="scope">-->
@@ -98,8 +98,8 @@
                 </el-form-item>
               </el-col>
               <el-col :span="24">
-                <el-form-item label="字典别名" prop="alias">
-                  <el-input v-model="form.alias" placeholder="请输入字典别名" />
+                <el-form-item label="字典别名" prop="type">
+                  <el-input v-model="form.type" placeholder="请输入字典别名" />
                 </el-form-item>
               </el-col>
               <!--              <el-col :span="24">-->
@@ -170,7 +170,7 @@ export default {
         name: [
           { required: true, message: '字典名不能为空', trigger: 'blur' }
         ],
-        alias: [
+        type: [
           { required: true, message: '字典别名不能为空', trigger: 'blur' }
         ]
       }
@@ -215,12 +215,11 @@ export default {
       this.form = {
         id: undefined,
         name: '',
-        alias: '',
+        type: undefined,
+        system: 0,
         remark: '',
         status: 0,
-        sort: 0,
-        system: undefined,
-        type: undefined
+        sort: 0
       }
       this.resetForm(formName)
     },

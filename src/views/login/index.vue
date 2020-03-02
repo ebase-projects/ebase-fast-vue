@@ -223,9 +223,9 @@
 </template>
 
 <script>
-import { getUrlKey } from '@/utils/webUtils'
+import { getUrlKey, getDeviceId } from '@/utils/webUtils'
 import { isvalidPhone } from '@/utils/validate'
-import { getImgCode } from '@/api/login'
+// import { getImgCode } from '@/api/login'
 import { sendSms } from '@/api/system/user'
 
 export default {
@@ -254,8 +254,7 @@ export default {
         username: 'admin',
         password: '123456',
         code: '',
-        token: '',
-        key: ''
+        deviceId: ''
       },
       src: '',
       phoneForm: {
@@ -290,7 +289,7 @@ export default {
   },
   created() {
     this.refreshCaptcha()
-    this.socialLogin()
+    // this.socialLogin()
   },
   mounted() {
     // 自动加载indexs方法
@@ -337,11 +336,14 @@ export default {
       })
     },
     refreshCaptcha: function() {
-      getImgCode().then(res => {
-        console.log(res)
-        this.src = res.data.data.img
-        this.loginForm.key = res.data.data.key
-      })
+      const deviceId = getDeviceId()
+      this.loginForm.deviceId = deviceId
+      this.src = process.env.VUE_APP_BASE_API + '/code/image?deviceId=' + deviceId
+
+      // getImgCode(deviceId).then(res => {
+      //   this.src = res
+      //   this.loginForm.key = res.data.data.key
+      // })
     },
     // 社交登录
     socialLogin() {

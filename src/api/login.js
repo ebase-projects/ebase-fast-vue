@@ -1,22 +1,15 @@
 import request from '@/utils/request'
 
-export function loginByUsername(username, password, code, token, key) {
-  // const data = {
-  //   username,
-  //   password,
-  //   grant_type: 'password',
-  //   scope: 'server'
-  // }
-
+export function loginByUsername(username, password, code, deviceId) {
   const grant_type = 'password'
   // https://github.com/axios/axios#browser
   const params = new URLSearchParams()
   params.append('username', username)
   params.append('password', password)
-  // params.append('randomStr', randomStr)
-  params.append('code', code)
   params.append('grant_type', grant_type)
   params.append('scope', 'server')
+  params.append('imageCode', code)
+  params.append('deviceId', deviceId)
   // 登录
   return request({
     url: '/oauth/token',
@@ -25,18 +18,6 @@ export function loginByUsername(username, password, code, token, key) {
       'Content-Type': 'application/x-www-form-urlencoded',
       'Authorization': 'Basic YXBwOmFwcA=='
     },
-    // auth: {
-    //   username: 'app',
-    //   password: 'app'
-    // },
-    // transformRequest: [function(data) {
-    // // Do whatever you want to transform the data
-    //   let ret = ''
-    //   for (const it in data) {
-    //     ret += encodeURIComponent(it) + '=' + encodeURIComponent(data[it]) + '&'
-    //   }
-    //   return ret
-    // }],
     data: params
   })
 }
@@ -56,11 +37,13 @@ export function getUserInfo() {
   })
 }
 
-export function getImgCode() {
+export function getImgCode(deviceId) {
   return request({
-    url: 'code/image' + '?deviceId=1',
-    // url: '/system/dept/155111',
-    method: 'get'
+    url: 'code/image',
+    method: 'get',
+    params: {
+      deviceId: deviceId
+    }
   })
 }
 

@@ -75,7 +75,7 @@ service.interceptors.response.use(
   error => {
     console.log('err' + error) // for debug
     Message({
-      message: error.response.data.content || error.response.data.msg,
+      message: error.response.data.content || error.response.data.msg || '服务器异常，请联系管理员',
       type: 'error',
       duration: 5 * 1000
     })

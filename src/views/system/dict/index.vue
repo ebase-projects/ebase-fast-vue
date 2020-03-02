@@ -9,10 +9,10 @@
           </div>
           <!--字典列表-->
           <el-form ref="queryForm" :model="queryParams" :inline="true">
-            <el-form-item label="字典名称" prop="name">
+            <el-form-item prop="keyword">
               <el-input
-                v-model="queryParams.name"
-                placeholder="请输入字典名称"
+                v-model="queryParams.keyword"
+                placeholder="请输入要查询的类型/名称"
                 clearable
                 size="small"
                 @keyup.enter.native="handleQuery"
@@ -32,7 +32,7 @@
             @current-change="handleCurrentChange"
           >
             <el-table-column label="字典名称" align="center" prop="name" :show-overflow-tooltip="true" />
-            <el-table-column label="字典别名" align="center" prop="type" :show-overflow-tooltip="true" />
+            <el-table-column label="字典类型" align="center" prop="type" :show-overflow-tooltip="true" />
             <el-table-column label="是否系统" align="system" prop="sort" />
             <!--            <el-table-column label="状态" align="center">-->
             <!--              <template slot-scope="scope">-->
@@ -162,7 +162,7 @@ export default {
       // 是否显示弹出层
       open: false,
       queryParams: {
-        name: undefined
+        keyword: undefined
       },
       form: {},
       // 表单校验

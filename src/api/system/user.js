@@ -7,7 +7,6 @@ export function getInfo(token) {
     headers: {
       'Authorization': 'Bearer '
     }
-    // params: { token }
   })
 }
 

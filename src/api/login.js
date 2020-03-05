@@ -36,7 +36,6 @@ export function getUserInfo() {
     method: 'get'
   })
 }
-
 export function getImgCode(deviceId) {
   return request({
     url: 'code/image',
@@ -47,17 +46,34 @@ export function getImgCode(deviceId) {
   })
 }
 
-// 根据手机
-export function loginByUserPhone(phone, smsCode) {
+// 发送短信验证码
+export function sendSms(phone, deviceId) {
   const data = {
-    phone,
-    smsCode
+    mobile: phone,
+    deviceId
   }
-  // 登录
   return request({
-    url: '/mobile/login',
-    method: 'post',
+    url: 'code/sms',
+    method: 'get',
     params: data
   })
 }
 
+// 根据手机登陆
+export function loginByUserPhone(phone, smsCode, deviceId) {
+  const data = {
+    mobile: phone,
+    smsCode,
+    deviceId
+  }
+  // 登录
+  return request({
+    url: '/auth/mobile',
+    method: 'post',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+      'Authorization': 'Basic YXBwOmFwcA=='
+    },
+    params: data
+  })
+}

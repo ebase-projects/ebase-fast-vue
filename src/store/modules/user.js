@@ -1,5 +1,5 @@
 import { getInfo } from '@/api/system/user'
-import { loginByUsername, logout } from '@/api/login'
+import { loginByUsername, loginByUserPhone, logout } from '@/api/login'
 import { getToken, setToken, removeToken } from '@/utils/auth'
 import { resetRouter } from '@/router'
 // import da from 'element-ui/src/locale/lang/da'
@@ -53,6 +53,20 @@ const actions = {
     const username = userInfo.username.trim()
     return new Promise((resolve, reject) => {
       loginByUsername(username, userInfo.password, userInfo.code, userInfo.deviceId).then(response => {
+        console.log(response)
+        const data = response
+        commit('SET_TOKEN', data.access_token)
+        setToken(data.access_token)
+        resolve()
+      }).catch(error => {
+        reject(error)
+      })
+    })
+  },
+
+  LoginByUserPhone({ commit }, userInfo) {
+    return new Promise((resolve, reject) => {
+      loginByUserPhone(userInfo.phone, userInfo.code, userInfo.deviceId).then(response => {
         console.log(response)
         const data = response
         commit('SET_TOKEN', data.access_token)

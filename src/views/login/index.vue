@@ -226,7 +226,7 @@
 import { getUrlKey, getDeviceId } from '@/utils/webUtils'
 import { isvalidPhone } from '@/utils/validate'
 // import { getImgCode } from '@/api/login'
-import { sendSms } from '@/api/system/user'
+import { sendSms } from '@/api/login'
 
 export default {
   name: 'Login',
@@ -258,8 +258,9 @@ export default {
       },
       src: '',
       phoneForm: {
-        phone: '',
-        code: ''
+        phone: '18105351757',
+        code: '',
+        deviceId: ''
       },
       loginRules: {
         username: [{ required: true, trigger: 'blur' }],
@@ -322,7 +323,7 @@ export default {
       this.$refs.phoneForm.validate(valid => {
         if (valid) {
           this.loading = true
-          this.$store.dispatch('LoginByUserPhone', this.phoneForm).then(() => {
+          this.$store.dispatch('user/LoginByUserPhone', this.phoneForm).then(() => {
             this.loading = false
             this.$router.push({ path: this.redirect || '/' })
           }).catch(() => {
@@ -366,27 +367,28 @@ export default {
         this.codeLoading = true
         this.buttonName = '发送中'
         const _this = this
-        sendSms(this.phoneForm.phone).then(res => {
-          if (res.data.code === 200) {
-            this.$message({
-              showClose: true,
-              message: '发送成功，验证码有效期2分钟',
-              type: 'success'
-            })
-            this.codeLoading = false
-            this.isDisabled = true
-            this.buttonName = this.time-- + '秒'
-            this.timer = window.setInterval(function() {
-              _this.buttonName = _this.time + '秒'
-              --_this.time
-              if (_this.time < 0) {
-                _this.buttonName = '重新发送'
-                _this.time = 60
-                _this.isDisabled = false
-                window.clearInterval(_this.timer)
-              }
-            }, 1000)
-          }
+        this.phoneForm.deviceId = getDeviceId()
+        sendSms(this.phoneForm.phone, this.phoneForm.deviceId).then(res => {
+          // if (res.data.code === 0) {
+          this.$message({
+            showClose: true,
+            message: '发送成功，验证码有效期2分钟',
+            type: 'success'
+          })
+          this.codeLoading = false
+          this.isDisabled = true
+          this.buttonName = this.time-- + '秒'
+          this.timer = window.setInterval(function() {
+            _this.buttonName = _this.time + '秒'
+            --_this.time
+            if (_this.time < 0) {
+              _this.buttonName = '重新发送'
+              _this.time = 60
+              _this.isDisabled = false
+              window.clearInterval(_this.timer)
+            }
+          }, 1000)
+          // }
         }).catch(err => {
           this.resetForm()
           this.codeLoading = false

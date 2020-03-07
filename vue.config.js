@@ -39,6 +39,7 @@ module.exports = {
     proxy: {
       '/api': {
         target: 'http://localhost:8080/',
+        // target: 'http://ebase-api.dwliu.me/',
         changeOrigin: true, // 是否跨域
         pathRewrite: {
           '^/api': '' // 重写

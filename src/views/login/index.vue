@@ -279,7 +279,7 @@ export default {
       token: '',
       isShow: true,
       activeName: 'loginForm',
-      buttonName: '发送验证码',
+      buttonName: '发送',
       isDisabled: false,
       codeLoading: false,
       time: 60,

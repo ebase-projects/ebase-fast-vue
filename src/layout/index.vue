@@ -4,42 +4,51 @@
     <sidebar class="sidebar-container" />
     <div class="main-container">
       <div :class="{'fixed-header':fixedHeader}">
-        <navbar />
+        <navbar/>
       </div>
-      <app-main />
+      <app-main/>
+      <right-panel v-if="showSettings">
+        <settings/>
+      </right-panel>
     </div>
   </div>
 </template>
 
 <script>
-import { Navbar, Sidebar, AppMain } from './components'
-import ResizeMixin from './mixin/ResizeHandler'
+  import RightPanel from '@/components/RightPanel'
+  import { AppMain, Navbar, Settings, Sidebar } from './components'
+  import ResizeMixin from './mixin/ResizeHandler'
 
-export default {
-  name: 'Layout',
-  components: {
-    Navbar,
-    Sidebar,
-    AppMain
-  },
-  mixins: [ResizeMixin],
-  computed: {
-    sidebar() {
-      return this.$store.state.app.sidebar
+  export default {
+    name: 'Layout',
+    components: {
+      RightPanel,
+      Navbar,
+      Sidebar,
+      AppMain,
+      Settings
     },
-    device() {
-      return this.$store.state.app.device
-    },
-    fixedHeader() {
-      return this.$store.state.settings.fixedHeader
-    },
-    classObj() {
-      return {
-        hideSidebar: !this.sidebar.opened,
-        openSidebar: this.sidebar.opened,
-        withoutAnimation: this.sidebar.withoutAnimation,
-        mobile: this.device === 'mobile'
-      }
+    mixins: [ResizeMixin],
+    computed: {
+      sidebar() {
+        return this.$store.state.app.sidebar
+      },
+      device() {
+        return this.$store.state.app.device
+      },
+      showSettings() {
+        return this.$store.state.settings.showSettings
+      },
+      fixedHeader() {
+        return this.$store.state.settings.fixedHeader
+      },
+      classObj() {
+        return {
+          hideSidebar: !this.sidebar.opened,
+          openSidebar: this.sidebar.opened,
+          withoutAnimation: this.sidebar.withoutAnimation,
+          mobile: this.device === 'mobile'
+        }
     }
   },
   methods: {

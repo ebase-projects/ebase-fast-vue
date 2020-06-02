@@ -48,35 +48,35 @@
 </template>
 
 <script>
-  import { mapGetters } from 'vuex'
-  import Breadcrumb from '@/components/Breadcrumb'
-  import Hamburger from '@/components/Hamburger'
-  import Screenfull from '@/components/Screenfull'
+import { mapGetters } from 'vuex'
+import Breadcrumb from '@/components/Breadcrumb'
+import Hamburger from '@/components/Hamburger'
+import Screenfull from '@/components/Screenfull'
 
-  export default {
-    components: {
-      Breadcrumb,
-      Hamburger,
-      Screenfull
-    },
-    computed: {
-      ...mapGetters([
-        'sidebar',
-        'avatar',
-        'device'
-      ]),
-      setting: {
-        get() {
-          return this.$store.state.settings.showSettings
-        },
-        set(val) {
-          this.$store.dispatch('settings/changeSetting', {
-            key: 'showSettings',
-            value: val
-          })
-        }
+export default {
+  components: {
+    Breadcrumb,
+    Hamburger,
+    Screenfull
+  },
+  computed: {
+    ...mapGetters([
+      'sidebar',
+      'avatar',
+      'device'
+    ]),
+    setting: {
+      get() {
+        return this.$store.state.settings.showSettings
+      },
+      set(val) {
+        this.$store.dispatch('settings/changeSetting', {
+          key: 'showSettings',
+          value: val
+        })
       }
-    },
+    }
+  },
   methods: {
     toggleSideBar() {
       this.$store.dispatch('app/toggleSideBar')

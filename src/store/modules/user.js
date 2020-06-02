@@ -89,6 +89,7 @@ const actions = {
         }
 
         const { authorities, username, avatar } = data
+        console.log(avatar)
 
         // roles must be a non-empty array
         // if (!roles || roles.length <= 0) {
@@ -97,7 +98,8 @@ const actions = {
 
         commit('SET_ROLES', authorities)
         commit('SET_NAME', username)
-        commit('SET_AVATAR', avatar)
+        commit('SET_AVATAR', !avatar || avatar === '' ? require('@/assets/default_avatar.jpeg') : avatar)
+        // commit('SET_AVATAR', require('@/assets/default_avatar.jpeg'))
         resolve(data)
       }).catch(error => {
         reject(error)

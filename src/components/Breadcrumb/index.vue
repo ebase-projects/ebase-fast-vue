@@ -43,7 +43,7 @@ export default {
       if (!name) {
         return false
       }
-      return name.trim().toLocaleLowerCase() === '主页'.toLocaleLowerCase()
+      return name.trim().toLocaleLowerCase() === 'Dashboard'.toLocaleLowerCase()
     },
     pathCompile(path) {
       // To solve this problem https://github.com/PanJiaChen/vue-element-admin/issues/561

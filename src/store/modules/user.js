@@ -98,8 +98,8 @@ const actions = {
 
         commit('SET_ROLES', authorities)
         commit('SET_NAME', username)
-        commit('SET_AVATAR', !avatar || avatar === '' ? require('@/assets/default_avatar.jpeg') : avatar)
-        // commit('SET_AVATAR', require('@/assets/default_avatar.jpeg'))
+        commit('SET_AVATAR', !avatar || avatar === '' ? require('@/assets/avatar/default.jpeg') : avatar)
+        // commit('SET_AVATAR', require('@/assets/default.jpeg'))
         resolve(data)
       }).catch(error => {
         reject(error)

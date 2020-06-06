@@ -50,7 +50,6 @@ router.beforeEach(async(to, from, next) => {
     }
   } else {
     /* has no token*/
-
     if (whiteList.indexOf(to.path) !== -1) {
       // in the free login whitelist, go directly
       next()
@@ -120,5 +119,6 @@ export const filterAsyncRoutes = (routes) => {
 }
 
 export const loadView = (view) => {
-  return () => import(`@/views/${view}`)
+  // return () => import(`@/views/${view}`)
+  return (resolve) => require([`@/views/${view}`], resolve)
 }

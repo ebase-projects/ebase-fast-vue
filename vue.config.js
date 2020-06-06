@@ -37,12 +37,13 @@ module.exports = {
       errors: true
     },
     proxy: {
-      '/api': {
-        target: 'http://localhost:8080/',
-        // target: 'http://ebase-api.dwliu.me/',
+      [process.env.VUE_APP_BASE_API]: {
+        // target: 'http://localhost:8080/',
+        target: 'http://ebase.nps.dwliu.me',
         changeOrigin: true, // 是否跨域
+        // secure: true,
         pathRewrite: {
-          '^/api': '' // 重写
+          ['^' + process.env.VUE_APP_BASE_API]: '' // 重写
         }
       }
     }

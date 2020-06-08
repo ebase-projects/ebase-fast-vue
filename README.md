@@ -1,55 +1,29 @@
-# vue-admin-template
+# ebase-fast-vue 
 
-> 这是一个极简的 vue admin 管理后台。它只包含了 Element UI & axios & iconfont & permission control & lint，这些搭建后台必要的东西。
+这是一个`ebase-fast` 管理后台。我们原始克隆了 [vue-admin-template](http://panjiachen.github.io/vue-admin-template) 脚手架。
 
-[线上地址](http://panjiachen.github.io/vue-admin-template)
+> 目前版本为 `v4.0+` 基于 `vue-cli` 进行构建。
 
-[国内访问](https://panjiachen.gitee.io/vue-admin-template)
-
-目前版本为 `v4.0+` 基于 `vue-cli` 进行构建，若你想使用旧版本，可以切换分支到[tag/3.11.0](https://github.com/PanJiaChen/vue-admin-template/tree/tag/3.11.0)，它不依赖 `vue-cli`。
-
-## Extra
-
-如果你想要根据用户角色来动态生成侧边栏和 router，你可以使用该分支[permission-control](https://github.com/PanJiaChen/vue-admin-template/tree/permission-control)
-
-## 相关项目
-
-- [vue-element-admin](https://github.com/PanJiaChen/vue-element-admin)
-
-- [electron-vue-admin](https://github.com/PanJiaChen/electron-vue-admin)
-
-- [vue-typescript-admin-template](https://github.com/Armour/vue-typescript-admin-template)
-
-- [awesome-project](https://github.com/PanJiaChen/vue-element-admin/issues/2312)
-
-写了一个系列的教程配套文章，如何从零构建后一个完整的后台项目:
-
-- [手摸手，带你用 vue 撸后台 系列一(基础篇)](https://juejin.im/post/59097cd7a22b9d0065fb61d2)
-- [手摸手，带你用 vue 撸后台 系列二(登录权限篇)](https://juejin.im/post/591aa14f570c35006961acac)
-- [手摸手，带你用 vue 撸后台 系列三 (实战篇)](https://juejin.im/post/593121aa0ce4630057f70d35)
-- [手摸手，带你用 vue 撸后台 系列四(vueAdmin 一个极简的后台基础模板,专门针对本项目的文章,算作是一篇文档)](https://juejin.im/post/595b4d776fb9a06bbe7dba56)
-- [手摸手，带你封装一个 vue component](https://segmentfault.com/a/1190000009090836)
-
-## Build Setup
+## 构建启动
 
 ```bash
 # 克隆项目
-git clone https://github.com/PanJiaChen/vue-admin-template.git
+git clone git@github.com:ebase-projects/ebase-fast-vue.git
 
 # 进入项目目录
-cd vue-admin-template
+cd ebase-fast-vue 
 
 # 安装依赖
-npm install
+npm install 或者 yarn install
 
 # 建议不要直接使用 cnpm 安装以来，会有各种诡异的 bug。可以通过如下操作解决 npm 下载速度慢的问题
 npm install --registry=https://registry.npm.taobao.org
 
 # 启动服务
-npm run dev
+npm run dev 或者 yarn run dev
 ```
 
-浏览器访问 [http://localhost:9528](http://localhost:9528)
+浏览器访问 [http://127.0.0.1:9528](http://127.0.0.1:9528)
 
 ## 发布
 
@@ -77,12 +51,6 @@ npm run lint
 npm run lint -- --fix
 ```
 
-更多信息请参考 [使用文档](https://panjiachen.github.io/vue-element-admin-site/zh/)
-
-## Demo
-
-![demo](https://github.com/PanJiaChen/PanJiaChen.github.io/blob/master/images/demo.gif)
-
 ## Browsers support
 
 Modern browsers and Internet Explorer 10+.
@@ -93,55 +61,8 @@ Modern browsers and Internet Explorer 10+.
 
 ## License
 
-[MIT](https://github.com/PanJiaChen/vue-admin-template/blob/master/LICENSE) license.
+[MIT](https://github.com/ebase-projects/ebase-fast-vue/blob/master/README.md) license.
 
-Copyright (c) 2017-present PanJiaChen
+Copyright (c) 2020-present ebase
 
 
-### 常见问题
-
-#### 1
-```
-<el-table-column label="状态" align="center">
-              <template slot-scope="scope">
-                <el-switch
-                  v-model="scope.row.status"
-                  active-color="#13ce66"
-                  inactive-color="#ff4949"
-                  :active-value="1"
-                  :inactive-value="0"
-                  @change="handleStatusChange(scope.row)"
-                />
-              </template>
-            </el-table-column>  
-```
- 
-> 返回 status shi 数值类型，所以  :active-value="1"  前的冒号不能缺失
->https://blog.csdn.net/caijunfen/article/details/78528694?depth_1-utm_source=distribute.pc_relevant.none-task&utm_source=distribute.pc_relevant.none-task
-  
-#### 2
-
-路由菜单 为 空白，path 前的 / 不能少    
-
-#### 3 elementui中的el-radio值无法回显   
-   
-radio label为number类型可以直接回显
-
-radio label为String类型无法回显，需要在最外层再加一层引号
-
-```json
-{"code":0,"msg":"操作成功","timestamp":"2020-03-01 18:43:19","data":[{"value":"0","desc":"禁用"},{"value":"1","desc":"正常"}]}
-```
-数据中，value 为字符串，故不能回显
-```vue
-<el-form-item label="状态">
-              <el-radio-group v-model="form.status">
-                <el-radio
-                  v-for="dict in statusOptions"
-                  :key="Number(dict.value)"
-                  :label="Number(dict.value)"
-                >{{ dict.desc }}
-                </el-radio>
-              </el-radio-group>
-            </el-form-item>
-```

@@ -3,6 +3,7 @@ import axios from 'axios'
 import { Message } from 'element-ui'
 import store from '@/store'
 import { getToken } from '@/utils/auth'
+// import el from 'element-ui/src/locale/lang/el'
 
 // create an axios instance
 const service = axios.create({
@@ -36,7 +37,7 @@ service.interceptors.response.use(
   /**
    * If you want to get http information such as headers or status
    * Please return  response => response
-  */
+   */
 
   /**
    * Determine the request status by custom code
@@ -73,7 +74,11 @@ service.interceptors.response.use(
     // }
   },
   error => {
-    console.log('err' + error) // for debug
+    console.log(error.response) // for debug
+
+    // if (error.response.status === 400) {
+    //   return error.response
+    // } else {
     Message({
       message: error.response.data.error_description ||
         error.response.data.content || error.response.data.msg || '服务器异常，请联系管理员',
@@ -81,6 +86,7 @@ service.interceptors.response.use(
       duration: 5 * 1000
     })
     return Promise.reject(error)
+    // }
   }
 )
 

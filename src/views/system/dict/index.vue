@@ -142,6 +142,7 @@
 import { listDict, addDict, delDict, updateDict, getDict, changeDictStatus } from '@/api/system/dict'
 import Pagination from '@/components/Pagination'
 import DictItem from './dictItem'
+
 export default {
   name: 'Dict',
   components: { Pagination, DictItem },
@@ -164,16 +165,16 @@ export default {
       queryParams: {
         keyword: undefined
       },
-      form: {},
+      form: {}
       // 表单校验
-      rules: {
-        name: [
-          { required: true, message: '字典名不能为空', trigger: 'blur' }
-        ],
-        type: [
-          { required: true, message: '字典别名不能为空', trigger: 'blur' }
-        ]
-      }
+      // rules: {
+      //   name: [
+      //     { required: true, message: '字典名不能为空', trigger: 'blur' }
+      //   ],
+      //   type: [
+      //     { required: true, message: '字典别名不能为空', trigger: 'blur' }
+      //   ]
+      // }
     }
   },
   created() {
@@ -290,11 +291,23 @@ export default {
     },
     // 提交表单
     submitForm(formName) {
+      // const _self = this
       this.$refs[formName].validate((valid) => {
         if (valid) {
           if (this.form.id === undefined) {
             // 新增
             addDict(this.form).then(response => {
+              // const data = response.data.data
+              // console.log(data)
+              // console.log(_self.$refs[formName].fields)
+              //
+              // data.forEach(tmp => {
+              //   console.log(tmp.fieldName)
+              //   const filterElement = _self.$refs[formName].fields.filter((item) => (item.prop === tmp.fieldName))
+              //   filterElement.message = tmp.message
+              //   console.log(filterElement)
+              // })
+
               if (response.code === 0) {
                 this.$message({ type: 'success', message: '操作成功' })
                 this.open = false

@@ -38,8 +38,8 @@ module.exports = {
     },
     proxy: {
       [process.env.VUE_APP_BASE_API]: {
-        // target: 'http://localhost:8080/',
-        target: 'http://ebase.nps.dwliu.me',
+        target: 'http://localhost:8080/',
+        // target: 'http://ebase.nps.dwliu.me',
         changeOrigin: true, // 是否跨域
         // secure: true,
         pathRewrite: {

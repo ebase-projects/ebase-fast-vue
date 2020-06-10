@@ -25,7 +25,7 @@ export function formatDataToJson(arr) {
 export function formatDataToForm(arr) {
   const params = new FormData()
   for (var key in arr) {
-    console.log('"' + key + '"', arr[key])
+    // console.log('"' + key + '"', arr[key])
     params.append('"' + key + '"', arr[key])
   }
   return params

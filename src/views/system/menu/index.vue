@@ -365,7 +365,7 @@ export default {
     },
     // 删除
     handleDelete(row) {
-      console.log(row.id)
+      // console.log(row.id)
       let menuIds = [row.id] || this.ids
       this.$confirm('是否确认删除菜单编号为"' + menuIds + '"的数据项?', '警告', {
         confirmButtonText: '确定',

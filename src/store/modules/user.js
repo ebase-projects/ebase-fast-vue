@@ -53,7 +53,7 @@ const actions = {
     const username = userInfo.username.trim()
     return new Promise((resolve, reject) => {
       loginByUsername(username, userInfo.password, userInfo.code, userInfo.deviceId).then(response => {
-        console.log(response)
+        // console.log(response)
         const data = response
         commit('SET_TOKEN', data.access_token)
         setToken(data.access_token)
@@ -67,7 +67,7 @@ const actions = {
   LoginByUserPhone({ commit }, userInfo) {
     return new Promise((resolve, reject) => {
       loginByUserPhone(userInfo.phone, userInfo.code, userInfo.deviceId).then(response => {
-        console.log(response)
+        // console.log(response)
         const data = response
         commit('SET_TOKEN', data.access_token)
         setToken(data.access_token)
@@ -89,7 +89,7 @@ const actions = {
         }
 
         const { authorities, username, avatar } = data
-        console.log(avatar)
+        // console.log(avatar)
 
         // roles must be a non-empty array
         // if (!roles || roles.length <= 0) {

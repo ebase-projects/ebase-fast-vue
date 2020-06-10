@@ -261,7 +261,7 @@ export default {
     },
     // 状态修改
     handleStatusChange(row) {
-      console.log(row.status)
+      // console.log(row.status)
       const text = row.status === 1 ? '启用' : '停用'
       this.$confirm('确认要"' + text + '""' + row.name + '"字典吗?', '警告', {
         confirmButtonText: '确定',
@@ -286,7 +286,7 @@ export default {
         // 清空菜单的选中
         // 保存当前的字典id
         this.currentDict = val
-        console.log('----------------' + val)
+        // console.log('----------------' + val)
       }
     },
     // 提交表单

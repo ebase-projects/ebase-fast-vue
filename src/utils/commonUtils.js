@@ -127,6 +127,6 @@ export function handleTree(data, id, parentId, children, rootId) {
     // 返回第一层
     return father[parentId] === rootId
   })
-  console.log(treeData)
+  // console.log(treeData)
   return treeData !== '' ? treeData : data
 }

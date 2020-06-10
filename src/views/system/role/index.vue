@@ -316,7 +316,7 @@ export default {
       listRole(this.addDateRange(this.queryParams, this.dateRange)).then(response => {
         if (response.code === 0) {
           this.roleList = response.data.list
-          console.log(this.roleList)
+          // console.log(this.roleList)
           this.total = Number(response.data.total)
           this.loading = false
         } else {
@@ -408,7 +408,7 @@ export default {
     },
     // 用户状态修改
     handleStatusChange(row) {
-      console.log(row.status)
+      // console.log(row.status)
       const text = row.status === 1 ? '启用' : '停用'
       this.$confirm('确认要"' + text + '""' + row.name + '"角色吗?', '警告', {
         confirmButtonText: '确定',
@@ -457,7 +457,7 @@ export default {
         this.$refs.menuTree.setCheckedKeys([])
         // 保存当前的角色id
         this.currentId = val.id
-        console.log('----------------' + val)
+        // console.log('----------------' + val)
         getMenuListByRoleId(val.id).then(response => {
           if (response.code === 0) {
             // const roleMenus = response.data

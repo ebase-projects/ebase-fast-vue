@@ -228,6 +228,7 @@
 import { getMenuTree, addMenu, delMenu, updateMenu, getMenu } from '@/api/system/menu'
 import Treeselect from '@riophae/vue-treeselect'
 import IconSelect from '@/components/IconSelect'
+import '@riophae/vue-treeselect/dist/vue-treeselect.css'
 
 export default {
   name: 'Menu',

@@ -165,16 +165,16 @@ export default {
       queryParams: {
         keyword: undefined
       },
-      form: {}
+      form: {},
       // 表单校验
-      // rules: {
-      //   name: [
-      //     { required: true, message: '字典名不能为空', trigger: 'blur' }
-      //   ],
-      //   type: [
-      //     { required: true, message: '字典别名不能为空', trigger: 'blur' }
-      //   ]
-      // }
+      rules: {
+        name: [
+          { required: true, message: '字典名不能为空', trigger: 'blur' }
+        ],
+        type: [
+          { required: true, message: '字典别名不能为空', trigger: 'blur' }
+        ]
+      }
     }
   },
   created() {

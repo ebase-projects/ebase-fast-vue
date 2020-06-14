@@ -53,9 +53,9 @@
       <el-table-column prop="type" label="类型" :formatter="typeFormat" width="200" />
       <el-table-column prop="sort" label="排序" width="200" />
       <el-table-column prop="status" label="状态" width="100" />
-      <el-table-column label="创建时间" align="center" prop="createDate" width="200" />
+      <el-table-column label="创建时间" align="center" prop="createTime" width="200" />
       <!--        <template slot-scope="scope">-->
-      <!--          <span>{{ parseTime(scope.row.createDate) }}</span>-->
+      <!--          <span>{{ parseTime(scope.row.createTime) }}</span>-->
       <!--        </template>-->
       <!--      </el-table-column>-->
 
@@ -76,7 +76,6 @@
           >新增
           </el-button>
           <el-button
-            v-if="scope.row.parentId != 0"
             size="mini"
             type="text"
             icon="el-icon-delete"
@@ -91,7 +90,7 @@
     <el-dialog :title="title" :visible.sync="open" width="600px">
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
         <el-row>
-          <el-col v-if="form.pid != 0" :span="24">
+          <el-col v-if="form.pid && form.pid !== '0' " :span="24">
             <el-form-item label="上级部门" prop="pid">
               <treeselect v-model="form.pid" :options="deptOptions" :normalizer="normalizer" placeholder="选择上级部门" />
             </el-form-item>
@@ -276,6 +275,7 @@ export default {
       this.getTreeselect()
       getDept(row.id).then(response => {
         this.form = response.data
+        console.log(this.form)
         this.open = true
         this.title = '修改部门'
       })
@@ -295,6 +295,8 @@ export default {
               }
             })
           } else {
+            // 指定根 pid=0
+            this.form.pid = 0
             addDept(this.form).then(response => {
               if (response.code === 0) {
                 this.$message({ type: 'success', message: '操作成功' })

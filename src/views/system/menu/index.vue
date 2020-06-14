@@ -88,9 +88,9 @@
       <el-table-column prop="permissions" label="授权标识" />
       <el-table-column prop="sort" label="排序" />
       <el-table-column prop="status" label="状态" />
-      <el-table-column label="创建时间" align="center" prop="createDate" width="200" />
+      <el-table-column label="创建时间" align="center" prop="createTime" width="200" />
       <!--        <template slot-scope="scope">-->
-      <!--          <span>{{ parseTime(scope.row.createDate) }}</span>-->
+      <!--          <span>{{ parseTime(scope.row.createTime) }}</span>-->
       <!--        </template>-->
       <!--      </el-table-column>-->
 

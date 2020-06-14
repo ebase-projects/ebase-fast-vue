@@ -129,11 +129,11 @@
             <el-table-column
               :show-overflow-tooltip="true"
               width="160"
-              prop="createDate"
+              prop="createTime"
               label="创建日期"
             >
               <template slot-scope="scope">
-                <span>{{ parseTime(scope.row.createDate) }}</span>
+                <span>{{ parseTime(scope.row.createTime) }}</span>
               </template>
             </el-table-column>
             <el-table-column

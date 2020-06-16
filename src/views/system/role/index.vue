@@ -32,65 +32,64 @@
           </el-form-item>
         </el-form>
       </div>
-      <el-row :gutter="10" class="mb8">
-        <el-col :span="1.5">
-          <el-button
-            size="mini"
-            plain
-            type="info"
-            icon="el-icon-search"
-            @click="toggleSearch()"
-          >搜索
-          </el-button>
-        </el-col>
-        <el-col :span="1.5">
-          <el-button
-            type="primary"
-            icon="el-icon-plus"
-            size="mini"
-            @click="handleAdd"
-          >新增
-          </el-button>
-        </el-col>
-        <el-col :span="1.5">
-          <el-button
-            type="success"
-            icon="el-icon-edit"
-            size="mini"
-            :disabled="single"
-            @click="handleUpdate"
-          >修改
-          </el-button>
-        </el-col>
-        <el-col :span="1.5">
-          <el-button
-            type="danger"
-            icon="el-icon-delete"
-            size="mini"
-            :disabled="multiple"
-            @click="handleDelete"
-          >删除
-          </el-button>
-        </el-col>
-        <el-col :span="1.5">
-          <el-button
-            type="info"
-            icon="el-icon-upload2"
-            size="mini"
-            @click="handleImport"
-          >导入
-          </el-button>
-        </el-col>
-        <el-col :span="1.5">
-          <el-button
-            type="warning"
-            icon="el-icon-download"
-            size="mini"
-            @click="handleExport"
-          >导出
-          </el-button>
-        </el-col>
-      </el-row>
+
+      <el-button-group class="opts-left">
+        <el-row :gutter="10" class="mb8">
+          <el-col :span="1.5">
+            <el-button
+              type="primary"
+              icon="el-icon-plus"
+              size="mini"
+              @click="handleAdd"
+            >新增
+            </el-button>
+          </el-col>
+          <el-col :span="1.5">
+            <el-button
+              type="success"
+              icon="el-icon-edit"
+              size="mini"
+              :disabled="single"
+              @click="handleUpdate"
+            >修改
+            </el-button>
+          </el-col>
+          <el-col :span="1.5">
+            <el-button
+              type="danger"
+              icon="el-icon-delete"
+              size="mini"
+              :disabled="multiple"
+              @click="handleDelete"
+            >删除
+            </el-button>
+          </el-col>
+          <el-col :span="1.5">
+            <el-button
+              type="info"
+              icon="el-icon-upload2"
+              size="mini"
+              @click="handleImport"
+            >导入
+            </el-button>
+          </el-col>
+          <el-col :span="1.5">
+            <el-button
+              type="warning"
+              icon="el-icon-download"
+              size="mini"
+              @click="handleExport"
+            >导出
+            </el-button>
+          </el-col>
+        </el-row>
+
+      </el-button-group>
+
+      <el-button-group class="opts-right">
+        <el-button size="mini" plain type="info" icon="el-icon-search" @click="toggleSearch()" />
+        <el-button size="mini" icon="el-icon-refresh" @click="handleQuery()" />
+      </el-button-group>
 
     </div>
     <el-row :gutter="15">
@@ -243,8 +242,10 @@
 </template>
 
 <script>
-import { listRole, addRole, delRole, updateRole, getRole, getMenuListByRoleId,
-  grantRoleMenu, getRoleDictsByEnum, changeRoleStatus } from '@/api/system/role'
+import {
+  listRole, addRole, delRole, updateRole, getRole, getMenuListByRoleId,
+  grantRoleMenu, getRoleDictsByEnum, changeRoleStatus
+} from '@/api/system/role'
 import { getMenuTree } from '@/api/system/menu'
 import Pagination from '@/components/Pagination'
 
@@ -514,4 +515,8 @@ export default {
 
 <style scoped>
 
+  .opts-right {
+    float: right;
+
+  }
 </style>

@@ -84,65 +84,59 @@
           </el-form>
         </div>
 
-        <el-row :gutter="10" class="mb8">
-          <el-col :span="1.5">
-            <el-button
-              size="mini"
-              plain
-              type="info"
-              icon="el-icon-search"
-              @click="toggleSearch()"
-            >搜索
-            </el-button>
-          </el-col>
-          <el-col :span="1.5">
-            <el-button
-              type="primary"
-              icon="el-icon-plus"
-              size="mini"
-              @click="handleAdd"
-            >新增
-            </el-button>
-          </el-col>
-          <el-col :span="1.5">
-            <el-button
-              type="success"
-              icon="el-icon-edit"
-              size="mini"
-              :disabled="single"
-              @click="handleUpdate"
-            >修改
-            </el-button>
-          </el-col>
-          <el-col :span="1.5">
-            <el-button
-              type="danger"
-              icon="el-icon-delete"
-              size="mini"
-              :disabled="multiple"
-              @click="handleDelete"
-            >删除
-            </el-button>
-          </el-col>
-          <el-col :span="1.5">
-            <el-button
-              type="info"
-              icon="el-icon-upload2"
-              size="mini"
-              @click="handleImport"
-            >导入
-            </el-button>
-          </el-col>
-          <el-col :span="1.5">
-            <el-button
-              type="warning"
-              icon="el-icon-download"
-              size="mini"
-              @click="handleExport"
-            >导出
-            </el-button>
-          </el-col>
-        </el-row>
+        <el-button-group>
+          <el-row :gutter="10" class="mb8">
+            <el-col :span="1.5">
+              <el-button
+                type="primary"
+                icon="el-icon-plus"
+                size="mini"
+                @click="handleAdd"
+              >新增
+              </el-button>
+            </el-col>
+            <el-col :span="1.5">
+              <el-button
+                type="success"
+                icon="el-icon-edit"
+                size="mini"
+                :disabled="single"
+                @click="handleUpdate"
+              >修改
+              </el-button>
+            </el-col>
+            <el-col :span="1.5">
+              <el-button
+                type="danger"
+                icon="el-icon-delete"
+                size="mini"
+                :disabled="multiple"
+                @click="handleDelete"
+              >删除
+              </el-button>
+            </el-col>
+            <el-col :span="1.5">
+              <el-button
+                type="info"
+                icon="el-icon-upload2"
+                size="mini"
+                @click="handleImport"
+              >导入
+              </el-button>
+            </el-col>
+            <el-col :span="1.5">
+              <el-button
+                type="warning"
+                icon="el-icon-download"
+                size="mini"
+                @click="handleExport"
+              >导出
+              </el-button>
+            </el-col>
+          </el-row>
+        </el-button-group>
+
+        <opts-right @toggle-search="toggleSearch" @refresh="handleQuery" />
 
         <el-table
           v-loading="loading"
@@ -306,10 +300,11 @@ import { listDept } from '@/api/system/dept'
 import Treeselect from '@riophae/vue-treeselect'
 import '@riophae/vue-treeselect/dist/vue-treeselect.css'
 import Pagination from '@/components/Pagination'
+import OptsRight from '@/components/OptsRight'
 
 export default {
   name: 'User',
-  components: { Treeselect, Pagination },
+  components: { Treeselect, Pagination, OptsRight },
   data() {
     return {
       // 遮罩层

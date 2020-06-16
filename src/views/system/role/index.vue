@@ -33,7 +33,7 @@
         </el-form>
       </div>
 
-      <el-button-group class="opts-left">
+      <el-button-group>
         <el-row :gutter="10" class="mb8">
           <el-col :span="1.5">
             <el-button
@@ -79,17 +79,19 @@
               icon="el-icon-download"
               size="mini"
               @click="handleExport"
-            >导出
+            >
+              导出
             </el-button>
           </el-col>
         </el-row>
-
       </el-button-group>
 
-      <el-button-group class="opts-right">
-        <el-button size="mini" plain type="info" icon="el-icon-search" @click="toggleSearch()" />
-        <el-button size="mini" icon="el-icon-refresh" @click="handleQuery()" />
-      </el-button-group>
+      <!--      <el-button-group class="opts-right">-->
+      <!--        <el-button size="mini" plain type="info" icon="el-icon-search" @click="toggleSearch()" />-->
+      <!--        <el-button size="mini" icon="el-icon-refresh" @click="handleQuery()" />-->
+      <!--      </el-button-group>-->
+
+      <opts-right @toggle-search="toggleSearch" @refresh="handleQuery" />
 
     </div>
     <el-row :gutter="15">
@@ -248,10 +250,11 @@ import {
 } from '@/api/system/role'
 import { getMenuTree } from '@/api/system/menu'
 import Pagination from '@/components/Pagination'
+import OptsRight from '@/components/OptsRight'
 
 export default {
   name: 'Role',
-  components: { Pagination },
+  components: { Pagination, OptsRight },
   data() {
     return {
       // 遮罩层
@@ -513,10 +516,3 @@ export default {
 }
 </script>
 
-<style scoped>
-
-  .opts-right {
-    float: right;
-
-  }
-</style>

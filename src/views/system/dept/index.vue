@@ -1,46 +1,43 @@
 <template>
   <div class="app-container">
-    <el-form :inline="true">
-      <el-form-item label="部门名称">
-        <el-input
-          v-model="queryParams.name"
-          placeholder="请输入部门名称"
-          clearable
-          size="small"
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="状态">
-        <el-select v-model="queryParams.type" placeholder="请选择部门状态" clearable size="small">
-          <el-option
-            v-for="dict in typeOptions"
-            :key="dict.value"
-            :label="dict.desc"
-            :value="dict.value"
+    <div v-if="searchToggle">
+      <el-form ref="queryForm" :model="queryParams" :inline="true">
+        <el-form-item label="部门名称" prop="name">
+          <el-input
+            v-model="queryParams.name"
+            placeholder="请输入部门名称"
+            clearable
+            size="small"
+            @keyup.enter.native="handleQuery"
           />
-        </el-select>
-      </el-form-item>
-      <el-form-item>
-        <el-button
-          class="filter-item"
-          type="primary"
-          icon="el-icon-search"
-          size="mini"
-          @click="handleQuery"
-        >
-          搜索
-        </el-button>
-        <el-button
-          class="filter-item"
-          type="primary"
-          icon="el-icon-plus"
-          size="mini"
-          @click="handleAdd"
-        >
-          新增
-        </el-button>
-      </el-form-item>
-    </el-form>
+        </el-form-item>
+        <el-form-item label="状态" prop="type">
+          <el-select v-model="queryParams.type" placeholder="请选择部门状态" clearable size="small">
+            <el-option
+              v-for="dict in typeOptions"
+              :key="dict.value"
+              :label="dict.desc"
+              :value="dict.value"
+            />
+          </el-select>
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
+          <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
+        </el-form-item>
+      </el-form>
+    </div>
+
+    <el-button-group>
+      <el-row :gutter="10" class="mb8">
+        <el-col :span="1.5">
+          <el-button class="filter-item" type="primary" icon="el-icon-plus" size="mini" @click="handleAdd">新增</el-button>
+
+        </el-col>
+      </el-row>
+    </el-button-group>
+
+    <opts-right @toggle-search="toggleSearch" @refresh="handleQuery" />
 
     <el-table
       v-loading="loading"
@@ -151,14 +148,17 @@
 import { listDept, getDept, delDept, addDept, updateDept, getDeptDictsByEnum } from '@/api/system/dept'
 import Treeselect from '@riophae/vue-treeselect'
 import '@riophae/vue-treeselect/dist/vue-treeselect.css'
+import OptsRight from '@/components/OptsRight'
 
 export default {
   name: 'Dept',
-  components: { Treeselect },
+  components: { Treeselect, OptsRight },
   data() {
     return {
       // 遮罩层
       loading: true,
+      // 搜索是否显示
+      searchToggle: true,
       // 表格树数据
       deptList: [],
       // 部门树选项
@@ -234,6 +234,14 @@ export default {
     // 部门类型字典翻译
     typeFormat(row, column) {
       return this.selectDictLabel(this.typeOptions, row.type)
+    },
+    toggleSearch() {
+      this.searchToggle = !this.searchToggle
+    },
+    // 重置查询
+    resetQuery() {
+      this.resetForm('queryForm')
+      this.handleQuery()
     },
     // 取消按钮
     cancel() {

@@ -38,8 +38,8 @@ module.exports = {
     },
     proxy: {
       [process.env.VUE_APP_BASE_API]: {
-        target: 'http://localhost:8080/',
-        // target: 'http://ebase.nps.dwliu.me',
+        // target: 'http://localhost:8080/',
+        target: 'http://ebase.nps.dwliu.me',
         changeOrigin: true, // 是否跨域
         // secure: true,
         pathRewrite: {
@@ -60,8 +60,11 @@ module.exports = {
     devtool: 'source-map'
   },
   chainWebpack(config) {
-    config.plugins.delete('preload') // TODO: need test
-    config.plugins.delete('prefetch') // TODO: need test
+    // it can improve the speed of the first screen, it is recommended to turn on preload
+    // config.plugins.delete('preload')
+
+    // when there are many pages, it will cause too many meaningless requests
+    config.plugins.delete('prefetch')
 
     // set svg-sprite-loader
     config.module

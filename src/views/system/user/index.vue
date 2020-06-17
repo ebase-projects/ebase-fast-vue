@@ -462,6 +462,7 @@ export default {
     // 重置查询
     resetQuery() {
       this.dateRange = []
+      this.queryParams.deptId = undefined
       this.resetForm('queryForm')
       this.handleQuery()
     },

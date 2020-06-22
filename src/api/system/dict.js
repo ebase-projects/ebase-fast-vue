@@ -1,5 +1,11 @@
 import request from '@/utils/request'
 
+export function changeDictStatus() {
+}
+
+export function changeDictItemStatus() {
+}
+
 export function listDict(query) {
   return request({
     url: '/system/dict/page',

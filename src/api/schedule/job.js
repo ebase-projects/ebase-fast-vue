@@ -7,6 +7,15 @@ export function listSchedule(query) {
     params: query
   })
 }
+
+export function listScheduleLog(query) {
+  return request({
+    url: '/scheduleLog/page',
+    method: 'get',
+    params: query
+  })
+}
+
 export function listAllSchedule(query) {
   return request({
     url: '/schedule',
@@ -46,6 +55,7 @@ export function delSchedule(ids) {
     data: ids
   })
 }
+
 // 暂停
 export function pauseSchedule(ids) {
   return request({
@@ -54,6 +64,7 @@ export function pauseSchedule(ids) {
     data: ids
   })
 }
+
 // 恢复
 export function resumeSchedule(ids) {
   return request({
@@ -62,6 +73,7 @@ export function resumeSchedule(ids) {
     data: ids
   })
 }
+
 // 执行
 export function runSchedule(ids) {
   return request({

@@ -36,127 +36,46 @@
       <el-button-group>
         <el-row :gutter="10" class="mb8">
           <el-col :span="1.5">
-            <el-button
-              type="primary"
-              icon="el-icon-plus"
-              size="mini"
-              @click="handleAdd"
-            >新增
-            </el-button>
+            <el-button type="primary" icon="el-icon-plus" size="mini" @click="handleAdd">新增</el-button>
           </el-col>
           <el-col :span="1.5">
-            <el-button
-              type="success"
-              icon="el-icon-edit"
-              size="mini"
-              :disabled="single"
-              @click="handleUpdate"
-            >修改
-            </el-button>
+            <el-button type="success" icon="el-icon-edit" size="mini" :disabled="single" @click="handleUpdate">修改</el-button>
           </el-col>
           <el-col :span="1.5">
-            <el-button
-              type="danger"
-              icon="el-icon-delete"
-              size="mini"
-              :disabled="multiple"
-              @click="handleDelete"
-            >删除
-            </el-button>
+            <el-button type="danger" icon="el-icon-delete" size="mini" :disabled="multiple" @click="handleDelete">删除</el-button>
           </el-col>
           <el-col :span="1.5">
-            <el-button
-              type="warning"
-              icon="el-icon-download"
-              size="mini"
-              @click="handleExport"
-            >
-              导出
-            </el-button>
+            <el-button type="warning" icon="el-icon-download" size="mini" @click="handleExport">导出</el-button>
           </el-col>
-
           <el-col :span="1.5">
-            <el-button
-              type="info"
-              icon="el-icon-upload2"
-              size="mini"
-              @click="handleImport"
-            >日志列表
-            </el-button>
+            <el-button type="info" icon="el-icon-upload2" size="mini" @click="handleScheduleLog">日志列表</el-button>
           </el-col>
         </el-row>
       </el-button-group>
-
       <opts-right @toggle-search="toggleSearch" @refresh="handleQuery" />
 
     </div>
 
-    <el-table
-      ref="table"
-      v-loading="loading"
-      highlight-current-row
-      style="width: 100%;"
-      :data="scheduleList"
-      @selection-change="handleSelectionChange"
-    >
+    <el-table ref="table" v-loading="loading" highlight-current-row style="width: 100%;" :data="scheduleList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" />
       <el-table-column prop="beanName" label="Bean名称" />
       <el-table-column prop="params" label="参数" />
       <el-table-column prop="cronExpression" label="Cron 表达式" />
       <el-table-column prop="remark" label="备注" />
       <el-table-column prop="status" label="状态" />
-      <el-table-column
-        :show-overflow-tooltip="true"
-        prop="createTime"
-        width="160"
-        label="创建日期"
-      >
+      <el-table-column :show-overflow-tooltip="true" prop="createTime" width="160" label="创建日期">
         <template slot-scope="scope">
           <span>{{ parseTime(scope.row.createTime) }}</span>
         </template>
       </el-table-column>
-      <el-table-column
-        label="操作"
-        align="center"
-        width="300"
-        class-name="small-padding fixed-width"
-      >
+      <el-table-column label="操作" align="center" width="300" class-name="small-padding fixed-width">
         <template slot-scope="scope">
-          <el-button
-            size="mini"
-            type="text"
-            icon="el-icon-edit"
-            @click="handleUpdate(scope.row)"
-          >修改
-          </el-button>
-          <el-button
-            size="mini"
-            type="text"
-            icon="el-icon-delete"
-            @click="handlePause(scope.row)"
-          >暂停
-          </el-button>
-          <el-button
-            size="mini"
-            type="text"
-            icon="el-icon-delete"
-            @click="handleResume(scope.row)"
-          >恢复
-          </el-button>
-          <el-button
-            size="mini"
-            type="text"
-            icon="el-icon-delete"
-            @click="handleRun(scope.row)"
-          >执行
-          </el-button>
-          <el-button
-            size="mini"
-            type="text"
-            icon="el-icon-delete"
-            @click="handleDelete(scope.row)"
-          >删除
-          </el-button>
+          <el-button size="mini" type="text" icon="el-icon-edit" @click="handleUpdate(scope.row)">修改</el-button>
+          <el-button size="mini" type="text" icon="el-icon-delete" @click="handlePause(scope.row)">暂停</el-button>
+          <el-button size="mini" type="text" icon="el-icon-delete" @click="handleResume(scope.row)">恢复</el-button>
+          <el-button size="mini" type="text" icon="el-icon-delete" @click="handleRun(scope.row)">执行</el-button>
+          <el-button size="mini" type="text" icon="el-icon-delete" @click="handleDelete(scope.row)">删除</el-button>
+          <!--          <el-button size="mini" type="text" icon="el-icon-delete" @click="handleScheduleLog(scope.row)">日志</el-button>-->
         </template>
       </el-table-column>
     </el-table>
@@ -214,12 +133,30 @@
     </el-dialog>
 
     <!-- 日志列表 -->
-    <el-dialog :title="title" :visible.sync="logOpen" width="1600px">
+    <el-dialog :title="title" :visible.sync="logOpen" width="1200px">
 
-      <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="submitForm('form')">确 定</el-button>
-        <el-button @click="cancelForm('form')">取 消</el-button>
-      </div>
+      <el-table ref="table" v-loading="loading" highlight-current-row style="width: 100%;" :data="scheduleLogList" @selection-change="handleSelectionChange">
+        <el-table-column type="selection" />
+        <el-table-column prop="beanName" label="Bean名称" />
+        <el-table-column prop="params" label="参数" />
+        <el-table-column prop="status" label="任务状态" />
+        <el-table-column prop="error" label="失败信息" />
+        <el-table-column prop="times" label="耗时(单位：毫秒)" />
+        <el-table-column :show-overflow-tooltip="true" prop="createTime" width="160" label="创建日期">
+          <template slot-scope="scope">
+            <span>{{ parseTime(scope.row.createTime) }}</span>
+          </template>
+        </el-table-column>
+      </el-table>
+      <!--分页-->
+      <pagination
+        v-show="total>0"
+        :total="total"
+        :page.sync="queryParams.page"
+        :limit.sync="queryParams.limit"
+        @pagination="getList"
+      />
+
     </el-dialog>
   </div>
 </template>
@@ -227,7 +164,7 @@
 <script>
 import {
   listSchedule, addSchedule, delSchedule, pauseSchedule, resumeSchedule, runSchedule, updateSchedule, getSchedule,
-  getScheduleDictsByEnum, changeScheduleStatus
+  getScheduleDictsByEnum, changeScheduleStatus, listScheduleLog
 } from '@/api/schedule/job'
 import Pagination from '@/components/Pagination'
 import OptsRight from '@/components/OptsRight'
@@ -250,11 +187,10 @@ export default {
       multiple: true,
       // 总条数
       total: 0,
-      // 角色表格数据
+      // 任务表格数据
       scheduleList: [],
-      // 菜单列表
-      menuList: [],
-      menuIds: [],
+      // 任务日志表格数据
+      scheduleLogList: [],
       // 状态数据字典
       statusOptions: [],
       // 部门数据格式字段转换
@@ -297,6 +233,27 @@ export default {
       listSchedule(this.addDateRange(this.queryParams, this.dateRange)).then(response => {
         if (response.code === 0) {
           this.scheduleList = response.data.list
+          // console.log(this.scheduleList)
+          this.total = Number(response.data.total)
+          this.loading = false
+        } else {
+          this.scheduleList = []
+          this.total = 0
+          this.loading = false
+          this.$message({ type: 'error', message: response.msg })
+        }
+      }).catch(function() {
+        this.scheduleList = []
+        this.total = 0
+        this.loading = false
+      })
+    },
+    // 获取列表
+    getScheduleLogList() {
+      this.loading = true
+      listScheduleLog(this.addDateRange(this.queryParams, this.dateRange)).then(response => {
+        if (response.code === 0) {
+          this.scheduleLogList = response.data.list
           // console.log(this.scheduleList)
           this.total = Number(response.data.total)
           this.loading = false
@@ -444,6 +401,13 @@ export default {
       }).catch(function() {
         row.status = row.status === 0 ? 1 : 0
       })
+    },
+    // 任务执行记录列表
+    handleScheduleLog() {
+      this.reset()
+      this.logOpen = true
+      this.title = '任务执行记录列表'
+      this.getScheduleLogList()
     },
     // 导入
     handleImport() {

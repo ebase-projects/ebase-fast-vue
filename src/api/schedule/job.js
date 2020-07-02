@@ -38,10 +38,35 @@ export function getSchedule(id) {
   })
 }
 
+// 删除
 export function delSchedule(ids) {
   return request({
-    url: '/schedule/',
+    url: '/schedule',
     method: 'delete',
+    data: ids
+  })
+}
+// 暂停
+export function pauseSchedule(ids) {
+  return request({
+    url: '/schedule/pause',
+    method: 'put',
+    data: ids
+  })
+}
+// 恢复
+export function resumeSchedule(ids) {
+  return request({
+    url: '/schedule/resume',
+    method: 'put',
+    data: ids
+  })
+}
+// 执行
+export function runSchedule(ids) {
+  return request({
+    url: '/schedule/run',
+    method: 'put',
     data: ids
   })
 }

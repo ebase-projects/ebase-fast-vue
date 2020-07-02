@@ -104,23 +104,11 @@
       <el-table-column prop="params" label="参数" />
       <el-table-column prop="cronExpression" label="Cron 表达式" />
       <el-table-column prop="remark" label="备注" />
-      <el-table-column label="状态" align="center">
-        <template slot-scope="scope">
-          <el-switch
-            v-model="scope.row.status"
-            active-color="#13ce66"
-            inactive-color="#ff4949"
-            :active-value="1"
-            :inactive-value="0"
-            @change="handleStatusChange(scope.row)"
-          />
-        </template>
-      </el-table-column>
-
+      <el-table-column prop="status" label="状态" />
       <el-table-column
         :show-overflow-tooltip="true"
-        width="160"
         prop="createTime"
+        width="160"
         label="创建日期"
       >
         <template slot-scope="scope">
@@ -130,7 +118,7 @@
       <el-table-column
         label="操作"
         align="center"
-        width="120"
+        width="300"
         class-name="small-padding fixed-width"
       >
         <template slot-scope="scope">
@@ -140,6 +128,27 @@
             icon="el-icon-edit"
             @click="handleUpdate(scope.row)"
           >修改
+          </el-button>
+          <el-button
+            size="mini"
+            type="text"
+            icon="el-icon-delete"
+            @click="handlePause(scope.row)"
+          >暂停
+          </el-button>
+          <el-button
+            size="mini"
+            type="text"
+            icon="el-icon-delete"
+            @click="handleResume(scope.row)"
+          >恢复
+          </el-button>
+          <el-button
+            size="mini"
+            type="text"
+            icon="el-icon-delete"
+            @click="handleRun(scope.row)"
+          >执行
           </el-button>
           <el-button
             size="mini"
@@ -203,12 +212,22 @@
         <el-button @click="cancelForm('form')">取 消</el-button>
       </div>
     </el-dialog>
+
+    <!-- 日志列表 -->
+    <el-dialog :title="title" :visible.sync="logOpen" width="1600px">
+
+      <div slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="submitForm('form')">确 定</el-button>
+        <el-button @click="cancelForm('form')">取 消</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
 <script>
 import {
-  listSchedule, addSchedule, delSchedule, updateSchedule, getSchedule, getScheduleDictsByEnum, changeScheduleStatus
+  listSchedule, addSchedule, delSchedule, pauseSchedule, resumeSchedule, runSchedule, updateSchedule, getSchedule,
+  getScheduleDictsByEnum, changeScheduleStatus
 } from '@/api/schedule/job'
 import Pagination from '@/components/Pagination'
 import OptsRight from '@/components/OptsRight'
@@ -247,6 +266,7 @@ export default {
       title: '',
       // 是否显示弹出层
       open: false,
+      logOpen: false,
       // 日期范围
       dateRange: [],
       queryParams: {
@@ -331,6 +351,63 @@ export default {
         this.form = response.data
         this.open = true
         this.title = '修改任务'
+      })
+    },
+    // 暂停
+    handlePause(row) {
+      let scheduleIds = row.id || this.ids
+      if (!Array.isArray(scheduleIds)) {
+        scheduleIds = [scheduleIds]
+      }
+
+      this.$confirm('是否确认暂停任务编号为"' + scheduleIds + '"的数据项?', '警告', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(function() {
+        return pauseSchedule(scheduleIds)
+      }).then(() => {
+        this.getList()
+        this.$message({ type: 'success', message: '操作成功' })
+      }).catch(function() {
+      })
+    },
+    // 恢复
+    handleResume(row) {
+      let scheduleIds = row.id || this.ids
+      if (!Array.isArray(scheduleIds)) {
+        scheduleIds = [scheduleIds]
+      }
+
+      this.$confirm('是否确认恢复任务编号为"' + scheduleIds + '"的数据项?', '警告', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(function() {
+        return resumeSchedule(scheduleIds)
+      }).then(() => {
+        this.getList()
+        this.$message({ type: 'success', message: '操作成功' })
+      }).catch(function() {
+      })
+    },
+    // 执行
+    handleRun(row) {
+      let scheduleIds = row.id || this.ids
+      if (!Array.isArray(scheduleIds)) {
+        scheduleIds = [scheduleIds]
+      }
+
+      this.$confirm('是否确认立即执行任务编号为"' + scheduleIds + '"的数据项?', '警告', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(function() {
+        return runSchedule(scheduleIds)
+      }).then(() => {
+        this.getList()
+        this.$message({ type: 'success', message: '操作成功' })
+      }).catch(function() {
       })
     },
     // 删除

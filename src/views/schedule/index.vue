@@ -99,7 +99,7 @@
       :data="scheduleList"
       @selection-change="handleSelectionChange"
     >
-      <el-table-column type="selection" width="55" />
+      <el-table-column type="selection" />
       <el-table-column prop="beanName" label="Bean名称" />
       <el-table-column prop="params" label="参数" />
       <el-table-column prop="cronExpression" label="Cron 表达式" />

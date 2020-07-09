@@ -65,4 +65,7 @@ Modern browsers and Internet Explorer 10+.
 
 Copyright (c) 2020-present ebase
 
+## 开源支持
+<a href="https://www.jetbrains.com/?from=ebase-projects"><img src="http://blogimage.dwliu.me/image/20200709103201-2ZxFX7.jpg" width="100" heith="100"/></a>
+
 

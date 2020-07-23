@@ -70,12 +70,12 @@
       :tree-props="{children: 'children', hasChildren: 'hasChildren'}"
     >
       <el-table-column prop="name" label="名称" width="180" />
-      <el-table-column label="图标" align="center">
+      <el-table-column label="图标" align="center" width="50">
         <template slot-scope="scope">
           <svg-icon :icon-class="scope.row.icon" />
         </template>
       </el-table-column>
-      <el-table-column label="类型" align="center">
+      <el-table-column label="类型" align="center" width="80">
         <template slot-scope="scope">
           <el-tag v-if="scope.row.type === 0" size="small">目录</el-tag>
           <el-tag v-else-if="scope.row.type === 1" size="small" type="success">菜单</el-tag>
@@ -86,9 +86,9 @@
       <!--      <el-table-column prop="url" label="菜单URL" width="150" />-->
       <el-table-column prop="component" label="菜单组件" />
       <el-table-column prop="permissions" label="授权标识" />
-      <el-table-column prop="sort" label="排序" />
-      <el-table-column prop="status" label="状态" />
-      <el-table-column label="创建时间" align="center" prop="createTime" width="200" />
+      <el-table-column prop="sort" label="排序" width="60" />
+      <el-table-column prop="status" label="状态" width="60" />
+      <el-table-column label="创建时间" align="center" prop="createTime" width="160" />
       <!--        <template slot-scope="scope">-->
       <!--          <span>{{ parseTime(scope.row.createTime) }}</span>-->
       <!--        </template>-->
@@ -197,7 +197,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item v-if="form.type != 0" label="权限标识">
+            <el-form-item v-if="form.type == 2" label="权限标识">
               <el-input v-model="form.permissions" placeholder="请输入权限标识" maxlength="50" />
             </el-form-item>
           </el-col>

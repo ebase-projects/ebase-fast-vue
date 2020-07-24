@@ -60,7 +60,7 @@
       <el-table-column prop="requestTime" label="请求时长(毫秒)" />
       <el-table-column prop="userAgent" label="用户代理" />
       <el-table-column prop="ip" label="操作IP" />
-      <el-table-column prop="status" label="状态" />
+      <!--      <el-table-column prop="status" label="状态" />-->
       <el-table-column :show-overflow-tooltip="true" prop="createTime" width="160" label="创建日期">
         <template slot-scope="scope">
           <span>{{ parseTime(scope.row.createTime) }}</span>

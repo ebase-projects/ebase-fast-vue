@@ -112,6 +112,8 @@ export default {
       // 日期范围
       dateRange: [],
       queryParams: {
+        page: 1,
+        limit: 10,
         createByName: undefined
       },
       form: {}

@@ -163,6 +163,8 @@ export default {
       // 是否显示弹出层
       open: false,
       queryParams: {
+        page: 1,
+        limit: 10,
         keyword: undefined
       },
       form: {},

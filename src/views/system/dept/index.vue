@@ -31,7 +31,8 @@
     <el-button-group>
       <el-row :gutter="10" class="mb8">
         <el-col :span="1.5">
-          <el-button class="filter-item" type="primary" icon="el-icon-plus" size="mini" @click="handleAdd">新增</el-button>
+          <el-button class="filter-item" type="primary" icon="el-icon-plus" size="mini" @click="handleAdd">新增
+          </el-button>
 
         </el-col>
       </el-row>
@@ -271,8 +272,10 @@ export default {
     handleAdd(row) {
       this.reset()
       this.getTreeselect()
-      if (row !== undefined) {
+      if (row.id !== undefined) {
         this.form.pid = row.id
+      } else {
+        this.form.pid = 0
       }
       this.open = true
       this.title = '添加部门'
@@ -303,8 +306,6 @@ export default {
               }
             })
           } else {
-            // 指定根 pid=0
-            this.form.pid = 0
             addDept(this.form).then(response => {
               if (response.code === 0) {
                 this.$message({ type: 'success', message: '操作成功' })

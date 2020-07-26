@@ -66,7 +66,7 @@
       v-loading="loading"
       :data="menuList"
       row-key="id"
-      default-expand-all
+      :default-expand-all="false"
       :tree-props="{children: 'children', hasChildren: 'hasChildren'}"
     >
       <el-table-column prop="name" label="名称" width="180" />

@@ -24,8 +24,12 @@
   }
 
   .el-form-item {
-    margin-bottom: 5px;
+    margin-bottom: 4px;
+    .el-button--mini {
+      margin-right: 8px;
+    }
   }
+
 }
 .el-avatar {
   display: inline-block;

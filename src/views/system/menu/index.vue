@@ -1,47 +1,51 @@
 <template>
   <div class="app-container">
-    <div v-if="searchToggle">
-      <!--用户数据-->
-      <el-form ref="queryForm" :model="queryParams" :inline="true">
-        <el-form-item label="菜单" prop="keyword">
-          <el-input
-            v-model="queryParams.keyword"
-            placeholder="请输入菜单"
-            clearable
-            size="small"
-            @keyup.enter.native="handleQuery"
-          />
-        </el-form-item>
-        <el-form-item label="创建时间">
-          <el-date-picker
-            v-model="dateRange"
-            size="small"
-            style="width: 240px"
-            value-format="yyyy-MM-dd"
-            type="daterange"
-            range-separator="-"
-            start-placeholder="开始日期"
-            end-placeholder="结束日期"
-          />
-        </el-form-item>
-        <el-form-item>
-          <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
-          <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
-        </el-form-item>
-      </el-form>
-    </div>
+    <div class="head-container">
+      <div v-if="searchToggle">
+        <!--用户数据-->
+        <el-form ref="queryForm" :model="queryParams" :inline="true">
+          <el-form-item label="菜单" prop="keyword">
+            <el-input
+              v-model="queryParams.keyword"
+              placeholder="请输入菜单"
+              clearable
+              size="small"
+              @keyup.enter.native="handleQuery"
+            />
+          </el-form-item>
+          <el-form-item label="创建时间">
+            <el-date-picker
+              v-model="dateRange"
+              size="small"
+              style="width: 240px"
+              value-format="yyyy-MM-dd"
+              type="daterange"
+              range-separator="-"
+              start-placeholder="开始日期"
+              end-placeholder="结束日期"
+            />
+          </el-form-item>
+          <el-form-item>
+            <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
+            <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
+          </el-form-item>
+        </el-form>
+      </div>
 
-    <el-row :gutter="10" class="mb8">
-      <el-col :span="1.5">
-        <el-button size="mini" plain type="info" icon="el-icon-search" @click="toggleSearch()">搜索</el-button>
-      </el-col>
-      <el-col :span="1.5">
-        <el-button type="primary" icon="el-icon-plus" size="mini" @click="handleAdd">新增</el-button>
-      </el-col>
-      <el-col :span="1.5">
-        <el-button type="warning" icon="el-icon-download" size="mini" @click="handleExport">导出</el-button>
-      </el-col>
-    </el-row>
+      <el-button-group>
+        <el-row :gutter="10" class="mb8">
+          <el-col :span="1.5">
+            <el-button type="primary" icon="el-icon-plus" size="mini" @click="handleAdd">新增</el-button>
+          </el-col>
+          <el-col :span="1.5">
+            <el-button type="warning" icon="el-icon-download" size="mini" @click="handleExport">导出</el-button>
+          </el-col>
+        </el-row>
+      </el-button-group>
+
+      <opts-right @toggle-search="toggleSearch" @refresh="handleQuery" />
+
+    </div>
 
     <el-table
       v-loading="loading"
@@ -210,10 +214,11 @@ import { getMenuTree, addMenu, delMenu, updateMenu, getMenu } from '@/api/system
 import Treeselect from '@riophae/vue-treeselect'
 import IconSelect from '@/components/IconSelect'
 import '@riophae/vue-treeselect/dist/vue-treeselect.css'
+import OptsRight from '@/components/OptsRight'
 
 export default {
   name: 'Menu',
-  components: { Treeselect, IconSelect },
+  components: { Treeselect, IconSelect, OptsRight },
   data() {
     return {
       // 遮罩层

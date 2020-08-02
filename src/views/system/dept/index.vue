@@ -1,45 +1,44 @@
 <template>
   <div class="app-container">
-    <div v-if="searchToggle">
-      <el-form ref="queryForm" :model="queryParams" :inline="true">
-        <el-form-item label="部门名称" prop="name">
-          <el-input
-            v-model="queryParams.name"
-            placeholder="请输入部门名称"
-            clearable
-            size="small"
-            @keyup.enter.native="handleQuery"
-          />
-        </el-form-item>
-        <el-form-item label="状态" prop="type">
-          <el-select v-model="queryParams.type" placeholder="请选择部门状态" clearable size="small">
-            <el-option
-              v-for="dict in typeOptions"
-              :key="dict.value"
-              :label="dict.desc"
-              :value="dict.value"
+    <div class="head-container">
+      <div v-if="searchToggle">
+        <el-form ref="queryForm" :model="queryParams" :inline="true">
+          <el-form-item label="部门名称" prop="name">
+            <el-input
+              v-model="queryParams.name"
+              placeholder="请输入部门名称"
+              clearable
+              size="small"
+              @keyup.enter.native="handleQuery"
             />
-          </el-select>
-        </el-form-item>
-        <el-form-item>
-          <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
-          <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
-        </el-form-item>
-      </el-form>
+          </el-form-item>
+          <el-form-item label="状态" prop="type">
+            <el-select v-model="queryParams.type" placeholder="请选择部门状态" clearable size="small">
+              <el-option
+                v-for="dict in typeOptions"
+                :key="dict.value"
+                :label="dict.desc"
+                :value="dict.value"
+              />
+            </el-select>
+          </el-form-item>
+          <el-form-item>
+            <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
+            <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
+          </el-form-item>
+        </el-form>
+      </div>
+      <el-button-group>
+        <el-row :gutter="10" class="mb8">
+          <el-col :span="1.5">
+            <el-button class="filter-item" type="primary" icon="el-icon-plus" size="mini" @click="handleAdd">新增
+            </el-button>
+          </el-col>
+        </el-row>
+      </el-button-group>
+
+      <opts-right @toggle-search="toggleSearch" @refresh="handleQuery" />
     </div>
-
-    <el-button-group>
-      <el-row :gutter="10" class="mb8">
-        <el-col :span="1.5">
-          <el-button class="filter-item" type="primary" icon="el-icon-plus" size="mini" @click="handleAdd">新增
-          </el-button>
-
-        </el-col>
-      </el-row>
-    </el-button-group>
-
-    <opts-right @toggle-search="toggleSearch" @refresh="handleQuery" />
-
     <el-table
       v-loading="loading"
       :data="deptList"

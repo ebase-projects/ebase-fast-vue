@@ -5,15 +5,17 @@
     transition: margin-left .28s;
     margin-left: $sideBarWidth;
     position: relative;
+    background-color: #f5f7f9;
   }
 
   .sidebar-container {
     transition: width 0.28s;
     width: $sideBarWidth !important;
     background-color: $menuBg;
+    box-shadow: 2px 0 8px 0 rgba(29,35,41,.05);
     height: 100%;
     position: fixed;
-    font-size: 0px;
+    font-size: 0;
     top: 0;
     bottom: 0;
     left: 0;
@@ -30,7 +32,7 @@
     }
 
     .el-scrollbar__bar.is-vertical {
-      right: 0px;
+      right: 0;
     }
 
     .el-scrollbar {
@@ -159,7 +161,7 @@
   // mobile responsive
   .mobile {
     .main-container {
-      margin-left: 0px;
+      margin-left: 0;
     }
 
     .sidebar-container {

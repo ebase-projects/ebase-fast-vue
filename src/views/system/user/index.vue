@@ -28,115 +28,118 @@
       </el-col>
 
       <el-col :span="20" :xs="24">
-        <div v-if="searchToggle">
-          <!--用户数据-->
-          <el-form ref="queryForm" :model="queryParams" :inline="true">
-            <el-form-item label="用户名" prop="username">
-              <el-input
-                v-model="queryParams.username"
-                placeholder="请输入用户名"
-                clearable
-                size="small"
-                @keyup.enter.native="handleQuery"
-              />
-            </el-form-item>
-            <el-form-item label="手机号码" prop="mobile">
-              <el-input
-                v-model="queryParams.mobile"
-                placeholder="请输入手机号码"
-                clearable
-                size="small"
-                @keyup.enter.native="handleQuery"
-              />
-            </el-form-item>
-            <!--          <el-form-item label="状态" prop="status">-->
-            <!--            <el-select-->
-            <!--              v-model="queryParams.status"-->
-            <!--              placeholder="用户状态"-->
-            <!--              clearable-->
-            <!--              size="small"-->
-            <!--              style="width: 240px"-->
-            <!--            >-->
-            <!--              <el-option-->
-            <!--                v-for="dict in statusOptions"-->
-            <!--                :key="dict.dictValue"-->
-            <!--                :label="dict.dictLabel"-->
-            <!--                :value="dict.dictValue"-->
-            <!--              />-->
-            <!--            </el-select>-->
-            <!--          </el-form-item>-->
-            <el-form-item label="创建时间">
-              <el-date-picker
-                v-model="dateRange"
-                size="small"
-                style="width: 240px"
-                value-format="yyyy-MM-dd"
-                type="daterange"
-                range-separator="-"
-                start-placeholder="开始日期"
-                end-placeholder="结束日期"
-              />
-            </el-form-item>
-            <el-form-item>
-              <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
-              <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
-            </el-form-item>
-          </el-form>
+        <div class="head-container">
+          <div v-if="searchToggle">
+            <!--用户数据-->
+            <el-form ref="queryForm" :model="queryParams" :inline="true">
+              <el-form-item label="用户名" prop="username">
+                <el-input
+                  v-model="queryParams.username"
+                  placeholder="请输入用户名"
+                  clearable
+                  size="small"
+                  @keyup.enter.native="handleQuery"
+                />
+              </el-form-item>
+              <el-form-item label="手机号码" prop="mobile">
+                <el-input
+                  v-model="queryParams.mobile"
+                  placeholder="请输入手机号码"
+                  clearable
+                  size="small"
+                  @keyup.enter.native="handleQuery"
+                />
+              </el-form-item>
+              <!--          <el-form-item label="状态" prop="status">-->
+              <!--            <el-select-->
+              <!--              v-model="queryParams.status"-->
+              <!--              placeholder="用户状态"-->
+              <!--              clearable-->
+              <!--              size="small"-->
+              <!--              style="width: 240px"-->
+              <!--            >-->
+              <!--              <el-option-->
+              <!--                v-for="dict in statusOptions"-->
+              <!--                :key="dict.dictValue"-->
+              <!--                :label="dict.dictLabel"-->
+              <!--                :value="dict.dictValue"-->
+              <!--              />-->
+              <!--            </el-select>-->
+              <!--          </el-form-item>-->
+              <el-form-item label="创建时间">
+                <el-date-picker
+                  v-model="dateRange"
+                  size="small"
+                  style="width: 240px"
+                  value-format="yyyy-MM-dd"
+                  type="daterange"
+                  range-separator="-"
+                  start-placeholder="开始日期"
+                  end-placeholder="结束日期"
+                />
+              </el-form-item>
+              <el-form-item>
+                <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
+                <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
+              </el-form-item>
+            </el-form>
+          </div>
+
+          <el-button-group>
+            <el-row :gutter="10" class="mb8">
+              <el-col :span="1.5">
+                <el-button
+                  type="primary"
+                  icon="el-icon-plus"
+                  size="mini"
+                  @click="handleAdd"
+                >新增
+                </el-button>
+              </el-col>
+              <el-col :span="1.5">
+                <el-button
+                  type="success"
+                  icon="el-icon-edit"
+                  size="mini"
+                  :disabled="single"
+                  @click="handleUpdate"
+                >修改
+                </el-button>
+              </el-col>
+              <el-col :span="1.5">
+                <el-button
+                  type="danger"
+                  icon="el-icon-delete"
+                  size="mini"
+                  :disabled="multiple"
+                  @click="handleDelete"
+                >删除
+                </el-button>
+              </el-col>
+              <el-col :span="1.5">
+                <el-button
+                  type="info"
+                  icon="el-icon-upload2"
+                  size="mini"
+                  @click="handleImport"
+                >导入
+                </el-button>
+              </el-col>
+              <el-col :span="1.5">
+                <el-button
+                  type="warning"
+                  icon="el-icon-download"
+                  size="mini"
+                  @click="handleExport"
+                >导出
+                </el-button>
+              </el-col>
+            </el-row>
+          </el-button-group>
+
+          <opts-right @toggle-search="toggleSearch" @refresh="handleQuery" />
+
         </div>
-
-        <el-button-group>
-          <el-row :gutter="10" class="mb8">
-            <el-col :span="1.5">
-              <el-button
-                type="primary"
-                icon="el-icon-plus"
-                size="mini"
-                @click="handleAdd"
-              >新增
-              </el-button>
-            </el-col>
-            <el-col :span="1.5">
-              <el-button
-                type="success"
-                icon="el-icon-edit"
-                size="mini"
-                :disabled="single"
-                @click="handleUpdate"
-              >修改
-              </el-button>
-            </el-col>
-            <el-col :span="1.5">
-              <el-button
-                type="danger"
-                icon="el-icon-delete"
-                size="mini"
-                :disabled="multiple"
-                @click="handleDelete"
-              >删除
-              </el-button>
-            </el-col>
-            <el-col :span="1.5">
-              <el-button
-                type="info"
-                icon="el-icon-upload2"
-                size="mini"
-                @click="handleImport"
-              >导入
-              </el-button>
-            </el-col>
-            <el-col :span="1.5">
-              <el-button
-                type="warning"
-                icon="el-icon-download"
-                size="mini"
-                @click="handleExport"
-              >导出
-              </el-button>
-            </el-col>
-          </el-row>
-        </el-button-group>
-
-        <opts-right @toggle-search="toggleSearch" @refresh="handleQuery" />
 
         <el-table
           v-loading="loading"
@@ -293,8 +296,10 @@
 </template>
 
 <script>
-import { listUser, addUser, delUser, updateUser, getUser,
-  getUserDictsByEnum, changeUserStatus } from '@/api/system/user'
+import {
+  listUser, addUser, delUser, updateUser, getUser,
+  getUserDictsByEnum, changeUserStatus
+} from '@/api/system/user'
 import { listAllRole } from '@/api/system/role'
 import { listDept } from '@/api/system/dept'
 import Treeselect from '@riophae/vue-treeselect'
@@ -518,7 +523,8 @@ export default {
       }).then(() => {
         this.getList()
         this.$message({ type: 'success', message: '操作成功' })
-      }).catch(function() {})
+      }).catch(function() {
+      })
     },
     // 用户状态修改
     handleStatusChange(row) {

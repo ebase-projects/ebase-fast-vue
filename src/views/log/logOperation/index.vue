@@ -56,9 +56,9 @@
       <el-table-column prop="operation" label="用户操作" />
       <el-table-column prop="requestUri" label="请求URI" />
       <el-table-column prop="requestMethod" label="请求方式" />
-      <el-table-column prop="requestParams" label="请求参数" />
+      <!--      <el-table-column prop="requestParams" label="请求参数" />-->
       <el-table-column prop="requestTime" label="请求时长(毫秒)" />
-      <el-table-column prop="userAgent" label="用户代理" />
+      <!--      <el-table-column prop="userAgent" label="用户代理" />-->
       <el-table-column prop="ip" label="操作IP" />
       <!--      <el-table-column prop="status" label="状态" />-->
       <el-table-column :show-overflow-tooltip="true" prop="createTime" width="160" label="创建日期">
@@ -66,6 +66,21 @@
           <span>{{ parseTime(scope.row.createTime) }}</span>
         </template>
       </el-table-column>
+      <el-table-column type="expand">
+        <template slot-scope="props">
+          <el-form label-position="left" inline class="demo-table-expand">
+            <el-form-item label="请求参数">
+              <span>{{ props.row.requestParams }}</span>
+            </el-form-item>
+          </el-form>
+          <el-form label-position="left" inline class="demo-table-expand">
+            <el-form-item label="用户代理">
+              <span>{{ props.row.userAgent }}</span>
+            </el-form-item>
+          </el-form>
+        </template>
+      </el-table-column>
+
     </el-table>
     <!--分页-->
     <pagination

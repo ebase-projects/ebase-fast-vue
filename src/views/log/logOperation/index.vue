@@ -53,6 +53,7 @@
       @selection-change="handleSelectionChange"
     >
       <el-table-column type="selection" />
+      <el-table-column type="index" label="序号" align="center" />
       <el-table-column prop="operation" label="用户操作" />
       <el-table-column prop="requestUri" label="请求URI" />
       <el-table-column prop="requestMethod" label="请求方式" />

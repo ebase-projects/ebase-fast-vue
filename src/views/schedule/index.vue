@@ -60,6 +60,7 @@
 
     <el-table ref="table" v-loading="loading" highlight-current-row style="width: 100%;" :data="scheduleList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" />
+      <el-table-column type="index" label="序号" align="center" />
       <el-table-column prop="beanName" label="Bean名称" />
       <el-table-column prop="params" label="参数" />
       <el-table-column prop="cronExpression" label="Cron 表达式" />

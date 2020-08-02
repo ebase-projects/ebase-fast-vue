@@ -118,6 +118,7 @@
           @selection-change="handleSelectionChange"
         >
           <el-table-column type="selection" align="center" />
+          <el-table-column type="index" label="序号" align="center" />
           <!-- <el-table-column label="用户编号" align="center" prop="id" />-->
           <el-table-column label="用户名" align="center" prop="username" :show-overflow-tooltip="true" />
           <el-table-column label="用户昵称" align="center" prop="realName" :show-overflow-tooltip="true" />

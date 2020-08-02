@@ -32,6 +32,7 @@
           highlight-current-row
           :data="dictItemList"
         >
+          <el-table-column type="index" label="序号" align="center" />
           <el-table-column label="字典类型" align="center" prop="dictType" :show-overflow-tooltip="true" />
           <el-table-column label="字典标签" align="center" prop="label" :show-overflow-tooltip="true" />
           <el-table-column label="字典值" align="center" prop="value" :show-overflow-tooltip="true" />

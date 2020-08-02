@@ -80,6 +80,7 @@
             @current-change="handleCurrentChange"
           >
             <el-table-column type="selection" width="55" />
+            <el-table-column type="index" label="序号" align="center" />
             <el-table-column prop="name" label="角色名" />
             <el-table-column prop="alias" label="角色别名" />
             <el-table-column prop="remark" label="描述" />

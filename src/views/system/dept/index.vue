@@ -48,6 +48,7 @@
       default-expand-all
       :tree-props="{children: 'children', hasChildren: 'hasChildren'}"
     >
+      <el-table-column type="index" label="序号" align="center" />
       <el-table-column prop="name" label="部门名称" width="200" />
       <el-table-column prop="type" label="类型" :formatter="typeFormat" width="200" />
       <el-table-column prop="sort" label="排序" width="200" />

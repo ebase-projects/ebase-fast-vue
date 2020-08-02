@@ -28,13 +28,13 @@
           <el-form-item>
             <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
           </el-form-item>
+
         </el-form>
       </div>
       <el-button-group>
         <el-row :gutter="10" class="mb8">
           <el-col :span="1.5">
-            <el-button class="filter-item" type="primary" icon="el-icon-plus" size="mini" @click="handleAdd">新增
-            </el-button>
+            <el-button type="primary" icon="el-icon-plus" size="mini" @click="handleAdd">新增</el-button>
           </el-col>
         </el-row>
       </el-button-group>

@@ -53,14 +53,25 @@
       @selection-change="handleSelectionChange"
     >
       <el-table-column type="selection" />
+      <el-table-column type="index" label="序号" align="center" />
       <el-table-column prop="operation" label="用户操作" />
-      <el-table-column prop="creatorName" label="用户名" />
+      <el-table-column prop="createByName" label="用户名" />
       <el-table-column prop="ip" label="操作IP" />
-      <el-table-column prop="userAgent" label="用户代理" />
+      <!--      <el-table-column prop="userAgent" label="用户代理" />-->
       <el-table-column prop="status" label="状态" />
       <el-table-column :show-overflow-tooltip="true" prop="createTime" width="160" label="创建日期">
         <template slot-scope="scope">
           <span>{{ parseTime(scope.row.createTime) }}</span>
+        </template>
+      </el-table-column>
+
+      <el-table-column type="expand">
+        <template slot-scope="props">
+          <el-form label-position="left" inline class="demo-table-expand">
+            <el-form-item label="用户代理">
+              <span>{{ props.row.userAgent }}</span>
+            </el-form-item>
+          </el-form>
         </template>
       </el-table-column>
     </el-table>

@@ -50,7 +50,7 @@
       <el-table-column prop="name" label="部门名称" width="200" />
       <el-table-column prop="type" label="类型" :formatter="typeFormat" width="200" />
       <el-table-column prop="sort" label="排序" width="200" />
-      <el-table-column prop="status" label="状态" width="100" />
+      <el-table-column prop="status" label="状态" :formatter="statusFormat" width="100" />
       <el-table-column label="创建时间" align="center" prop="createTime" width="200" />
       <!--        <template slot-scope="scope">-->
       <!--          <span>{{ parseTime(scope.row.createTime) }}</span>-->
@@ -59,27 +59,9 @@
 
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
-          <el-button
-            size="mini"
-            type="text"
-            icon="el-icon-edit"
-            @click="handleUpdate(scope.row)"
-          >修改
-          </el-button>
-          <el-button
-            size="mini"
-            type="text"
-            icon="el-icon-plus"
-            @click="handleAdd(scope.row)"
-          >新增
-          </el-button>
-          <el-button
-            size="mini"
-            type="text"
-            icon="el-icon-delete"
-            @click="handleDelete(scope.row)"
-          >删除
-          </el-button>
+          <el-button size="mini" type="text" icon="el-icon-edit" @click="handleUpdate(scope.row)">修改</el-button>
+          <el-button size="mini" type="text" icon="el-icon-plus" @click="handleAdd(scope.row)">新增</el-button>
+          <el-button size="mini" type="text" icon="el-icon-delete" @click="handleDelete(scope.row)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -93,16 +75,12 @@
               <treeselect v-model="form.pid" :options="deptOptions" :normalizer="normalizer" placeholder="选择上级部门" />
             </el-form-item>
           </el-col>
+
           <el-col :span="12">
             <el-form-item label="部门名称" prop="name">
               <el-input v-model="form.name" placeholder="请输入部门名称" />
             </el-form-item>
           </el-col>
-          <!--          <el-col :span="12">-->
-          <!--            <el-form-item label="部门类型" prop="type">-->
-          <!--              <el-input v-model="form.type" placeholder="请输入部门类型" />-->
-          <!--            </el-form-item>-->
-          <!--          </el-col>-->
 
           <el-col :span="24">
             <el-form-item label="部门类型" prop="type">
@@ -117,24 +95,27 @@
               </el-radio-group>
             </el-form-item>
           </el-col>
-          <el-col :span="12">
+
+          <el-col :span="24">
+            <el-form-item label="部门状态">
+              <el-radio-group v-model="form.status">
+                <el-radio
+                  v-for="dict in statusOptions"
+                  :key="dict.value"
+                  :label="dict.value"
+                >
+                  {{ dict.desc }}
+                </el-radio>
+              </el-radio-group>
+            </el-form-item>
+          </el-col>
+
+          <el-col :span="24">
             <el-form-item label="显示排序" prop="sort">
               <el-input-number v-model="form.sort" controls-position="right" :min="0" />
             </el-form-item>
           </el-col>
 
-          <!--          <el-col :span="12">-->
-          <!--            <el-form-item label="部门状态">-->
-          <!--              <el-radio-group v-model="form.status">-->
-          <!--                <el-radio-->
-          <!--                  v-for="dict in statusOptions"-->
-          <!--                  :key="dict.dictValue"-->
-          <!--                  :label="dict.dictValue"-->
-          <!--                >{{ dict.dictLabel }}-->
-          <!--                </el-radio>-->
-          <!--              </el-radio-group>-->
-          <!--            </el-form-item>-->
-          <!--          </el-col>-->
         </el-row>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -172,6 +153,7 @@ export default {
       statusOptions: [],
       // 部门类型字典
       typeOptions: [],
+
       // 查询参数
       queryParams: {
         name: undefined,
@@ -200,6 +182,9 @@ export default {
     this.getList()
     getDeptDictsByEnum('deptType').then(response => {
       this.typeOptions = response.data
+    })
+    getDeptDictsByEnum('deptStatus').then(response => {
+      this.statusOptions = response.data
     })
   },
   methods: {

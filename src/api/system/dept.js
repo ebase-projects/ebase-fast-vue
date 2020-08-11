@@ -49,3 +49,14 @@ export function getDeptDictsByEnum(code) {
   })
 }
 
+// 通过枚举获取字典值
+export function getDictsByEnum(code) {
+  return request({
+    url: '/system/dict/getDictItem',
+    method: 'get',
+    params: {
+      dictType: code
+    }
+  })
+}
+

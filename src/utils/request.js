@@ -76,17 +76,18 @@ service.interceptors.response.use(
   error => {
     console.log(error.response) // for debug
 
-    // if (error.response.status === 400) {
-    //   return error.response
-    // } else {
-    Message({
-      message: error.response.data.error_description ||
-        error.response.data.content || error.response.data.msg || '服务器异常，请联系管理员',
-      type: 'error',
-      duration: 5 * 1000
-    })
-    return Promise.reject(error)
-    // }
+    if (error.response.status === 400) {
+      // return error.response
+      window.location.reload()
+    } else {
+      Message({
+        message: error.response.data.error_description ||
+          error.response.data.content || error.response.data.msg || '服务器异常，请联系管理员',
+        type: 'error',
+        duration: 5 * 1000
+      })
+      return Promise.reject(error)
+    }
   }
 )
 

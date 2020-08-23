@@ -12,17 +12,17 @@ const service = axios.create({
   timeout: 5000 // request timeout
 })
 
-const CancelToken = axios.CancelToken
-const pending = []
+// const CancelToken = axios.CancelToken
+// const pending = []
 
 // request interceptor
 service.interceptors.request.use(
   config => {
     // do something before request is sent
-    config.cancelToken = new CancelToken(function executor(c) {
-      // An executor function receives a cancel function as a parameter
-      pending.push(c)
-    })
+    // config.cancelToken = new CancelToken(function executor(c) {
+    //   // An executor function receives a cancel function as a parameter
+    //   pending.push(c)
+    // })
 
     if (store.getters.token) {
       // let each request carry token
@@ -88,10 +88,10 @@ service.interceptors.response.use(
       const msg = error.response.data.msg
       if (msg.indexOf('Invalid access token') !== -1) {
         // 登录超时，接口请求多次，导致弹框会多次出现，方案：只弹一次
-        console.log(pending.length)
-        while (pending.length > 0) {
-          pending.pop()('请求中断')
-        }
+        // console.log(pending.length)
+        // while (pending.length > 0) {
+        //   pending.pop()('请求中断')
+        // }
 
         window.location.reload()
 
@@ -103,10 +103,15 @@ service.interceptors.response.use(
         //   window.location.reload()
         //   // window.location.replace('/')
         // })
+      } else {
+        Message({
+          message: error.response.data.error_description ||
+            error.response.data.content || error.response.data.msg || '服务器异常，请联系管理员',
+          type: 'error',
+          duration: 5 * 1000
+        })
+        return Promise.reject(error)
       }
-      // }
-
-      // return error.response
     } else {
       Message({
         message: error.response.data.error_description ||

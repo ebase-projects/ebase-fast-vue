@@ -1,6 +1,6 @@
 import axios from 'axios'
-// import { MessageBox, Message } from 'element-ui'
 import { Message } from 'element-ui'
+// import { MessageBox, Message } from 'element-ui'
 import store from '@/store'
 import { getToken } from '@/utils/auth'
 // import el from 'element-ui/src/locale/lang/el'
@@ -12,10 +12,17 @@ const service = axios.create({
   timeout: 5000 // request timeout
 })
 
+const CancelToken = axios.CancelToken
+const pending = []
+
 // request interceptor
 service.interceptors.request.use(
   config => {
     // do something before request is sent
+    config.cancelToken = new CancelToken(function executor(c) {
+      // An executor function receives a cancel function as a parameter
+      pending.push(c)
+    })
 
     if (store.getters.token) {
       // let each request carry token
@@ -77,8 +84,29 @@ service.interceptors.response.use(
     console.log(error.response) // for debug
 
     if (error.response.status === 400) {
+      // if (!error.response.data.msg) {
+      const msg = error.response.data.msg
+      if (msg.indexOf('Invalid access token') !== -1) {
+        // 登录超时，接口请求多次，导致弹框会多次出现，方案：只弹一次
+        console.log(pending.length)
+        while (pending.length > 0) {
+          pending.pop()('请求中断')
+        }
+
+        window.location.reload()
+
+        // MessageBox.confirm('登录超时，需要重新登录', '确定重新登录', {
+        //   confirmButtonText: '重新登录',
+        //   cancelButtonText: '取消',
+        //   type: 'warning'
+        // }).then(() => {
+        //   window.location.reload()
+        //   // window.location.replace('/')
+        // })
+      }
+      // }
+
       // return error.response
-      window.location.reload()
     } else {
       Message({
         message: error.response.data.error_description ||

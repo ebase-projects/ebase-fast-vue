@@ -59,6 +59,17 @@ Modern browsers and Internet Explorer 10+.
 | --------- | --------- | --------- | --------- |
 | IE10, IE11, Edge| last 2 versions| last 2 versions| last 2 versions
 
+## 预览图
+
+![jietu-20200828112405](./doc/images/jietu-20200828112405.jpg)
+![jietu-20200828112405](./doc/images/jietu-20200828112425.jpg)
+![jietu-20200828112405](./doc/images/jietu-20200828112445.jpg)
+![jietu-20200828112405](./doc/images/jietu-20200828112454.jpg)
+![jietu-20200828112405](./doc/images/jietu-20200828112501.jpg)
+![jietu-20200828112405](./doc/images/jietu-20200828112517.jpg)
+
+
+
 ## License
 
 [MIT](https://github.com/ebase-projects/ebase-fast-vue/blob/master/README.md) license.

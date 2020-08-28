@@ -91,10 +91,13 @@
                 <el-button type="primary" icon="el-icon-plus" size="mini" @click="handleAdd">新增</el-button>
               </el-col>
               <el-col :span="1.5">
-                <el-button type="success" icon="el-icon-edit" size="mini" :disabled="single" @click="handleUpdate">修改</el-button>
+                <el-button type="success" icon="el-icon-edit" size="mini" :disabled="single" @click="handleUpdate">修改
+                </el-button>
               </el-col>
               <el-col :span="1.5">
-                <el-button type="danger" icon="el-icon-delete" size="mini" :disabled="multiple" @click="handleDelete">删除</el-button>
+                <el-button type="danger" icon="el-icon-delete" size="mini" :disabled="multiple" @click="handleDelete">
+                  删除
+                </el-button>
               </el-col>
               <el-col :span="1.5">
                 <el-button type="info" icon="el-icon-upload2" size="mini" @click="handleImport">导入</el-button>
@@ -364,6 +367,7 @@ export default {
     deptName(val) {
       this.$refs.tree.filter(val)
     }
+
   },
   created() {
     this.getList()
@@ -520,7 +524,7 @@ export default {
     },
     // 导出
     handleExport() {
-
+      this.exportExcelUtil('/system/user/export', this.queryParams, this.dateRange)
     },
     // 多选框选中数据
     handleSelectionChange(selection) {

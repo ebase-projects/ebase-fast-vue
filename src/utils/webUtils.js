@@ -8,9 +8,37 @@ import uuid from '@/utils/uuid'
 export function formatData(arr) {
   const params = new URLSearchParams()
   for (const key in arr) {
-    params.append(key, arr[key])
+    if (!arr[key] && arr[key] !== undefined) {
+      params.append(key, arr[key])
+    }
   }
+  // console.log(params)
   return params
+}
+
+/**
+ * param 将要转为URL参数字符串的对象
+ * key URL参数字符串的前缀
+ * @returns {string}
+ */
+export const parseJson2Url = function(param, key) {
+  let paramStr = ''
+  const mappingOperator = '='
+  const separator = '&'
+  if (param instanceof String || typeof (param) === 'string' ||
+    param instanceof Number || typeof (param) === 'number' ||
+    param instanceof Boolean || typeof (param) === 'boolean') {
+    paramStr += separator + key + mappingOperator + encodeURIComponent(param)
+  } else {
+    for (const i in param) {
+      const value = param[i]
+      if (value !== '' && value !== undefined) {
+        const k = key == null ? i : key + (param instanceof Array ? '[' + i + ']' : '.' + i)
+        paramStr += separator + parseJson2Url(value, k)
+      }
+    }
+  }
+  return paramStr.substr(1)
 }
 
 export function formatDataToJson(arr) {

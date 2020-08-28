@@ -34,7 +34,9 @@ export function parseTime(time, pattern) {
   const time_str = format.replace(/{(y|m|d|h|i|s|a)+}/g, (result, key) => {
     let value = formatObj[key]
     // Note: getDay() returns 0 on Sunday
-    if (key === 'a') { return ['日', '一', '二', '三', '四', '五', '六'][value] }
+    if (key === 'a') {
+      return ['日', '一', '二', '三', '四', '五', '六'][value]
+    }
     if (result.length > 0 && value < 10) {
       value = '0' + value
     }
@@ -56,9 +58,9 @@ export function addDateRange(params, dateRange) {
   const search = params
   search.beginTime = ''
   search.endTime = ''
-  if (dateRange !== null && dateRange !== '') {
-    search.beginTime = this.dateRange[0]
-    search.endTime = this.dateRange[1]
+  if (dateRange !== undefined && dateRange !== null && dateRange !== '') {
+    search.beginTime = dateRange[0]
+    search.endTime = dateRange[1]
   }
   return search
 }
@@ -82,7 +84,9 @@ export function download(fileName) {
 
 // 字符串格式化(%s )
 export function sprintf(str) {
-  var args = arguments; var flag = true; var i = 1
+  var args = arguments
+  var flag = true
+  var i = 1
   str = str.replace(/%s/g, function() {
     var arg = args[i++]
     if (typeof arg === 'undefined') {

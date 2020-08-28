@@ -112,20 +112,8 @@
               class-name="small-padding fixed-width"
             >
               <template slot-scope="scope">
-                <el-button
-                  size="mini"
-                  type="text"
-                  icon="el-icon-edit"
-                  @click="handleUpdate(scope.row)"
-                >修改
-                </el-button>
-                <el-button
-                  size="mini"
-                  type="text"
-                  icon="el-icon-delete"
-                  @click="handleDelete(scope.row)"
-                >删除
-                </el-button>
+                <el-button size="mini" type="text" icon="el-icon-edit" @click="handleUpdate(scope.row)">修改</el-button>
+                <el-button size="mini" type="text" icon="el-icon-delete" @click="handleDelete(scope.row)">删除</el-button>
               </template>
             </el-table-column>
           </el-table>
@@ -212,10 +200,7 @@
 </template>
 
 <script>
-import {
-  listRole, addRole, delRole, updateRole, getRole, getMenuListByRoleId,
-  grantRoleMenu, getRoleDictsByEnum, changeRoleStatus
-} from '@/api/system/role'
+import { listRole, addRole, delRole, updateRole, getRole, getMenuListByRoleId, grantRoleMenu, getRoleDictsByEnum, changeRoleStatus } from '@/api/system/role'
 import { getMenuTree } from '@/api/system/menu'
 import Pagination from '@/components/Pagination'
 import OptsRight from '@/components/OptsRight'
@@ -402,7 +387,7 @@ export default {
     },
     // 导出
     handleExport() {
-
+      this.exportExcelUtil('/system/role/export', this.queryParams, this.dateRange)
     },
     // 角色授权
     handleGrantRoleMenu() {

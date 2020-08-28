@@ -91,13 +91,10 @@
                 <el-button type="primary" icon="el-icon-plus" size="mini" @click="handleAdd">新增</el-button>
               </el-col>
               <el-col :span="1.5">
-                <el-button type="success" icon="el-icon-edit" size="mini" :disabled="single" @click="handleUpdate">修改
-                </el-button>
+                <el-button type="success" icon="el-icon-edit" size="mini" :disabled="single" @click="handleUpdate">修改</el-button>
               </el-col>
               <el-col :span="1.5">
-                <el-button type="danger" icon="el-icon-delete" size="mini" :disabled="multiple" @click="handleDelete">
-                  删除
-                </el-button>
+                <el-button type="danger" icon="el-icon-delete" size="mini" :disabled="multiple" @click="handleDelete">删除</el-button>
               </el-col>
               <el-col :span="1.5">
                 <el-button type="info" icon="el-icon-upload2" size="mini" @click="handleImport">导入</el-button>
@@ -268,10 +265,7 @@
 </template>
 
 <script>
-import {
-  listUser, addUser, delUser, updateUser, getUser,
-  getUserDictsByEnum, changeUserStatus
-} from '@/api/system/user'
+import { listUser, addUser, delUser, updateUser, getUser, getUserDictsByEnum, changeUserStatus } from '@/api/system/user'
 import { listAllRole } from '@/api/system/role'
 import { listDept } from '@/api/system/dept'
 import Treeselect from '@riophae/vue-treeselect'

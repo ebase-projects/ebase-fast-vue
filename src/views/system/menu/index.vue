@@ -81,28 +81,9 @@
 
       <el-table-column label="操作" align="center" width="180" class-name="small-padding fixed-width">
         <template slot-scope="scope">
-          <el-button
-            size="mini"
-            type="text"
-            icon="el-icon-edit"
-            @click="handleUpdate(scope.row)"
-          >修改
-          </el-button>
-          <el-button
-            size="mini"
-            type="text"
-            icon="el-icon-plus"
-            @click="handleAdd(scope.row)"
-          >新增
-          </el-button>
-          <el-button
-            v-if="scope.row.pid != 0"
-            size="mini"
-            type="text"
-            icon="el-icon-delete"
-            @click="handleDelete(scope.row)"
-          >删除
-          </el-button>
+          <el-button size="mini" type="text" icon="el-icon-edit" @click="handleUpdate(scope.row)">修改</el-button>
+          <el-button size="mini" type="text" icon="el-icon-plus" @click="handleAdd(scope.row)">新增</el-button>
+          <el-button v-if="scope.row.pid != 0" size="mini" type="text" icon="el-icon-delete" @click="handleDelete(scope.row)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -209,7 +190,6 @@
 </template>
 
 <script>
-
 import { getMenuTree, addMenu, delMenu, updateMenu, getMenu } from '@/api/system/menu'
 import Treeselect from '@riophae/vue-treeselect'
 import IconSelect from '@/components/IconSelect'
@@ -374,7 +354,7 @@ export default {
     },
     // 导出
     handleExport() {
-
+      this.exportExcelUtil('/system/menu/export', this.queryParams, this.dateRange)
     },
     // 提交表单
     submitForm(formName) {

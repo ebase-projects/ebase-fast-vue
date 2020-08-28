@@ -518,7 +518,7 @@ export default {
     },
     // 导出
     handleExport() {
-      this.exportExcelUtil('/system/user/export', this.queryParams, this.dateRange)
+      this.exportExcelUtil('/system/user/export', '系统用户', this.queryParams, this.dateRange)
     },
     // 多选框选中数据
     handleSelectionChange(selection) {

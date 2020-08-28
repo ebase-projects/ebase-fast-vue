@@ -387,7 +387,7 @@ export default {
     },
     // 导出
     handleExport() {
-      this.exportExcelUtil('/system/role/export', this.queryParams, this.dateRange)
+      this.exportExcelUtil('/system/role/export', '系统角色', this.queryParams, this.dateRange)
     },
     // 角色授权
     handleGrantRoleMenu() {

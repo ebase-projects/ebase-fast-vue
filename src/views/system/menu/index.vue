@@ -354,7 +354,7 @@ export default {
     },
     // 导出
     handleExport() {
-      this.exportExcelUtil('/system/menu/export', this.queryParams, this.dateRange)
+      this.exportExcelUtil('/system/menu/export', '系统菜单', this.queryParams, this.dateRange)
     },
     // 提交表单
     submitForm(formName) {

@@ -1,4 +1,6 @@
 import request from '@/utils/request'
+// 导出excel
+import { exportExcelUtil } from '@/utils/exportUtils'
 
 export function getInfo(token) {
   return request({
@@ -54,6 +56,10 @@ export function delUser(ids) {
     method: 'delete',
     data: ids
   })
+}
+
+export function exportExcelUser(query, fileName) {
+  exportExcelUtil('/system/user/export', fileName, query)
 }
 
 export function updateUserPwd(form) {

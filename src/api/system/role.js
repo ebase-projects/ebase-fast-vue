@@ -1,4 +1,5 @@
 import request from '@/utils/request'
+import { exportExcelUtil } from '@/utils/exportUtils'
 
 export function listRole(query) {
   return request({
@@ -61,6 +62,10 @@ export function delRole(ids) {
     method: 'delete',
     data: ids
   })
+}
+
+export function exportExcelRole(query, fileName) {
+  exportExcelUtil('/system/role/export', fileName, query)
 }
 
 // 通过枚举获取字典值

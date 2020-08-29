@@ -200,7 +200,7 @@
 </template>
 
 <script>
-import { listRole, addRole, delRole, updateRole, getRole, getMenuListByRoleId, grantRoleMenu, getRoleDictsByEnum, changeRoleStatus } from '@/api/system/role'
+import { listRole, addRole, delRole, updateRole, getRole, getMenuListByRoleId, grantRoleMenu, getRoleDictsByEnum, changeRoleStatus, exportExcelRole } from '@/api/system/role'
 import { getMenuTree } from '@/api/system/menu'
 import Pagination from '@/components/Pagination'
 import OptsRight from '@/components/OptsRight'
@@ -387,7 +387,7 @@ export default {
     },
     // 导出
     handleExport() {
-      this.exportExcelUtil('/system/role/export', '系统角色', this.queryParams, this.dateRange)
+      exportExcelRole(this.addDateRange(this.queryParams, this.dateRange), '系统角色')
     },
     // 角色授权
     handleGrantRoleMenu() {

@@ -1,19 +1,15 @@
 import { parseObject2UrlParam } from '@/utils/webUtils'
 import { getToken } from '@/utils/auth'
-import { addDateRange } from '@/utils/commonUtils'
 
 /**
  * excel 导出工具类
  * @param uri 请求地址 eg:/system/user/export
  * @param fileName 自定义文件名称
  * @param queryParams 查询条件
- * @param dateRange 日期范围
  */
-export function exportExcelUtil(uri, fileName, queryParams, dateRange) {
-  const p = addDateRange(queryParams, dateRange)
-
+export function exportExcelUtil(uri, fileName, queryParams) {
   const params = parseObject2UrlParam({
-    ...p,
+    ...queryParams,
     'access_token': getToken(),
     'fileName': fileName
   })

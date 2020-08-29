@@ -17,8 +17,6 @@ import '@/permission' // permission control
 
 import { parseTime, resetForm, addDateRange, selectDictLabel, download, handleTree } from '@/utils/commonUtils'
 import uuid from '@/utils/uuid'
-// 导出excel 声明为全局
-import { exportExcelUtil } from '@/utils/exportUtils'
 
 // 全局方法挂载
 Vue.prototype.parseTime = parseTime
@@ -27,7 +25,6 @@ Vue.prototype.addDateRange = addDateRange
 Vue.prototype.selectDictLabel = selectDictLabel
 Vue.prototype.download = download
 Vue.prototype.handleTree = handleTree
-Vue.prototype.exportExcelUtil = exportExcelUtil
 
 Vue.prototype.uuid = uuid
 

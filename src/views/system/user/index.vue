@@ -265,7 +265,7 @@
 </template>
 
 <script>
-import { listUser, addUser, delUser, updateUser, getUser, getUserDictsByEnum, changeUserStatus } from '@/api/system/user'
+import { listUser, addUser, delUser, updateUser, getUser, getUserDictsByEnum, changeUserStatus, exportExcelUser } from '@/api/system/user'
 import { listAllRole } from '@/api/system/role'
 import { listDept } from '@/api/system/dept'
 import Treeselect from '@riophae/vue-treeselect'
@@ -518,7 +518,7 @@ export default {
     },
     // 导出
     handleExport() {
-      this.exportExcelUtil('/system/user/export', '系统用户', this.queryParams, this.dateRange)
+      exportExcelUser(this.addDateRange(this.queryParams, this.dateRange), '系统用户')
     },
     // 多选框选中数据
     handleSelectionChange(selection) {

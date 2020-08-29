@@ -1,4 +1,4 @@
-import { parseJson2Url } from '@/utils/webUtils'
+import { parseObject2UrlParam } from '@/utils/webUtils'
 import { getToken } from '@/utils/auth'
 import { addDateRange } from '@/utils/commonUtils'
 
@@ -11,13 +11,13 @@ import { addDateRange } from '@/utils/commonUtils'
  */
 export function exportExcelUtil(uri, fileName, queryParams, dateRange) {
   const p = addDateRange(queryParams, dateRange)
-  // 添加access_token 到url
-  p.access_token = getToken()
-  p.fileName = fileName
-  const params = parseJson2Url(p)
-  // 用完后删除access_token
-  delete p.access_token
-  delete p.fileName
+
+  const params = parseObject2UrlParam({
+    ...p,
+    'access_token': getToken(),
+    'fileName': fileName
+  })
+
   // console.log(params)
   window.location.href = `${process.env.VUE_APP_BASE_API}${uri}?${params}`
 }

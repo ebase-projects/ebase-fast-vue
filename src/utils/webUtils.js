@@ -17,6 +17,15 @@ export function formatData(arr) {
 }
 
 /**
+ * 对象序列化成URL的形式，以&进行拼接
+ * @param data
+ * @returns {*}
+ */
+export function parseObject2UrlParam(data) {
+  return qs.stringify(data)
+}
+
+/**
  * param 将要转为URL参数字符串的对象
  * key URL参数字符串的前缀
  * @returns {string}
@@ -57,10 +66,6 @@ export function formatDataToForm(arr) {
     params.append('"' + key + '"', arr[key])
   }
   return params
-}
-
-export function getPar(data) {
-  return qs.stringify(data)
 }
 
 export function getUrlKey(name) {

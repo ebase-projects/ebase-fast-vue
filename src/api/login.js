@@ -82,7 +82,7 @@ export function loginByUsername(username, password, code, deviceId) {
     method: 'post',
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
-      'Authorization': 'Basic YXBwOmFwcA=='
+      'Authorization': 'Basic c2VydmVyOjEyMzQ1Ng=='
     },
     data: params
   })

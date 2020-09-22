@@ -441,15 +441,15 @@ export default {
     reset(formName) {
       this.form = {
         id: undefined,
-        username: 'ldw4033',
-        realName: 'liu',
-        mobile: '18106456756',
-        email: 'ldw@ww.cc',
+        username: '',
+        realName: '',
+        mobile: '',
+        email: '',
         avatar: '',
         deptId: undefined,
         deptName: '',
         gender: 0,
-        password: '123456',
+        password: '123123',
         roleIdList: [],
         status: 0
       }

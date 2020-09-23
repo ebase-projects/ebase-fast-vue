@@ -46,6 +46,13 @@ export function getMenuListByRoleId(roleId) {
   })
 }
 
+export function getUsersByRoleId(roleId) {
+  return request({
+    url: '/system/role/userList/' + roleId,
+    method: 'get'
+  })
+}
+
 export function grantRoleMenu(roleId, menuIds) {
   return request({
     url: '/system/role/grant',

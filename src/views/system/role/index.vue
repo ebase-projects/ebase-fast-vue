@@ -114,6 +114,7 @@
               <template slot-scope="scope">
                 <el-button size="mini" type="text" icon="el-icon-edit" @click="handleUpdate(scope.row)">修改</el-button>
                 <el-button size="mini" type="text" icon="el-icon-delete" @click="handleDelete(scope.row)">删除</el-button>
+                <el-button size="mini" type="text" icon="el-icon-delete" @click="handleGrantUser(scope.row)">查看授权人员</el-button>
               </template>
             </el-table-column>
           </el-table>
@@ -159,7 +160,43 @@
     </el-row>
 
     <!-- 添加或修改参数配置对话框 -->
-    <el-dialog :title="title" :visible.sync="open" width="600px">
+    <el-dialog :title="title" :visible.sync="open" width="800px">
+      <el-table
+        ref="table"
+        v-loading="loading"
+        highlight-current-row
+        style="width: 100%;"
+        :data="userList"
+        @selection-change="handleSelectionChange"
+        @current-change="handleCurrentChange"
+      >
+        <el-table-column type="selection" width="55" />
+        <el-table-column type="index" label="序号" align="center" />
+        <el-table-column prop="username" label="用户名" />
+        <el-table-column prop="realName" label="姓名" />
+        <el-table-column prop="mobile" label="手机号" />
+        <el-table-column :show-overflow-tooltip="true" width="160" prop="createTime" label="创建日期">
+          <template slot-scope="scope">
+            <span>{{ parseTime(scope.row.createTime) }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="操作" align="center" width="120" class-name="small-padding fixed-width">
+          <template slot-scope="scope">
+            <el-button size="mini" type="text" icon="el-icon-delete" @click="handleResetRole(scope.row)">撤销</el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+      <!--分页-->
+      <!--      <pagination-->
+      <!--        v-show="total>0"-->
+      <!--        :total="total"-->
+      <!--        :page.sync="queryParams.page"-->
+      <!--        :limit.sync="queryParams.limit"-->
+      <!--        @pagination="getList"-->
+      <!--      />-->
+    </el-dialog>
+    <!-- 查看授权人员对话框 -->
+    <el-dialog :title="title" :visible.sync="grantUserOpen" width="600px">
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
         <el-row>
           <el-col :span="24">
@@ -200,7 +237,8 @@
 </template>
 
 <script>
-import { listRole, addRole, delRole, updateRole, getRole, getMenuListByRoleId, grantRoleMenu, getRoleDictsByEnum, changeRoleStatus, exportExcelRole } from '@/api/system/role'
+import { listRole, addRole, delRole, updateRole, getRole, getMenuListByRoleId,
+  grantRoleMenu, getRoleDictsByEnum, changeRoleStatus, exportExcelRole, getUsersByRoleId } from '@/api/system/role'
 import { getMenuTree } from '@/api/system/menu'
 import Pagination from '@/components/Pagination'
 import OptsRight from '@/components/OptsRight'
@@ -228,6 +266,7 @@ export default {
       // 菜单列表
       menuList: [],
       menuIds: [],
+      userList: [],
       // 状态数据字典
       statusOptions: [],
       // 部门数据格式字段转换
@@ -239,6 +278,7 @@ export default {
       title: '',
       // 是否显示弹出层
       open: false,
+      grantUserOpen: false,
       // 日期范围
       dateRange: [],
       queryParams: {
@@ -303,6 +343,22 @@ export default {
         }
       }).catch(function() {
         this.roleList = []
+        this.loading = false
+      })
+    },
+    getGrantUserByRole(roleId) {
+      this.loading = true
+      getUsersByRoleId(roleId).then(response => {
+        if (response.code === 0) {
+          this.userList = response.data
+          this.loading = false
+        } else {
+          this.userList = []
+          this.loading = false
+          this.$message({ type: 'error', message: response.msg })
+        }
+      }).catch(function() {
+        this.userList = []
         this.loading = false
       })
     },
@@ -388,6 +444,13 @@ export default {
     // 导出
     handleExport() {
       exportExcelRole(this.addDateRange(this.queryParams, this.dateRange), '系统角色')
+    },
+    // 查看授权人员
+    handleGrantUser(row) {
+      this.reset()
+      this.open = true
+      this.title = '查看授权人员'
+      this.getGrantUserByRole(row.id)
     },
     // 角色授权
     handleGrantRoleMenu() {

@@ -449,7 +449,7 @@ export default {
         deptId: undefined,
         deptName: '',
         gender: 0,
-        password: '123123',
+        password: '',
         roleIdList: [],
         status: 0
       }

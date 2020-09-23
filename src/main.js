@@ -14,6 +14,8 @@ import router from './router'
 
 import '@/icons' // icon
 import '@/permission' // permission control
+// 权限指令
+import permission from './components/Permission'
 
 import { parseTime, resetForm, addDateRange, selectDictLabel, download, handleTree } from '@/utils/commonUtils'
 import uuid from '@/utils/uuid'
@@ -45,6 +47,7 @@ Vue.prototype.uuid = uuid
 // Vue.use(ElementUI, { locale })
 // 如果想要中文版 element-ui，按如下方式声明
 Vue.use(ElementUI)
+Vue.use(permission)
 
 Vue.config.productionTip = false
 

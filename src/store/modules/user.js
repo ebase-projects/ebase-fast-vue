@@ -96,7 +96,13 @@ const actions = {
         //   reject('getInfo: roles must be a non-null array!')
         // }
 
-        commit('SET_ROLES', authorities)
+        const authoritiesArray = []
+        authorities.forEach(p => {
+          authoritiesArray.push(p.authority)
+        })
+        console.log(authoritiesArray)
+
+        commit('SET_ROLES', authoritiesArray)
         commit('SET_NAME', username)
         commit('SET_AVATAR', !avatar || avatar === '' ? require('@/assets/avatar/default.jpeg') : avatar)
         // commit('SET_AVATAR', require('@/assets/default.jpeg'))

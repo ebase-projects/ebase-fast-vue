@@ -84,3 +84,14 @@ export function delDictItem(ids) {
   })
 }
 
+// 通过字典表获取字典值
+export function getDictsByCode(code) {
+  return request({
+    url: '/system/dict/getDictItem',
+    method: 'get',
+    params: {
+      dictType: code
+    }
+  })
+}
+

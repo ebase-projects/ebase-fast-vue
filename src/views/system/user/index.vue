@@ -268,6 +268,7 @@
 import { listUser, addUser, delUser, updateUser, getUser, getUserDictsByEnum, changeUserStatus, exportExcelUser } from '@/api/system/user'
 import { listAllRole } from '@/api/system/role'
 import { listDept } from '@/api/system/dept'
+import { getDictsByCode } from '@/api/system/dict'
 import Treeselect from '@riophae/vue-treeselect'
 import '@riophae/vue-treeselect/dist/vue-treeselect.css'
 import Pagination from '@/components/Pagination'
@@ -305,7 +306,7 @@ export default {
       // 状态枚举类型
       statusOptions: [],
       // 状态枚举类型
-      genderOptions: [{ value: 0, desc: '男' }, { value: 1, desc: '女' }, { value: 2, desc: '保密' }],
+      genderOptions: [],
       // 部门数据格式字段转换
       defaultProps: {
         children: 'children',
@@ -368,6 +369,9 @@ export default {
     this.getTreeselect()
     getUserDictsByEnum('userStatus').then(response => {
       this.statusOptions = response.data
+    })
+    getDictsByCode('sex').then(response => {
+      this.genderOptions = response.data
     })
   },
   methods: {

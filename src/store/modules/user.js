@@ -96,11 +96,12 @@ const actions = {
         //   reject('getInfo: roles must be a non-null array!')
         // }
 
+        // 将对象转换成数组
         const authoritiesArray = []
         authorities.forEach(p => {
           authoritiesArray.push(p.authority)
         })
-        console.log(authoritiesArray)
+        // console.log(authoritiesArray)
 
         commit('SET_ROLES', authoritiesArray)
         commit('SET_NAME', username)

@@ -60,7 +60,7 @@
 
 <script>
 import UserAvatar from './userAvatar'
-import { getUserInfo } from '@/api/system/user'
+import { getUserMe } from '@/api/system/user'
 import ResetPwd from './resetPwd'
 import UserInfo from './userInfo'
 export default {
@@ -77,7 +77,7 @@ export default {
   },
   methods: {
     getUser() {
-      getUserInfo().then(response => {
+      getUserMe().then(response => {
         this.user = response.data
       })
     }

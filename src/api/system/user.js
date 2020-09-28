@@ -12,9 +12,9 @@ export function getInfo(token) {
   })
 }
 
-export function getUserInfo() {
+export function getUserMe() {
   return request({
-    url: '/system/user/info',
+    url: '/system/user/me',
     method: 'get'
   })
 }

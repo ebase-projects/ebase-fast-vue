@@ -43,7 +43,7 @@
                 type="password"
               >
                 <i slot="prefix" class="">
-                  <svg-icon icon-class="密码" />
+                  <svg-icon icon-class="password" />
                 </i>
               </el-input>
             </el-form-item>
@@ -57,7 +57,11 @@
                     placeholder="请输入验证码"
                     style="width: 100%;"
                     @keyup.enter.native="handleLogin"
-                  />
+                  >
+                    <i slot="prefix" class="">
+                      <svg-icon icon-class="validateCode" />
+                    </i>
+                  </el-input>
                 </el-form-item>
               </el-col>
 
@@ -103,7 +107,7 @@
                 autocomplete="off"
               >
                 <i slot="prefix">
-                  <svg-icon icon-class="phone" />
+                  <svg-icon icon-class="手机" />
                 </i>
               </el-input>
             </el-form-item>
@@ -117,7 +121,7 @@
                 autocomplete="off"
               >
                 <i slot="prefix">
-                  <svg-icon icon-class="短信" />
+                  <svg-icon icon-class="validateCode" />
                 </i>
               </el-input>
               <el-button :loading="codeLoading" style="width: 33%;" :disabled="isDisabled" @click="sendCode">{{

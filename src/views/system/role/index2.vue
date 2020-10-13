@@ -61,69 +61,106 @@
       <opts-right @toggle-search="toggleSearch" @refresh="handleQuery" />
 
     </div>
+    <el-row :gutter="15">
+      <!--角色管理-->
+      <el-col :xs="24" :sm="24" :md="16" :lg="16" :xl="17" style="margin-bottom: 10px">
+        <el-card class="box-card" shadow="never">
+          <div slot="header" class="clearfix">
+            <span class="role-span">角色列表</span>
+          </div>
+          <el-table
+            ref="table"
+            v-loading="loading"
+            highlight-current-row
+            style="width: 100%;"
+            :data="roleList"
+            @selection-change="handleSelectionChange"
+            @current-change="handleCurrentChange"
+          >
+            <el-table-column type="selection" width="55" />
+            <el-table-column type="index" label="序号" align="center" />
+            <el-table-column prop="name" label="角色名" />
+            <el-table-column prop="alias" label="角色别名" />
+            <el-table-column prop="remark" label="描述" />
+            <el-table-column label="状态" align="center">
+              <template slot-scope="scope">
+                <el-switch
+                  v-model="scope.row.status"
+                  active-color="#13ce66"
+                  inactive-color="#ff4949"
+                  :active-value="1"
+                  :inactive-value="0"
+                  @change="handleStatusChange(scope.row)"
+                />
+              </template>
+            </el-table-column>
 
-    <el-table
-      ref="table"
-      v-loading="loading"
-      highlight-current-row
-      style="width: 100%;"
-      :data="roleList"
-      @selection-change="handleSelectionChange"
-      @current-change="handleCurrentChange"
-    >
-      <el-table-column type="selection" width="55" />
-      <el-table-column type="index" label="序号" align="center" />
-      <el-table-column prop="name" label="角色名" />
-      <el-table-column prop="alias" label="角色别名" />
-      <el-table-column prop="remark" label="描述" />
-      <el-table-column label="状态" align="center">
-        <template slot-scope="scope">
-          <el-switch
-            v-model="scope.row.status"
-            active-color="#13ce66"
-            inactive-color="#ff4949"
-            :active-value="1"
-            :inactive-value="0"
-            @change="handleStatusChange(scope.row)"
+            <el-table-column
+              :show-overflow-tooltip="true"
+              width="160"
+              prop="createTime"
+              label="创建日期"
+            >
+              <template slot-scope="scope">
+                <span>{{ parseTime(scope.row.createTime) }}</span>
+              </template>
+            </el-table-column>
+            <el-table-column
+              label="操作"
+              align="center"
+              width="120"
+              class-name="small-padding fixed-width"
+            >
+              <template slot-scope="scope">
+                <el-button size="mini" type="text" icon="el-icon-edit" @click="handleUpdate(scope.row)">修改</el-button>
+                <el-button size="mini" type="text" icon="el-icon-delete" @click="handleDelete(scope.row)">删除</el-button>
+                <el-button size="mini" type="text" icon="el-icon-delete" @click="handleGrantUser(scope.row)">查看授权人员</el-button>
+              </template>
+            </el-table-column>
+          </el-table>
+          <!--分页-->
+          <pagination
+            v-show="total>0"
+            :total="total"
+            :page.sync="queryParams.page"
+            :limit.sync="queryParams.limit"
+            @pagination="getList"
           />
-        </template>
-      </el-table-column>
+        </el-card>
+      </el-col>
+      <!-- 菜单授权 -->
+      <el-col :xs="24" :sm="24" :md="8" :lg="8" :xl="7">
+        <el-card class="box-card" shadow="never">
+          <div slot="header" class="clearfix">
+            <el-tooltip class="item" effect="dark" content="选择指定角色分配菜单" placement="top">
+              <span class="role-span">菜单分配</span>
+            </el-tooltip>
+            <el-button
+              icon="el-icon-check"
+              size="mini"
+              style="float: right;"
+              type="primary"
+              @click="handleGrantRoleMenu"
+            >保存
+            </el-button>
+          </div>
+          <el-tree
+            ref="menuTree"
+            :data="menuList"
+            :default-checked-keys="menuIds"
+            :props="defaultProps"
+            check-strictly
+            default-expand-all
+            accordion
+            show-checkbox
+            node-key="id"
+          />
+        </el-card>
+      </el-col>
+    </el-row>
 
-      <el-table-column
-        :show-overflow-tooltip="true"
-        width="160"
-        prop="createTime"
-        label="创建日期"
-      >
-        <template slot-scope="scope">
-          <span>{{ parseTime(scope.row.createTime) }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column
-        label="操作"
-        align="center"
-        width="120"
-        class-name="small-padding fixed-width"
-      >
-        <template slot-scope="scope">
-          <el-button size="mini" type="text" icon="el-icon-edit" @click="handleUpdate(scope.row)">修改</el-button>
-          <el-button size="mini" type="text" icon="el-icon-delete" @click="handleDelete(scope.row)">删除</el-button>
-          <el-button size="mini" type="text" icon="el-icon-monitor" @click="handleGrantMenu(scope.row)">配置菜单权限</el-button>
-          <el-button size="mini" type="text" icon="el-icon-user" @click="handleGrantUser(scope.row)">查看授权人员</el-button>
-        </template>
-      </el-table-column>
-    </el-table>
-    <!--分页-->
-    <pagination
-      v-show="total>0"
-      :total="total"
-      :page.sync="queryParams.page"
-      :limit.sync="queryParams.limit"
-      @pagination="getList"
-    />
-
-    <!-- 查看授权人员对话框-->
-    <el-dialog :title="title" :visible.sync="grantUserOpen" width="800px">
+    <!-- 添加或修改参数配置对话框 -->
+    <el-dialog :title="title" :visible.sync="open" width="800px">
       <el-table
         ref="table"
         v-loading="loading"
@@ -158,34 +195,8 @@
       <!--        @pagination="getList"-->
       <!--      />-->
     </el-dialog>
-
-    <!-- 授权菜单对话框-->
-    <el-dialog :title="title" :visible.sync="grantMenuOpen" width="800px">
-      <div>
-        <el-button icon="el-icon-check" size="mini" type="primary" @click="handleGrantRoleMenu">保存</el-button>
-        &nbsp;
-        <el-checkbox v-model="menuExpand" @change="handleCheckedTreeExpand($event, 'menu')">展开/折叠</el-checkbox>
-        <el-checkbox v-model="menuNodeAll" @change="handleCheckedTreeNodeAll($event, 'menu')">全选/全不选</el-checkbox>
-        <el-checkbox v-model="form.menuCheckStrictly" @change="handleCheckedTreeConnect($event, 'menu')">父子联动</el-checkbox>
-
-      </div>
-      <el-tree
-        ref="menuTree"
-        class="tree-border"
-        :data="menuList"
-        :default-checked-keys="menuIds"
-        :props="defaultProps"
-        default-expand-all
-        accordion
-        show-checkbox
-        node-key="id"
-        empty-text="加载中，请稍后"
-        :check-strictly="!form.menuCheckStrictly"
-      />
-    </el-dialog>
-
-    <!-- 添加或修改参数配置对话框  -->
-    <el-dialog :title="title" :visible.sync="open" width="600px">
+    <!-- 查看授权人员对话框 -->
+    <el-dialog :title="title" :visible.sync="grantUserOpen" width="600px">
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
         <el-row>
           <el-col :span="24">
@@ -268,7 +279,6 @@ export default {
       // 是否显示弹出层
       open: false,
       grantUserOpen: false,
-      grantMenuOpen: false,
       // 日期范围
       dateRange: [],
       queryParams: {
@@ -276,8 +286,6 @@ export default {
         limit: 10,
         name: undefined
       },
-      menuExpand: false,
-      menuNodeAll: false,
       form: {},
       // 表单校验
       rules: {
@@ -374,8 +382,7 @@ export default {
         name: '',
         alias: '',
         remark: '',
-        status: 0,
-        menuCheckStrictly: true
+        status: 0
       }
       this.resetForm(formName)
     },
@@ -438,17 +445,10 @@ export default {
     handleExport() {
       exportExcelRole(this.addDateRange(this.queryParams, this.dateRange), '系统角色')
     },
-    // 授权菜单
-    handleGrantMenu(row) {
-      this.reset()
-      this.grantMenuOpen = true
-      this.title = '菜单权限分配'
-      // this.getGrantUserByRole(row.id)
-    },
     // 查看授权人员
     handleGrantUser(row) {
       this.reset()
-      this.grantUserOpen = true
+      this.open = true
       this.title = '查看授权人员'
       this.getGrantUserByRole(row.id)
     },
@@ -458,8 +458,8 @@ export default {
       grantRoleMenu(this.currentId, menuIds).then(response => {
         if (response.code === 0) {
           this.$message({ type: 'success', message: '操作成功' })
-          this.grantMenuOpen = false
-          this.getList()
+          this.open = false
+          // this.getList()
         } else {
           this.$message({ type: 'error', message: response.msg })
         }
@@ -529,22 +529,6 @@ export default {
     cancelForm(formName) {
       this.open = false
       this.reset(formName)
-    },
-
-    // 树权限（展开/折叠）
-    handleCheckedTreeExpand(value, type) {
-      const treeList = this.menuList
-      for (let i = 0; i < treeList.length; i++) {
-        this.$refs.menuTree.store.nodesMap[treeList[i].id].expanded = value
-      }
-    },
-    // 树权限（全选/全不选）
-    handleCheckedTreeNodeAll(value, type) {
-      this.$refs.menuTree.setCheckedNodes(value ? this.menuList : [])
-    },
-    // 树权限（父子联动）
-    handleCheckedTreeConnect(value, type) {
-      this.form.menuCheckStrictly = !!value
     }
   }
 }

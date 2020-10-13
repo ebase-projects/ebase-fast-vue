@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div slot="footer">
     <div v-if="searchToggle">
       <!--用户数据-->
       <el-form ref="queryForm" :model="queryParams" :inline="true">

@@ -171,7 +171,7 @@
       </div>
       <el-tree
         ref="menuTree"
-        class="tree-border"
+        class="tree-style"
         :data="menuList"
         :default-checked-keys="menuIds"
         :props="defaultProps"
@@ -181,6 +181,7 @@
         node-key="id"
         empty-text="加载中，请稍后"
         :check-strictly="!form.menuCheckStrictly"
+        :render-content="renderContent"
       />
     </el-dialog>
 
@@ -545,8 +546,35 @@ export default {
     // 树权限（父子联动）
     handleCheckedTreeConnect(value, type) {
       this.form.menuCheckStrictly = !!value
+    },
+    // 内容区渲染后执行 判断底层 赋 class
+    // vue的横向树形菜单 https://blog.csdn.net/ying940718/article/details/98219905
+    renderContent(h, { node, data, store }) {
+      console.log(node.label + ',' + node.childNodes.length)
+      let classname = ''
+      // // 第三层节点添加className
+      if (node.level === 3) {
+        classname = 'levelname'
+      }
+      //
+      // // 由于项目中有二级菜单也有三级菜单，就要在此做出判断。
+      // if (node.level === 2 && node.childNodes.length === 0) {
+      //   classname = 'levelname'
+      // }
+
+      // if (node.childNodes.length === 0) {
+      //   classname = 'levelname'
+      // }
+      return (<p class={classname}>{node.label}</p>)
     }
   }
 }
 </script>
+
+<!--<style lang="scss" scoped>-->
+<style >
+.tree-style .el-tree-node__children .el-tree-node__children .el-tree-node__content {
+  float: left;
+}
+</style>
 

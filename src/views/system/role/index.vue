@@ -69,7 +69,6 @@
       style="width: 100%;"
       :data="roleList"
       @selection-change="handleSelectionChange"
-      @current-change="handleCurrentChange"
     >
       <el-table-column type="selection" width="55" />
       <el-table-column type="index" label="序号" align="center" />
@@ -124,39 +123,7 @@
 
     <!-- 查看授权人员对话框-->
     <el-dialog :title="title" :visible.sync="grantUserOpen" width="800px">
-      <el-table
-        ref="table"
-        v-loading="loading"
-        highlight-current-row
-        style="width: 100%;"
-        :data="userList"
-        @selection-change="handleSelectionChange"
-        @current-change="handleCurrentChange"
-      >
-        <el-table-column type="selection" width="55" />
-        <el-table-column type="index" label="序号" align="center" />
-        <el-table-column prop="username" label="用户名" />
-        <el-table-column prop="realName" label="姓名" />
-        <el-table-column prop="mobile" label="手机号" />
-        <el-table-column :show-overflow-tooltip="true" width="160" prop="createTime" label="创建日期">
-          <template slot-scope="scope">
-            <span>{{ parseTime(scope.row.createTime) }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column label="操作" align="center" width="120" class-name="small-padding fixed-width">
-          <template slot-scope="scope">
-            <el-button size="mini" type="text" icon="el-icon-delete" @click="handleResetRole(scope.row)">撤销</el-button>
-          </template>
-        </el-table-column>
-      </el-table>
-      <!--分页-->
-      <!--      <pagination-->
-      <!--        v-show="total>0"-->
-      <!--        :total="total"-->
-      <!--        :page.sync="queryParams.page"-->
-      <!--        :limit.sync="queryParams.limit"-->
-      <!--        @pagination="getList"-->
-      <!--      />-->
+      <role-user-list :role-id="roleId" />
     </el-dialog>
 
     <!-- 授权菜单对话框-->
@@ -228,14 +195,15 @@
 
 <script>
 import { listRole, addRole, delRole, updateRole, getRole, getMenuListByRoleId,
-  grantRoleMenu, getRoleDictsByEnum, changeRoleStatus, exportExcelRole, getUsersByRoleId } from '@/api/system/role'
+  grantRoleMenu, getRoleDictsByEnum, changeRoleStatus, exportExcelRole } from '@/api/system/role'
 import { getMenuTree } from '@/api/system/menu'
 import Pagination from '@/components/Pagination'
 import OptsRight from '@/components/OptsRight'
+import RoleUserList from './role-user-list'
 
 export default {
   name: 'Role',
-  components: { Pagination, OptsRight },
+  components: { Pagination, OptsRight, RoleUserList },
   data() {
     return {
       // 遮罩层
@@ -256,7 +224,7 @@ export default {
       // 菜单列表
       menuList: [],
       menuIds: [],
-      userList: [],
+      roleId: '',
       // 状态数据字典
       statusOptions: [],
       // 部门数据格式字段转换
@@ -339,22 +307,7 @@ export default {
         this.loading = false
       })
     },
-    getGrantUserByRole(roleId) {
-      this.loading = true
-      getUsersByRoleId(roleId).then(response => {
-        if (response.code === 0) {
-          this.userList = response.data
-          this.loading = false
-        } else {
-          this.userList = []
-          this.loading = false
-          this.$message({ type: 'error', message: response.msg })
-        }
-      }).catch(function() {
-        this.userList = []
-        this.loading = false
-      })
-    },
+
     toggleSearch() {
       this.searchToggle = !this.searchToggle
     },
@@ -441,17 +394,17 @@ export default {
     },
     // 授权菜单
     handleGrantMenu(row) {
-      this.reset()
       this.grantMenuOpen = true
       this.title = '菜单权限分配'
-      // this.getGrantUserByRole(row.id)
+      this.getSelectedMenus(row)
     },
     // 查看授权人员
     handleGrantUser(row) {
-      this.reset()
       this.grantUserOpen = true
       this.title = '查看授权人员'
-      this.getGrantUserByRole(row.id)
+      setTimeout(() => {
+        this.roleId = row.id
+      }, 0)
     },
     // 角色授权
     handleGrantRoleMenu() {
@@ -473,17 +426,16 @@ export default {
       this.multiple = !selection.length
     },
     // 右侧回显菜单
-    handleCurrentChange(val) {
-      if (val) {
-        // const _this = this
+    getSelectedMenus(row) {
+      if (row) {
         // 清空菜单的选中
-        this.$refs.menuTree.setCheckedKeys([])
+        this.$nextTick(function() {
+          this.$refs.menuTree.setCheckedKeys([])
+        })
         // 保存当前的角色id
-        this.currentId = val.id
-        // console.log('----------------' + val)
-        getMenuListByRoleId(val.id).then(response => {
+        this.currentId = row.id
+        getMenuListByRoleId(row.id).then(response => {
           if (response.code === 0) {
-            // const roleMenus = response.data
             // 初始化
             this.menuIds = response.data.menuIds
             // // 菜单数据需要特殊处理

@@ -122,13 +122,13 @@
     />
 
     <!-- 查看授权人员对话框-->
-    <el-dialog :title="title" :visible.sync="grantUserOpen" width="800px">
+    <el-dialog v-if="grantUserOpen" :title="title" :visible.sync="grantUserOpen" width="800px">
       <role-user-list :role-id="roleId" />
     </el-dialog>
 
     <!-- 授权菜单对话框-->
-    <el-dialog :title="title" :visible.sync="grantMenuOpen" width="800px">
-      <role-menu-grant :role-id="roleId" />
+    <el-dialog v-if="grantMenuOpen" :title="title" :visible.sync="grantMenuOpen" width="800px">
+      <role-menu-grant :role-id="roleId" @on-change="grantMenuOpenCall" />
     </el-dialog>
 
     <!-- 添加或修改参数配置对话框  -->
@@ -347,17 +347,13 @@ export default {
     handleGrantMenu(row) {
       this.grantMenuOpen = true
       this.title = '菜单权限分配'
-      setTimeout(() => {
-        this.roleId = row.id
-      }, 0)
+      this.roleId = row.id
     },
     // 查看授权人员
     handleGrantUser(row) {
       this.grantUserOpen = true
       this.title = '查看授权人员'
-      setTimeout(() => {
-        this.roleId = row.id
-      }, 0)
+      this.roleId = row.id
     },
 
     // 多选框选中数据
@@ -401,6 +397,13 @@ export default {
     cancelForm(formName) {
       this.open = false
       this.reset(formName)
+    },
+    grantMenuOpenCall: function(childValue) {
+      // childValue就是子组件传过来的值
+      this.grantMenuOpen = childValue
+      if (!this.grantMenuOpen) {
+        this.getList()
+      }
     }
 
   }

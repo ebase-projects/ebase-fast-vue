@@ -44,6 +44,7 @@ export default {
         children: 'children',
         label: 'name'
       },
+      grantMenuOpen: false,
       menuExpand: false,
       menuNodeAll: false,
       menuList: [],
@@ -60,6 +61,10 @@ export default {
         this.getMenuTree()
       }
     }
+  },
+  created() {
+    this.getSelectedMenus(this.roleId)
+    this.getMenuTree()
   },
   methods: {
     getMenuTree() {
@@ -107,8 +112,9 @@ export default {
       grantRoleMenu(this.currentId, menuIds).then(response => {
         if (response.code === 0) {
           this.$message({ type: 'success', message: '操作成功' })
-          // this.grantMenuOpen = false
-          this.getList()
+          this.grantMenuOpen = false
+          this.$emit('on-change', this.grantMenuOpen)
+          // this.getList()
         } else {
           this.$message({ type: 'error', message: response.msg })
         }

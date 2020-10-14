@@ -81,13 +81,17 @@ export default {
       }
     }
   },
-  watch: {
-    roleId(val) {
-      if (val) {
-        this.queryParams.roleId = this.roleId
-        this.getGrantUserByRole()
-      }
-    }
+  // watch: {
+  //   roleId(val) {
+  //     if (val) {
+  //       this.queryParams.roleId = this.roleId
+  //       this.getGrantUserByRole()
+  //     }
+  //   }
+  // },
+  created() {
+    this.queryParams.roleId = this.roleId
+    this.getGrantUserByRole()
   },
   methods: {
     // 查询

@@ -54,14 +54,14 @@ export default {
       }
     }
   },
-  watch: {
-    roleId(val) {
-      if (val) {
-        this.getSelectedMenus(this.roleId)
-        this.getMenuTree()
-      }
-    }
-  },
+  // watch: {
+  //   roleId(val) {
+  //     if (val) {
+  //       this.getSelectedMenus(this.roleId)
+  //       this.getMenuTree()
+  //     }
+  //   }
+  // },
   created() {
     this.getSelectedMenus(this.roleId)
     this.getMenuTree()

@@ -105,3 +105,11 @@ export function changeRoleStatus(id, status) {
     data: data
   })
 }
+
+// 根据角色ID和用户ID撤销用户角色
+export function removeByRoleIdUserId(userId, roleId) {
+  return request({
+    url: '/system/role/removeByRoleIdUserId/' + roleId + '/' + userId,
+    method: 'put'
+  })
+}

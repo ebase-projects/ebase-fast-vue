@@ -37,7 +37,7 @@
       </el-table-column>
       <el-table-column label="操作" align="center" width="120" class-name="small-padding fixed-width">
         <template slot-scope="scope">
-          <el-button size="mini" type="text" icon="el-icon-delete" @click="handleResetRole(scope.row)">撤销</el-button>
+          <el-button size="mini" type="text" icon="el-icon-delete" @click="handleRemoveUser(scope.row)">撤销</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -54,7 +54,7 @@
 
 <script>
 import Pagination from '@/components/Pagination'
-import { getUserPageByRoleId } from '@/api/system/role'
+import { getUserPageByRoleId, removeByRoleIdUserId } from '@/api/system/role'
 
 export default {
   name: 'RoleUserList',
@@ -115,6 +115,21 @@ export default {
         }
       }).catch(function() {
         this.userList = []
+      })
+    },
+    // 撤销角色
+    handleRemoveUser(row) {
+      const that = this
+      this.$confirm('是否确认撤销用户为"' + row.username + '"的数据项?', '警告', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(function() {
+        return removeByRoleIdUserId(row.id, that.roleId)
+      }).then(() => {
+        that.getGrantUserByRole()
+        that.$message({ type: 'success', message: '操作成功' })
+      }).catch(function() {
       })
     }
 

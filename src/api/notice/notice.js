@@ -36,11 +36,26 @@ export function getSysNotice(id) {
 }
 
 // 删除
-export function delSysNotice(ids) {
+export function delSysNotice(id) {
   return request({
-    url: '/notice',
-    method: 'delete',
-    data: ids
+    url: '/notice/' + id,
+    method: 'delete'
+  })
+}
+
+// 发布
+export function publishSysNotice(id) {
+  return request({
+    url: '/notice/publish/' + id,
+    method: 'put'
+  })
+}
+
+// 撤销
+export function revokeSysNotice(id) {
+  return request({
+    url: '/notice/revoke/' + id,
+    method: 'put'
   })
 }
 

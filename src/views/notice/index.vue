@@ -42,9 +42,6 @@
             <el-button type="success" icon="el-icon-edit" size="mini" :disabled="single" @click="handleUpdate">修改</el-button>
           </el-col>
           <el-col :span="1.5">
-            <el-button type="danger" icon="el-icon-delete" size="mini" :disabled="multiple" @click="handleDelete">删除</el-button>
-          </el-col>
-          <el-col :span="1.5">
             <el-button type="warning" icon="el-icon-download" size="mini" @click="handleExport">导出</el-button>
           </el-col>
         </el-row>
@@ -56,23 +53,25 @@
     <el-table ref="table" v-loading="loading" highlight-current-row style="width: 100%;" :data="sysNoticeList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" />
       <el-table-column type="index" label="序号" align="center" />
-      <el-table-column prop="type" label="通知类型" />
+      <!--      <el-table-column prop="type" label="通知类型" />-->
       <el-table-column prop="title" label="标题" />
       <el-table-column prop="content" label="内容" />
-      <el-table-column prop="receiverType" label="接收类型" />
-      <el-table-column prop="receiverTypeIds" label="接收者ID，用逗号分开" />
+      <el-table-column prop="receiverType" label="接收类型" :formatter="noticeReceiverTypeFormat" />
       <el-table-column prop="senderName" label="发送者" />
-      <el-table-column prop="senderDate" label="发送时间" />
-      <el-table-column prop="status" label="发送状态" />
+      <el-table-column prop="senderDate" label="发送时间" width="160" />
+      <el-table-column prop="status" label="发送状态" :formatter="noticeStatusFormat" />
       <el-table-column :show-overflow-tooltip="true" prop="createTime" width="160" label="创建日期">
         <template slot-scope="scope">
           <span>{{ parseTime(scope.row.createTime) }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="操作" align="center" width="300" class-name="small-padding fixed-width">
+      <el-table-column label="操作" align="center" width="150" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button size="mini" type="text" icon="el-icon-edit" @click="handleUpdate(scope.row)">修改</el-button>
           <el-button size="mini" type="text" icon="el-icon-delete" @click="handleDelete(scope.row)">删除</el-button>
+          <el-button v-if="scope.row.status==0" size="mini" type="text" icon="el-icon-delete" @click="handlePublish(scope.row)">发布</el-button>
+          <el-button v-if="scope.row.status==1" size="mini" type="text" icon="el-icon-delete" @click="handleRevoke(scope.row)">撤销</el-button>
+          <el-button size="mini" type="text" icon="el-icon-delete" @click="handleViewReciver(scope.row)">查看通知人员</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -111,7 +110,7 @@
                   v-for="item in noticeReceiverTypeOptions"
                   :key="item.value"
                   :label="item.desc"
-                  :value="item.value"
+                  :value="Number(item.value)"
                 />
               </el-select>
             </el-form-item>
@@ -161,7 +160,7 @@
         </el-row>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="submitForm('form')">确 定</el-button>
+        <el-button type="primary" @click="submitForm('form')">草 稿</el-button>
         <el-button @click="cancelForm('form')">取 消</el-button>
       </div>
     </el-dialog>
@@ -170,7 +169,16 @@
 </template>
 
 <script>
-import { listSysNotice, addSysNotice, delSysNotice, updateSysNotice, getSysNotice, getNoticeDictsByEnum } from '@/api/notice/notice'
+import {
+  listSysNotice,
+  addSysNotice,
+  delSysNotice,
+  updateSysNotice,
+  getSysNotice,
+  getNoticeDictsByEnum,
+  publishSysNotice,
+  revokeSysNotice
+} from '@/api/notice/notice'
 import Pagination from '@/components/Pagination'
 import OptsRight from '@/components/OptsRight'
 import Treeselect from '@riophae/vue-treeselect'
@@ -197,7 +205,8 @@ export default {
       // 表格数据
       sysNoticeList: [],
       // 状态数据字典
-      statusOptions: [],
+      noticeReceiverTypeOptions: [],
+      noticeStatusOptions: [],
       // 部门树选项
       deptOptions: [],
       // 弹出层标题
@@ -206,7 +215,7 @@ export default {
       open: false,
       // 日期范围
       dateRange: [],
-      noticeReceiverTypeOptions: [],
+
       queryParams: {
         name: undefined
       },
@@ -235,18 +244,39 @@ export default {
       }
     }
   },
+  watch: {
+    'form.receiverType': function(newValue, oldValue) {
+      if (newValue === 0) {
+        this.form.receiverTypeIds = []
+      }
+    }
+  },
   created() {
     this.getList()
     this.getTreeselect()
     getNoticeDictsByEnum('NoticeReceiverTypeEnum').then(response => {
-      const data = response.data
-      data.forEach(p => {
-        p.value = Number(p.value)
-      })
-      this.noticeReceiverTypeOptions = data
+      // const data = response.data
+      // data.forEach(p => {
+      //   p.value = Number(p.value)
+      // })
+      this.noticeReceiverTypeOptions = response.data
+    })
+
+    getNoticeDictsByEnum('NoticeStatusEnum').then(response => {
+      // const data = response.data
+      // data.forEach(p => {
+      //   p.value = Number(p.value)
+      // })
+      this.noticeStatusOptions = response.data
     })
   },
   methods: {
+    noticeReceiverTypeFormat(row, column) {
+      return this.selectDictLabel(this.noticeReceiverTypeOptions, row.receiverType)
+    },
+    noticeStatusFormat(row, column) {
+      return this.selectDictLabel(this.noticeStatusOptions, row.status)
+    },
     // 转换部门数据结构
     normalizer(node) {
       if (node.children && node.children.length === 0) {
@@ -334,20 +364,62 @@ export default {
 
     // 删除
     handleDelete(row) {
-      let sysNoticeIds = row.id || this.ids
-      if (!Array.isArray(sysNoticeIds)) {
-        sysNoticeIds = [sysNoticeIds]
-      }
-
-      this.$confirm('是否确认删除系统通知表 编号为"' + sysNoticeIds + '"的数据项?', '警告', {
+      this.$confirm('是否确认「删除」系统通知为"' + row.title + '"的数据项?', '警告', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       }).then(function() {
-        return delSysNotice(sysNoticeIds)
-      }).then(() => {
-        this.getList()
-        this.$message({ type: 'success', message: '操作成功' })
+        return delSysNotice(row.id)
+      }).then((resp) => {
+        console.log(resp)
+
+        if (resp.code !== 0) {
+          this.$message({ type: 'error', message: resp.msg })
+        } else {
+          this.getList()
+          this.$message({ type: 'success', message: '操作成功' })
+        }
+      }).catch(function() {
+      })
+    },
+    // 查看通知人员
+    handleViewReciver(row) {
+
+    },
+
+    // 发布
+    handlePublish(row) {
+      this.$confirm('是否确认「发布」系统通知为"' + row.title + '"的数据项?', '警告', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(function() {
+        return publishSysNotice(row.id)
+      }).then((resp) => {
+        if (resp.code !== 0) {
+          this.$message({ type: 'error', message: resp.msg })
+        } else {
+          this.getList()
+          this.$message({ type: 'success', message: '操作成功' })
+        }
+      }).catch(function() {
+      })
+    },
+    // 撤销
+    handleRevoke(row) {
+      this.$confirm('是否确认「撤销」系统通知为"' + row.title + '"的数据项?', '警告', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(function() {
+        return revokeSysNotice(row.id)
+      }).then((resp) => {
+        if (resp.code !== 0) {
+          this.$message({ type: 'error', message: resp.msg })
+        } else {
+          this.getList()
+          this.$message({ type: 'success', message: '操作成功' })
+        }
       }).catch(function() {
       })
     },

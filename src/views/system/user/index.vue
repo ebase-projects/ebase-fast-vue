@@ -100,7 +100,10 @@
                 <el-button type="info" icon="el-icon-upload2" size="mini" @click="handleImport">导入</el-button>
               </el-col>
               <el-col :span="1.5">
-                <el-button type="warning" icon="el-icon-download" size="mini" @click="handleExport">导出</el-button>
+                <el-button type="info" icon="el-icon-download" size="mini" @click="handleExport">导出</el-button>
+              </el-col>
+              <el-col :span="1.5">
+                <el-button type="warning" icon="el-icon-dept" size="mini" @click="handleNotBindDept">未关联部门用户</el-button>
               </el-col>
             </el-row>
           </el-button-group>
@@ -387,7 +390,7 @@ export default {
         this.roleOptions = response.data
       })
     },
-    /** 转换部门数据结构 */
+    // 转换部门数据结构
     normalizer(node) {
       if (node.children && node.children.length === 0) {
         delete node.children
@@ -405,6 +408,10 @@ export default {
     },
     handleNodeClick(data) {
       this.queryParams.deptId = data.id
+      this.getList()
+    },
+    handleNotBindDept() {
+      this.queryParams.deptId = -1
       this.getList()
     },
     // 获取列表

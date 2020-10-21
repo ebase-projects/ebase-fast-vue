@@ -8,6 +8,14 @@ export function listSysNotice(query) {
     params: query
   })
 }
+// 分页
+export function listSysNoticeWithReceiver(query) {
+  return request({
+    url: '/notice/pageWithMe',
+    method: 'get',
+    params: query
+  })
+}
 
 // 新增
 export function addSysNotice(form) {

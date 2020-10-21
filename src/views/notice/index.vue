@@ -161,6 +161,7 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" @click="submitForm('form')">草 稿</el-button>
+        <!--        <el-button type="primary" @click="submitForm('form')">保存并发布</el-button>-->
         <el-button @click="cancelForm('form')">取 消</el-button>
       </div>
     </el-dialog>

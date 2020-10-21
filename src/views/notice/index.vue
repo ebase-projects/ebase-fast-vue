@@ -507,7 +507,7 @@ export default {
       this.form.receiverTypeIds = userIds
     },
     handleNoticeReceiverOpen(v) {
-      this.noticeReceiverOpen = v
+      this.noticeReceiverOpen = !v
     }
   }
 }

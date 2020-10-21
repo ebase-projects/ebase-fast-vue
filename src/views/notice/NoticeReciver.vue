@@ -96,6 +96,12 @@ export default {
       if (val) {
         this.queryParams.noticeId = this.noticeId
         this.getList()
+        getNoticeDictsByEnum('NoticeReadEnum').then(response => {
+          this.noticeReadOptions = response.data
+        })
+        getNoticeDictsByEnum('NoticeReceiverTypeEnum').then(response => {
+          this.noticeReceiverTypeOptions = response.data
+        })
       }
     }
     // noticeReceiverOpen(val) {
@@ -103,14 +109,6 @@ export default {
     //     this.noticeReceiverOpen = !this.noticeReceiverOpen
     //   }
     // }
-  },
-  created() {
-    getNoticeDictsByEnum('NoticeReadEnum').then(response => {
-      this.noticeReadOptions = response.data
-    })
-    getNoticeDictsByEnum('NoticeReceiverTypeEnum').then(response => {
-      this.noticeReceiverTypeOptions = response.data
-    })
   },
   methods: {
     noticeReadFormat(row, column) {
@@ -162,7 +160,7 @@ export default {
      * 点击 X 关闭对话框的回调
      **/
     handleDialogClose() {
-      this.$emit('on-change', !this.noticeReceiverOpen)
+      this.$emit('on-change', this.noticeReceiverOpen)
     }
 
   }

@@ -132,32 +132,9 @@
 
           <el-col v-if="form.receiverType==2" :span="24">
             <el-form-item label="指定用户" prop="noticeUserId" label-width="120px">
-              <!--              <el-select v-model="form.receiverTypeIds" multiple placeholder="请选择部门">-->
-              <!--                <el-option-->
-              <!--                  v-for="item in noticeReceiverTypeOptions"-->
-              <!--                  :key="item.value"-->
-              <!--                  :label="item.desc"-->
-              <!--                  :value="item.value"-->
-              <!--                />-->
-              <!--              </el-select>-->
-
               <UserChoose text="选择用户" @on-change="handleSelectUser" />
             </el-form-item>
           </el-col>
-
-          <!--          <el-select v-model="form.noticeReceivers.noticeUserId" multiple placeholder="请选择">-->
-          <!--            <el-option-->
-          <!--              v-for="item in noticeReceiverTypeOptions"-->
-          <!--              :key="item.id"-->
-          <!--              :label="item.name"-->
-          <!--              :value="item.id"-->
-          <!--            />-->
-          <!--          </el-select>-->
-          <!--          <el-col :span="24">-->
-          <!--            <el-form-item label="发送者" prop="senderName" label-width="120px">-->
-          <!--              <el-input v-model="form.senderName" placeholder="请输入发送者" />-->
-          <!--            </el-form-item>-->
-          <!--          </el-col>-->
 
         </el-row>
       </el-form>
@@ -168,9 +145,14 @@
       </div>
     </el-dialog>
 
-    <!--    <el-dialog v-if="noticeReceiverOpen" :title="title" :visible.sync="noticeReceiverOpen" :width="width">-->
-    <NoticeReciver :notice-id="noticeId" :notice-receiver-open="noticeReceiverOpen" @on-change="handleNoticeReceiverOpen" />
-    <!--    </el-dialog>-->
+    <el-dialog
+      v-if="noticeReceiverOpen"
+      :title="title"
+      :visible.sync="noticeReceiverOpen"
+      width="900px"
+    >
+      <NoticeReciver :notice-id="noticeId" />
+    </el-dialog>
 
   </div>
 </template>
@@ -505,9 +487,6 @@ export default {
         userIds.push(p.id)
       })
       this.form.receiverTypeIds = userIds
-    },
-    handleNoticeReceiverOpen(v) {
-      this.noticeReceiverOpen = !v
     }
   }
 }

@@ -5,10 +5,10 @@
       <div v-if="searchToggle">
         <!-- 搜索 -->
         <el-form ref="queryForm" :model="queryParams" :inline="true">
-          <el-form-item label="名称" prop="name">
+          <el-form-item label="标题" prop="title">
             <el-input
-              v-model="queryParams.name"
-              placeholder="请输入名称"
+              v-model="queryParams.title"
+              placeholder="请输入标题"
               clearable
               size="small"
               @keyup.enter.native="handleQuery"

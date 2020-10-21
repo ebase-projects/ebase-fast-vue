@@ -1,9 +1,9 @@
 import request from '@/utils/request'
 
 // 分页
-export function listSysNoticeUser(query) {
+export function listSysNoticeReceiver(query) {
   return request({
-    url: '/notice/noticeUser/page/',
+    url: '/notice/noticeReceiver/page',
     method: 'get',
     params: query
   })
@@ -12,7 +12,7 @@ export function listSysNoticeUser(query) {
 // 已读
 export function noticeUserReaded(id) {
   return request({
-    url: '/notice/noticeUser/readed/' + id,
+    url: '/notice/noticeReceiver/readed/' + id,
     method: 'put'
   })
 }

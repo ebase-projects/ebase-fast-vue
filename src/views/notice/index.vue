@@ -168,6 +168,10 @@
       </div>
     </el-dialog>
 
+    <!--    <el-dialog v-if="noticeReceiverOpen" :title="title" :visible.sync="noticeReceiverOpen" :width="width">-->
+    <NoticeReciver :notice-id="noticeId" :notice-receiver-open="noticeReceiverOpen" @on-change="handleNoticeReceiverOpen" />
+    <!--    </el-dialog>-->
+
   </div>
 </template>
 
@@ -188,10 +192,11 @@ import Treeselect from '@riophae/vue-treeselect'
 import '@riophae/vue-treeselect/dist/vue-treeselect.css'
 import { listDept } from '@/api/system/dept'
 import UserChoose from '@/views/UserChoose'
+import NoticeReciver from '@/views/notice/NoticeReciver'
 
 export default {
   name: 'SysNotice',
-  components: { Pagination, OptsRight, Treeselect, UserChoose },
+  components: { Pagination, OptsRight, Treeselect, UserChoose, NoticeReciver },
   data() {
     return {
       // 遮罩层
@@ -208,6 +213,7 @@ export default {
       total: 0,
       // 表格数据
       sysNoticeList: [],
+      noticeId: '',
       // 状态数据字典
       noticeReceiverTypeOptions: [],
       noticeStatusOptions: [],
@@ -217,6 +223,7 @@ export default {
       title: '',
       // 是否显示弹出层
       open: false,
+      noticeReceiverOpen: false,
       // 日期范围
       dateRange: [],
 
@@ -386,7 +393,8 @@ export default {
     },
     // 查看通知人员
     handleViewReciver(row) {
-
+      this.noticeReceiverOpen = true
+      this.noticeId = row.id
     },
 
     // 发布
@@ -492,13 +500,14 @@ export default {
       this.reset(formName)
     },
     handleSelectUser(v) {
-      console.log(v)
       const userIds = []
       v.forEach(p => {
         userIds.push(p.id)
       })
       this.form.receiverTypeIds = userIds
-      console.log(this.form.receiverTypeIds)
+    },
+    handleNoticeReceiverOpen(v) {
+      this.noticeReceiverOpen = v
     }
   }
 }

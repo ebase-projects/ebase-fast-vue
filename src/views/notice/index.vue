@@ -130,18 +130,20 @@
             </el-form-item>
           </el-col>
 
-          <!--          <el-col v-if="form.receiverType==2" :span="24">-->
-          <!--            <el-form-item label="指定用户" prop="noticeUserId" label-width="120px">-->
-          <!--              <el-select v-model="form.receiverTypeIds" multiple placeholder="请选择部门">-->
-          <!--                <el-option-->
-          <!--                  v-for="item in noticeReceiverTypeOptions"-->
-          <!--                  :key="item.value"-->
-          <!--                  :label="item.desc"-->
-          <!--                  :value="item.value"-->
-          <!--                />-->
-          <!--              </el-select>-->
-          <!--            </el-form-item>-->
-          <!--          </el-col>-->
+          <el-col v-if="form.receiverType==2" :span="24">
+            <el-form-item label="指定用户" prop="noticeUserId" label-width="120px">
+              <!--              <el-select v-model="form.receiverTypeIds" multiple placeholder="请选择部门">-->
+              <!--                <el-option-->
+              <!--                  v-for="item in noticeReceiverTypeOptions"-->
+              <!--                  :key="item.value"-->
+              <!--                  :label="item.desc"-->
+              <!--                  :value="item.value"-->
+              <!--                />-->
+              <!--              </el-select>-->
+
+              <UserChoose text="选择用户" @on-change="handleSelectUser" />
+            </el-form-item>
+          </el-col>
 
           <!--          <el-select v-model="form.noticeReceivers.noticeUserId" multiple placeholder="请选择">-->
           <!--            <el-option-->
@@ -185,10 +187,11 @@ import OptsRight from '@/components/OptsRight'
 import Treeselect from '@riophae/vue-treeselect'
 import '@riophae/vue-treeselect/dist/vue-treeselect.css'
 import { listDept } from '@/api/system/dept'
+import UserChoose from '@/views/UserChoose'
 
 export default {
   name: 'SysNotice',
-  components: { Pagination, OptsRight, Treeselect },
+  components: { Pagination, OptsRight, Treeselect, UserChoose },
   data() {
     return {
       // 遮罩层
@@ -247,9 +250,7 @@ export default {
   },
   watch: {
     'form.receiverType': function(newValue, oldValue) {
-      if (newValue === 0) {
-        this.form.receiverTypeIds = []
-      }
+      this.form.receiverTypeIds = []
     }
   },
   created() {
@@ -489,6 +490,15 @@ export default {
     cancelForm(formName) {
       this.open = false
       this.reset(formName)
+    },
+    handleSelectUser(v) {
+      console.log(v)
+      const userIds = []
+      v.forEach(p => {
+        userIds.push(p.id)
+      })
+      this.form.receiverTypeIds = userIds
+      console.log(this.form.receiverTypeIds)
     }
   }
 }

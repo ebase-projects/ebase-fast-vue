@@ -42,11 +42,8 @@
             <span>布局设置</span>
           </el-dropdown-item>
 
-          <a target="_blank" href="https://github.com/PanJiaChen/vue-admin-template/">
+          <a target="_blank" href="https://github.com/ebase-projects/ebase-fast-vue/">
             <el-dropdown-item divided>Github</el-dropdown-item>
-          </a>
-          <a target="_blank" href="https://panjiachen.github.io/vue-element-admin-site/#/">
-            <el-dropdown-item>Docs</el-dropdown-item>
           </a>
           <el-dropdown-item divided @click.native="logout">
             <span style="display:block;">退出登录</span>
@@ -170,24 +167,21 @@ export default {
       }
 
       .avatar-container {
+        float: right;
         margin-right: 30px;
-
+        padding-top: 10px;
         .avatar-wrapper {
-          margin-top: 5px;
-          position: relative;
-
+          display: flex;
+          align-items: center;
           .user-avatar {
             cursor: pointer;
-            width: 40px;
-            height: 40px;
+            width: 30px;
+            height: 30px;
             border-radius: 10px;
           }
 
           .el-icon-caret-bottom {
             cursor: pointer;
-            position: absolute;
-            right: -20px;
-            top: 25px;
             font-size: 12px;
           }
         }

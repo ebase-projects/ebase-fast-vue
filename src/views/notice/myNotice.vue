@@ -8,7 +8,7 @@
           <el-form-item label="标题" prop="title">
             <el-input
               v-model="queryParams.title"
-              placeholder="请输入名称"
+              placeholder="请输入标题"
               clearable
               size="small"
               @keyup.enter.native="handleQuery"

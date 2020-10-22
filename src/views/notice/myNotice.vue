@@ -161,6 +161,8 @@ export default {
       dateRange: [],
 
       queryParams: {
+        page: 1,
+        limit: 10,
         name: undefined
       },
       form: {

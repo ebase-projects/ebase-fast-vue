@@ -42,6 +42,13 @@ export function getSysNotice(id) {
     method: 'get'
   })
 }
+// 获取单条数据
+export function notReadCount() {
+  return request({
+    url: '/notice/notReadCount',
+    method: 'get'
+  })
+}
 
 // 删除
 export function delSysNotice(id) {

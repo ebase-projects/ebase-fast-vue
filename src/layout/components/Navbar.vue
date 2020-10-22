@@ -59,6 +59,7 @@ import Breadcrumb from '@/components/Breadcrumb'
 import Hamburger from '@/components/Hamburger'
 import Screenfull from '@/components/Screenfull'
 import SizeSelect from '@/components/SizeSelect'
+import { getToken } from '@/utils/auth'
 
 export default {
   components: {
@@ -73,6 +74,11 @@ export default {
       'avatar',
       'device'
     ]),
+    data() {
+      return {
+        websock: null
+      }
+    },
     setting: {
       get() {
         return this.$store.state.settings.showSettings
@@ -84,6 +90,12 @@ export default {
         })
       }
     }
+  },
+  created() {
+    this.initWebSocket()
+  },
+  destroyed() {
+    this.websock.close() // 离开路由之后断开websocket连接
   },
   methods: {
     toggleSideBar() {
@@ -100,6 +112,37 @@ export default {
         })
         // this.$router.push(`/login?redirect=${this.$route.fullPath}`)
       })
+    },
+    initWebSocket() { // 初始化weosocket
+      const baseWebsocketURL = process.env.VUE_APP_BASE_WS
+      console.log(baseWebsocketURL)
+      // ws://localhost:8080/websocket?access_token=54c03f71-685a-4d7c-ac06-7494003a0be5
+      // const wsuri = 'ws:127.0.0.1:8080' + `/websocket?access_token=${getToken()}`
+      // const wsuri = window.location.protocol + '//' + window.location.host + `/ws/websocket?access_token=${getToken()}`
+      const wsuri = 'ws:' + window.location.host + `/ws/websocket?access_token=${getToken()}`
+      // const wsuri = baseWebsocketURL + `/websocket?access_token=${getToken()}`
+      this.websock = new WebSocket(wsuri)
+      this.websock.onmessage = this.websocketonmessage
+      this.websock.onopen = this.websocketonopen
+      this.websock.onerror = this.websocketonerror
+      this.websock.onclose = this.websocketclose
+    },
+    websocketonopen() { // 连接建立之后执行send方法发送数据
+      const actions = { 'test': '12345' }
+      this.websocketsend(JSON.stringify(actions))
+    },
+    websocketonerror() { // 连接建立失败重连
+      this.initWebSocket()
+    },
+    websocketonmessage(e) { // 数据接收
+      const redata = JSON.parse(e.data)
+      console.log(redata)
+    },
+    websocketsend(Data) { // 数据发送
+      this.websock.send(Data)
+    },
+    websocketclose(e) { // 关闭
+      console.log('断开连接', e)
     }
   }
 }

@@ -30,6 +30,7 @@ module.exports = {
   lintOnSave: process.env.NODE_ENV === 'development',
   productionSourceMap: false,
   devServer: {
+    // host: process.env.HOST || '0.0.0.0', // ip地址
     port: port,
     open: true,
     overlay: {
@@ -38,12 +39,20 @@ module.exports = {
     },
     proxy: {
       [process.env.VUE_APP_BASE_API]: {
-        target: 'http://127.0.0.1:8080',
-        // target: 'http://ebase.nps.dwliu.me',
+        target: process.env.VUE_APP_BASE_URL,
         changeOrigin: true, // 是否跨域
         // secure: true,
         pathRewrite: {
           ['^' + process.env.VUE_APP_BASE_API]: '' // 重写
+        }
+      },
+      [process.env.VUE_APP_BASE_WS]: {
+        target: process.env.VUE_APP_BASE_URL,
+        changeOrigin: true, // 是否跨域
+        // secure: true,
+        ws: true, // 开启ws
+        pathRewrite: {
+          ['^' + process.env.VUE_APP_BASE_WS]: '/' // 重写
         }
       }
     }

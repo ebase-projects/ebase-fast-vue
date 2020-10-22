@@ -294,6 +294,7 @@ export default {
   },
   created() {
     this.refreshCaptcha()
+
     // this.socialLogin()
   },
   mounted() {

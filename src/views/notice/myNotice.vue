@@ -5,14 +5,25 @@
       <div v-if="searchToggle">
         <!-- 搜索 -->
         <el-form ref="queryForm" :model="queryParams" :inline="true">
-          <el-form-item label="名称" prop="name">
+          <el-form-item label="标题" prop="title">
             <el-input
-              v-model="queryParams.name"
+              v-model="queryParams.title"
               placeholder="请输入名称"
               clearable
               size="small"
               @keyup.enter.native="handleQuery"
             />
+          </el-form-item>
+
+          <el-form-item label="状态" prop="readStatus">
+            <el-select v-model="queryParams.readStatus" clearable placeholder="请选择状态">
+              <el-option
+                v-for="item in noticeReadOptions"
+                :key="Number(item.value)"
+                :label="item.desc"
+                :value="Number(item.value)"
+              />
+            </el-select>
           </el-form-item>
           <el-form-item label="创建时间">
             <el-date-picker
@@ -163,7 +174,8 @@ export default {
       queryParams: {
         page: 1,
         limit: 10,
-        name: undefined
+        title: undefined,
+        readStatus: undefined
       },
       form: {
         noticeUserIds: [],

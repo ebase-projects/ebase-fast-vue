@@ -16,7 +16,7 @@
           </el-form-item>
 
           <el-form-item label="状态" prop="readStatus">
-            <el-select v-model="queryParams.readStatus" clearable placeholder="请选择状态">
+            <el-select v-model="queryParams.readStatus" clearable placeholder="请选择状态" size="small">
               <el-option
                 v-for="item in noticeReadOptions"
                 :key="Number(item.value)"

@@ -33,6 +33,11 @@ export default {
   },
   methods: {
     click() {
+      // 跳转到我的通知页面
+      this.$router.push({
+        path: '/Notice/MyNotice'
+
+      })
     },
     initWebSocket() { // 初始化weosocket
       // const baseWebsocketURL = process.env.VUE_APP_BASE_WS

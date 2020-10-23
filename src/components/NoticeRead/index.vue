@@ -1,12 +1,13 @@
 <template>
   <div class="notice-read">
-    <svg-icon icon-class="unreadMessage" @click="click" /> <span class="icon-count">{{ noticeNotReadCount }}</span>
+    <svg-icon icon-class="unreadMessage" @click="click" />
+    <span class="icon-count">{{ $store.state.notice.unreadCount }}</span>
   </div>
 </template>
 
 <script>
 import { getToken } from '@/utils/auth'
-import { notReadCount } from '@/api/notice/notice'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'NoticeRead',
@@ -15,6 +16,11 @@ export default {
       websock: undefined,
       noticeNotReadCount: 0
     }
+  },
+  computed: {
+    ...mapGetters([
+      'notice'
+    ])
   },
   created() {
     this.initWebSocket()
@@ -65,9 +71,11 @@ export default {
       console.log('断开连接', e)
     },
     notReadCount() {
-      notReadCount().then(response => {
-        this.noticeNotReadCount = response.data
-      })
+      // notReadCount().then(response => {
+      //   this.noticeNotReadCount = response.data
+      // })
+
+      this.$store.dispatch('notice/getUnreadCount')
     }
   }
 }
@@ -83,9 +91,10 @@ export default {
   vertical-align: 10px;
 }
 
-.notice-read{
+.notice-read {
   position: relative;
 }
+
 .icon-count {
   min-width: 14px;
   text-align: center;
@@ -101,6 +110,6 @@ export default {
   font-size: 14px;
   -webkit-transform: scale(.7);
   transform: scale(.7);
-  font-family: Tahoma!important;
+  font-family: Tahoma !important;
 }
 </style>

@@ -53,7 +53,7 @@
 
     </div>
 
-    <el-table ref="table" v-loading="loading" highlight-current-row style="width: 100%;" :data="sysNoticeList" @selection-change="handleSelectionChange">
+    <el-table ref="table" v-loading="loading" highlight-current-row style="width: 100%;" :data="sysNoticeList">
       <el-table-column type="selection" />
       <el-table-column type="index" label="序号" align="center" />
       <!--      <el-table-column prop="type" label="通知类型" />-->
@@ -259,42 +259,15 @@ export default {
     handleView(row) {
       this.open = true
       this.title = '查看'
-      noticeUserReaded(row.noticeReceiverId)
-      this.form = row
-    },
-    // 用户状态修改
-    handleStatusChange(row) {
-      // console.log(row.status)
-      const text = row.status === 1 ? '启用' : '停用'
-      this.$confirm('确认要"' + text + '""' + row.name + '"系统通知表 吗?', '警告', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(function() {
-        // return changeSysNoticeStatus(row.id, row.status)
-      }).then(() => {
-        this.$message({ type: 'success', message: text + '成功' })
-      }).catch(function() {
-        row.status = row.status === 0 ? 1 : 0
+      noticeUserReaded(row.noticeReceiverId).then(() => {
+        this.$store.dispatch('notice/getUnreadCount')
       })
-    },
-    // 导入
-    handleImport() {
-
-    },
-    // 导出
-    handleExport() {
-
-    },
-    // 多选框选中数据
-    handleSelectionChange(selection) {
-      this.ids = selection.map(item => item.id)
-      this.single = selection.length !== 1
-      this.multiple = !selection.length
+      this.form = row
     },
     // 取消表单
     cancelForm(formName) {
       this.open = false
+
       this.getList()
     }
   }

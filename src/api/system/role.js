@@ -113,3 +113,29 @@ export function removeByRoleIdUserId(userId, roleId) {
     method: 'put'
   })
 }
+
+export function getDataScopeListByRoleId(roleId) {
+  return request({
+    url: '/system/role/dataScopeList/' + roleId,
+    method: 'get'
+  })
+}
+
+// 新增
+export function addSysRoleDataScope(form) {
+  return request({
+    url: 'system/roleDataScope',
+    method: 'post',
+    data: form
+  })
+}
+
+// 更新
+export function updateSysRoleDataScope(form) {
+  return request({
+    url: '/system/roleDataScope',
+    method: 'put',
+    data: form
+  })
+}
+

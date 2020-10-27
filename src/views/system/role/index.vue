@@ -108,6 +108,7 @@
           <el-button size="mini" type="text" icon="el-icon-edit" @click="handleUpdate(scope.row)">修改</el-button>
           <el-button size="mini" type="text" icon="el-icon-delete" @click="handleDelete(scope.row)">删除</el-button>
           <el-button size="mini" type="text" icon="el-icon-monitor" @click="handleGrantMenu(scope.row)">配置菜单权限</el-button>
+          <el-button size="mini" type="text" icon="el-icon-monitor" @click="handleGrantData(scope.row)">配置数据权限</el-button>
           <el-button size="mini" type="text" icon="el-icon-user" @click="handleGrantUser(scope.row)">查看授权人员</el-button>
         </template>
       </el-table-column>
@@ -129,6 +130,11 @@
     <!-- 授权菜单对话框-->
     <el-dialog v-if="grantMenuOpen" :title="title" :visible.sync="grantMenuOpen" width="800px">
       <role-menu-grant :role-id="roleId" @on-change="grantMenuOpenCall" />
+    </el-dialog>
+
+    <!-- 授权数据对话框-->
+    <el-dialog v-if="grantDataOpen" :title="title" :visible.sync="grantDataOpen" width="800px">
+      <role-data-grant :role-id="roleId" @on-change="grantDataOpenCall" />
     </el-dialog>
 
     <!-- 添加或修改参数配置对话框  -->
@@ -173,15 +179,25 @@
 </template>
 
 <script>
-import { listRole, addRole, delRole, updateRole, getRole, getRoleDictsByEnum, changeRoleStatus, exportExcelRole } from '@/api/system/role'
+import {
+  listRole,
+  addRole,
+  delRole,
+  updateRole,
+  getRole,
+  getRoleDictsByEnum,
+  changeRoleStatus,
+  exportExcelRole
+} from '@/api/system/role'
 import Pagination from '@/components/Pagination'
 import OptsRight from '@/components/OptsRight'
 import RoleUserList from './role-user-list'
 import RoleMenuGrant from './role-menu-grant'
+import RoleDataGrant from './role-data-grant'
 
 export default {
   name: 'Role',
-  components: { Pagination, OptsRight, RoleUserList, RoleMenuGrant },
+  components: { Pagination, OptsRight, RoleUserList, RoleMenuGrant, RoleDataGrant },
   data() {
     return {
       // 遮罩层
@@ -208,6 +224,7 @@ export default {
       open: false,
       grantUserOpen: false,
       grantMenuOpen: false,
+      grantDataOpen: false,
       // 日期范围
       dateRange: [],
       queryParams: {
@@ -349,6 +366,12 @@ export default {
       this.title = '菜单权限分配'
       this.roleId = row.id
     },
+    // 授权数据权限
+    handleGrantData(row) {
+      this.grantDataOpen = true
+      this.title = '数据权限分配'
+      this.roleId = row.id
+    },
     // 查看授权人员
     handleGrantUser(row) {
       this.grantUserOpen = true
@@ -402,6 +425,12 @@ export default {
       // childValue就是子组件传过来的值
       this.grantMenuOpen = childValue
       if (!this.grantMenuOpen) {
+        this.getList()
+      }
+    }, grantDataOpenCall: function(childValue) {
+      // childValue就是子组件传过来的值
+      this.grantDataOpen = childValue
+      if (!this.grantDataOpen) {
         this.getList()
       }
     }

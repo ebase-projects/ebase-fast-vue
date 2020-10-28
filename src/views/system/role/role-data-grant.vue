@@ -14,7 +14,7 @@
             </el-select>
           </el-form-item>
         </el-col>
-        <el-col v-if="form.scopeType==-10" :span="24">
+        <el-col v-if="!form.scopeType && form.scopeType==-10" :span="24">
           <el-form-item label="指定部门" prop="deptIdList">
             <treeselect
               v-model="form.deptIdList"
@@ -99,7 +99,9 @@ export default {
       this.reset()
       getDataScopeListByRoleId(roleId).then(response => {
         if (response.code === 0) {
-          this.form = response.data
+          if (response.data != null) {
+            this.form = response.data
+          }
         }
       })
     },
@@ -178,9 +180,3 @@ export default {
 
 }
 </script>
-
-<style>
-.tree-style .el-tree-node__children .el-tree-node__children .el-tree-node__content {
-  float: left;
-}
-</style>

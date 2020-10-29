@@ -14,6 +14,7 @@ export default {
   props: {
     iconClass: {
       type: String,
+      default: '',
       required: true
     },
     className: {

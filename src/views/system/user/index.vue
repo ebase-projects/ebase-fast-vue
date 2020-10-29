@@ -225,9 +225,9 @@
               <el-select v-model="form.gender" placeholder="请选择">
                 <el-option
                   v-for="dict in genderOptions"
-                  :key="dict.value"
+                  :key="Number(dict.value)"
                   :label="dict.desc"
-                  :value="dict.value"
+                  :value="Number(dict.value)"
                 />
               </el-select>
             </el-form-item>

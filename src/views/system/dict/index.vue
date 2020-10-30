@@ -13,7 +13,7 @@
               <el-form-item prop="keyword">
                 <el-input
                   v-model="queryParams.keyword"
-                  placeholder="请输入要查询的类型/名称"
+                  placeholder="请输入名称/类型"
                   clearable
                   size="small"
                   @keyup.enter.native="handleQuery"

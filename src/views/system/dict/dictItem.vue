@@ -48,7 +48,8 @@
               />
             </template>
           </el-table-column>
-          <el-table-column label="备注" align="center" prop="remark" width="120" />
+          <el-table-column label="排序" align="center" prop="sort" width="120" />
+          <!--          <el-table-column label="备注" align="center" prop="remark" width="120" />-->
           <!--          <el-table-column label="创建时间" align="center" prop="createTime" width="160">-->
           <!--            <template slot-scope="scope">-->
           <!--              <span>{{ parseTime(scope.row.createTime) }}</span>-->
@@ -92,6 +93,12 @@
               <el-input v-model="form.value" placeholder="请输入字典值" />
             </el-form-item>
           </el-col>
+
+          <el-col :span="24">
+            <el-form-item label="显示排序" prop="sort">
+              <el-input-number v-model="form.sort" controls-position="right" :min="0" />
+            </el-form-item>
+          </el-col>
           <!--          <el-col :span="24">-->
           <!--            <el-form-item label="状态">-->
           <!--              <el-radio-group v-model="form.status">-->
@@ -122,6 +129,7 @@
 <script>
 import { listDictItem, addDictItem, delDictItem, updateDictItem, getDictItem, changeDictItemStatus } from '@/api/system/dict'
 import Pagination from '@/components/Pagination'
+
 export default {
   name: 'DictItem',
   components: { Pagination },
@@ -131,7 +139,8 @@ export default {
       required: true,
       default: function() {
         return {}
-      } }
+      }
+    }
   },
   data() {
     return {
@@ -218,7 +227,7 @@ export default {
         label: '',
         value: '',
         remark: '',
-        status: 0,
+        status: 1,
         sort: 0
       }
       this.resetForm(formName)
@@ -260,9 +269,9 @@ export default {
     },
     // 状态修改
     handleStatusChange(row) {
-      // console.log(row.status)
+      console.log(row)
       const text = row.status === 1 ? '启用' : '停用'
-      this.$confirm('确认要"' + text + '""' + row.name + '"字典吗?', '警告', {
+      this.$confirm('确认要"' + text + '""' + row.label + '"字典吗?', '警告', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'

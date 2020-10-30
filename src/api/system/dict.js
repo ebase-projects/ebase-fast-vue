@@ -2,8 +2,16 @@ import request from '@/utils/request'
 
 export function changeDictStatus() {
 }
-
-export function changeDictItemStatus() {
+export function changeDictItemStatus(id, status) {
+  const data = {
+    id: id,
+    status: status
+  }
+  return request({
+    url: '/system/dict/item/changeStatus',
+    method: 'put',
+    data: data
+  })
 }
 
 export function listDict(query) {

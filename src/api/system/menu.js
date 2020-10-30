@@ -63,3 +63,15 @@ export function getMenuDictsByEnum(code) {
     }
   })
 }
+
+export function changeMenuStatus(id, status) {
+  const data = {
+    id: id,
+    status: status
+  }
+  return request({
+    url: '/system/menu/changeStatus',
+    method: 'put',
+    data: data
+  })
+}

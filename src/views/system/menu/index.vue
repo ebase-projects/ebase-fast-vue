@@ -72,7 +72,18 @@
       <el-table-column prop="component" label="菜单组件" />
       <el-table-column prop="permissions" label="授权标识" />
       <el-table-column prop="sort" label="排序" width="60" />
-      <el-table-column prop="status" label="状态" width="60" />
+      <el-table-column label="状态" align="center">
+        <template slot-scope="scope">
+          <el-switch
+            v-model="scope.row.status"
+            active-color="#13ce66"
+            inactive-color="#ff4949"
+            :active-value="1"
+            :inactive-value="0"
+            @change="handleStatusChange(scope.row)"
+          />
+        </template>
+      </el-table-column>
       <el-table-column label="创建时间" align="center" prop="createTime" width="160" />
       <!--        <template slot-scope="scope">-->
       <!--          <span>{{ parseTime(scope.row.createTime) }}</span>-->
@@ -167,17 +178,18 @@
               <el-input v-model="form.permissions" placeholder="请输入权限标识" maxlength="50" />
             </el-form-item>
           </el-col>
-          <!--          <el-col :span="24">-->
-          <!--            <el-form-item v-if="form.menuType != 0" label="菜单状态">-->
-          <!--              <el-radio-group v-model="form.visible">-->
-          <!--                <el-radio-->
-          <!--                  v-for="dict in visibleOptions"-->
-          <!--                  :key="dict.dictValue"-->
-          <!--                  :label="dict.dictValue"-->
-          <!--                >{{ dict.dictLabel }}</el-radio>-->
-          <!--              </el-radio-group>-->
-          <!--            </el-form-item>-->
-          <!--          </el-col>-->
+          <el-col :span="24">
+            <el-form-item label="状态">
+              <el-radio-group v-model="form.status">
+                <el-radio
+                  v-for="dict in statusOptions"
+                  :key="Number(dict.value)"
+                  :label="Number(dict.value)"
+                >{{ dict.desc }}
+                </el-radio>
+              </el-radio-group>
+            </el-form-item>
+          </el-col>
         </el-row>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -190,7 +202,7 @@
 </template>
 
 <script>
-import { getMenuTree, addMenu, delMenu, updateMenu, getMenu } from '@/api/system/menu'
+import { getMenuTree, addMenu, delMenu, updateMenu, getMenu, getMenuDictsByEnum, changeMenuStatus } from '@/api/system/menu'
 import Treeselect from '@riophae/vue-treeselect'
 import IconSelect from '@/components/IconSelect'
 import '@riophae/vue-treeselect/dist/vue-treeselect.css'
@@ -210,6 +222,9 @@ export default {
         children: 'children',
         label: 'name'
       },
+      // 状态枚举类型
+      statusOptions: [],
+      menuTypeOptions: [],
       // 弹出层标题
       title: '',
       // 是否显示弹出层
@@ -236,6 +251,12 @@ export default {
   },
   created() {
     this.getList()
+    getMenuDictsByEnum('MenuStatusEnum').then(response => {
+      this.statusOptions = response.data
+    })
+    getMenuDictsByEnum('MenuTypeEnum').then(response => {
+      this.menuTypeOptions = response.data
+    })
   },
   methods: {
     /** 查询菜单列表 */
@@ -304,7 +325,7 @@ export default {
         permissions: undefined,
         sort: 0,
         icon: undefined,
-        status: 0
+        status: 1
       }
       this.resetForm(formName)
     },
@@ -355,6 +376,21 @@ export default {
     // 导出
     handleExport() {
       this.exportExcelUtil('/system/menu/export', '系统菜单', this.queryParams, this.dateRange)
+    },
+    handleStatusChange(row) {
+      const text = row.status === 1 ? '启用' : '停用'
+      this.$confirm('确认要"' + text + '""' + row.name + '"用户吗?', '警告', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(function() {
+        return changeMenuStatus(row.id, row.status)
+      }).then(() => {
+        this.$message({ type: 'success', message: text + '成功' })
+        this.getList()
+      }).catch(function() {
+        row.status = row.status === 0 ? 1 : 0
+      })
     },
     // 提交表单
     submitForm(formName) {

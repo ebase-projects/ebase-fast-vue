@@ -14,7 +14,7 @@
             </el-select>
           </el-form-item>
         </el-col>
-        <el-col v-if="!form.scopeType && form.scopeType==-10" :span="24">
+        <el-col v-if="form.scopeType==-10" :span="24">
           <el-form-item label="指定部门" prop="deptIdList">
             <treeselect
               v-model="form.deptIdList"
@@ -71,8 +71,7 @@ export default {
         value: 99,
         desc: '全部'
       }],
-      form: {
-      },
+      form: {},
       // 表单校验
       rules: {
         scopeType: [

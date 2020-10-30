@@ -254,9 +254,9 @@ export default {
     getMenuDictsByEnum('MenuStatusEnum').then(response => {
       this.statusOptions = response.data
     })
-    getMenuDictsByEnum('MenuTypeEnum').then(response => {
-      this.menuTypeOptions = response.data
-    })
+    // getMenuDictsByEnum('MenuTypeEnum').then(response => {
+    //   this.menuTypeOptions = response.data
+    // })
   },
   methods: {
     /** 查询菜单列表 */

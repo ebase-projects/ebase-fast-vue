@@ -16,9 +16,9 @@
             <el-select v-model="queryParams.type" placeholder="请选择部门状态" clearable size="small">
               <el-option
                 v-for="dict in typeOptions"
-                :key="dict.value"
+                :key="Number(dict.value)"
                 :label="dict.desc"
-                :value="dict.value"
+                :value="Number(dict.value)"
               />
             </el-select>
           </el-form-item>
@@ -101,8 +101,8 @@
               <el-radio-group v-model="form.status">
                 <el-radio
                   v-for="dict in statusOptions"
-                  :key="dict.value"
-                  :label="dict.value"
+                  :key="Number(dict.value)"
+                  :label="Number(dict.value)"
                 >
                   {{ dict.desc }}
                 </el-radio>

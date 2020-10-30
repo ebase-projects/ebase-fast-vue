@@ -228,6 +228,7 @@
                   :key="Number(dict.value)"
                   :label="dict.desc"
                   :value="Number(dict.value)"
+                  :disabled="Number(dict.status) == 0"
                 />
               </el-select>
             </el-form-item>

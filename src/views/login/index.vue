@@ -256,7 +256,7 @@ export default {
       tenantList: [],
       loginForm: {
         username: 'admin',
-        password: '123456',
+        password: 'admin123',
         code: '',
         deviceId: ''
       },

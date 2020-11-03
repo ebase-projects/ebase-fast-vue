@@ -54,11 +54,16 @@
     >
       <el-table-column type="selection" />
       <el-table-column type="index" label="序号" align="center" />
-      <el-table-column prop="operation" label="用户操作" />
+      <el-table-column label="用户操作" align="center">
+        <template slot-scope="scope">
+          <el-tag v-if="scope.row.operation === 0" size="small">登陆</el-tag>
+          <el-tag v-else-if="scope.row.operation === 1" size="small" type="success">退出</el-tag>
+        </template>
+      </el-table-column>
       <el-table-column prop="createByName" label="用户名" />
       <el-table-column prop="ip" label="操作IP" />
       <!--      <el-table-column prop="userAgent" label="用户代理" />-->
-      <el-table-column prop="status" label="状态" />
+      <!--      <el-table-column prop="status" label="状态" />-->
       <el-table-column :show-overflow-tooltip="true" prop="createTime" width="160" label="创建日期">
         <template slot-scope="scope">
           <span>{{ parseTime(scope.row.createTime) }}</span>

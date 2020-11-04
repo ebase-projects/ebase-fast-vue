@@ -1,7 +1,9 @@
 <template>
-  <div class="notice-read">
-    <svg-icon icon-class="unreadMessage" @click="click" />
-    <span class="icon-count">{{ $store.state.notice.unreadCount }}</span>
+  <div>
+    <el-badge :value="$store.state.notice.unreadCount">
+      <svg-icon icon-class="unreadMessage" @click="click" />
+    </el-badge>
+
   </div>
 </template>
 
@@ -121,34 +123,8 @@ export default {
 </script>
 
 <style scoped>
-.screenfull-svg {
-  display: inline-block;
-  cursor: pointer;
-  fill: #5a5e66;;
-  width: 20px;
-  height: 20px;
-  vertical-align: 10px;
+>>> .el-badge__content.is-fixed {
+  top: 10px;
 }
 
-.notice-read {
-  position: relative;
-}
-
-.icon-count {
-  min-width: 14px;
-  text-align: center;
-  line-height: 14px;
-  display: inline-block;
-  position: absolute;
-  right: -5px;
-  top: 4px;
-  background: red;
-  color: #fff;
-  border-radius: 17px;
-  padding: 4px;
-  font-size: 14px;
-  -webkit-transform: scale(.7);
-  transform: scale(.7);
-  font-family: Tahoma !important;
-}
 </style>

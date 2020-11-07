@@ -58,7 +58,7 @@
       <el-table-column type="index" label="序号" align="center" />
       <!--      <el-table-column prop="type" label="通知类型" />-->
       <el-table-column prop="title" label="标题" />
-      <el-table-column prop="content" label="内容" />
+      <!--      <el-table-column prop="content" label="内容" />-->
       <el-table-column prop="receiverType" label="接收类型" :formatter="noticeReceiverTypeFormat" />
       <el-table-column prop="senderName" label="发送者" />
       <el-table-column prop="senderDate" label="发送时间" width="160" />
@@ -80,7 +80,7 @@
     />
 
     <!-- 添加或修改参数配置对话框 -->
-    <el-dialog :title="title" :visible.sync="open" width="900px">
+    <el-dialog v-if="open" :title="title" :visible.sync="open" width="900px">
 
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
         <el-row>
@@ -96,7 +96,8 @@
           </el-col>
           <el-col :span="24">
             <el-form-item label="内容" prop="content" label-width="80px">
-              <el-input v-model="form.content" disabled type="textarea" placeholder="请输入内容" maxlength="3000" show-word-limit />
+              <!--              <el-input v-model="form.content" disabled type="textarea" placeholder="请输入内容" maxlength="3000" show-word-limit />-->
+              <EditorElem v-model="form.content" :catch-data="catchData" />
             </el-form-item>
           </el-col>
 
@@ -139,10 +140,11 @@ import { listSysNoticeWithReceiver, getNoticeDictsByEnum } from '@/api/notice/no
 import { noticeUserReaded } from '@/api/notice/noticeReceiver'
 import Pagination from '@/components/Pagination'
 import OptsRight from '@/components/OptsRight'
+import EditorElem from './EditorElem'
 
 export default {
   name: 'MyNotice',
-  components: { Pagination, OptsRight },
+  components: { Pagination, OptsRight, EditorElem },
   data() {
     return {
       // 遮罩层
@@ -269,6 +271,9 @@ export default {
       this.open = false
 
       this.getList()
+    },
+    catchData(v) {
+      this.form.content = v
     }
   }
 }

@@ -1,7 +1,7 @@
 {
   "name": "ebase-fast-vue",
   "version": "1.0.0",
-  "description": "A vue admin template with Element UI & axios & iconfont & permission control & lint",
+  "description": "ebase fast vue",
   "author": "liudw <ldw4033@163.com>",
   "license": "MIT",
   "scripts": {
